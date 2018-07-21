@@ -1,6 +1,6 @@
 # pic16f1-mcu
 
-I developed my original PIC16F1 evaluation board in 2017, and I have used this board for a number of IoT demonstrations so far.
+I developed my original PIC16F1 evaluation board in 2017, and I have used this board for a number of IoT demonstrations so far. When a demo is expected to be small and simple, the board is more useful than the other commercial boards such as Arduino or STM32 Nucleo.
 
 ![](https://docs.google.com/drawings/d/e/2PACX-1vTHoT0TZIyVhAgkDVHyuWkc1-_6oFHT2mF53g2q36bgH_qxplkvvRIkJ3PqJBNuTZauhhMmSiemMoZO/pub?w=680&h=400)
 
