@@ -368,22 +368,63 @@ F 3 "" H 2450 2650 50  0001 C CNN
 	1    2450 2650
 	1    0    0    -1  
 $EndComp
+$Comp
+L +5V #PWR015
+U 1 1 5B53DE56
+P 2450 1100
+F 0 "#PWR015" H 2450 950 50  0001 C CNN
+F 1 "+5V" H 2450 1240 50  0000 C CNN
+F 2 "" H 2450 1100 50  0001 C CNN
+F 3 "" H 2450 1100 50  0001 C CNN
+	1    2450 1100
+	1    0    0    -1  
+$EndComp
+Text Notes 8050 5500 0    60   ~ 0
+I2C pull up inside LCD
+Text Notes 750  1150 0    60   ~ 0
+I2C pull up inside the module
+Text Notes 4100 1900 0    60   ~ 0
+My original PIC evaluation board
+NoConn ~ 9150 1750
+NoConn ~ 2450 6450
+NoConn ~ 5700 6100
+$Comp
+L R R?
+U 1 1 5B53AB68
+P 4000 2350
+F 0 "R?" V 4080 2350 50  0000 C CNN
+F 1 "51k" V 4000 2350 50  0000 C CNN
+F 2 "" V 3930 2350 50  0001 C CNN
+F 3 "" H 4000 2350 50  0001 C CNN
+	1    4000 2350
+	1    0    0    -1  
+$EndComp
 Wire Wire Line
 	6550 6650 6550 7150
 Wire Wire Line
-	3900 3800 4000 3800
+	4000 3800 3900 3800
 Wire Wire Line
-	4000 3800 4000 3050
+	4000 2500 4000 3050
+Wire Wire Line
+	4000 3050 4000 3800
 Wire Wire Line
 	4000 3050 4200 3050
 Wire Wire Line
-	3350 4350 3350 5200
+	3350 4350 3350 4550
 Wire Wire Line
-	3650 1100 3650 2750
+	3350 4550 3350 5200
 Wire Wire Line
-	3650 2750 4200 2750
+	3650 1100 3650 2050
 Wire Wire Line
-	5800 2750 6600 2750
+	3650 2050 3650 2750
+Wire Wire Line
+	3650 2750 4150 2750
+Wire Wire Line
+	4150 2750 4200 2750
+Wire Wire Line
+	5800 2750 5850 2750
+Wire Wire Line
+	5850 2750 6600 2750
 Wire Wire Line
 	2100 1550 2450 1550
 Wire Wire Line
@@ -398,9 +439,13 @@ Wire Wire Line
 	4150 4550 3350 4550
 Connection ~ 3350 4550
 Wire Wire Line
-	5800 3150 9500 3150
+	5800 3150 8700 3150
 Wire Wire Line
-	5800 3250 9400 3250
+	8700 3150 9500 3150
+Wire Wire Line
+	5800 3250 8800 3250
+Wire Wire Line
+	8800 3250 9400 3250
 Wire Wire Line
 	2100 1650 3500 1650
 Wire Wire Line
@@ -414,15 +459,15 @@ Wire Wire Line
 Wire Wire Line
 	3350 2950 4200 2950
 Wire Wire Line
-	4900 2450 4100 2450
+	4900 2450 4150 2450
 Wire Wire Line
-	4100 2450 4100 2750
-Connection ~ 4100 2750
+	4150 2450 4150 2750
+Connection ~ 4150 2750
 Wire Wire Line
-	5100 2450 5900 2450
+	5100 2450 5850 2450
 Wire Wire Line
-	5900 2450 5900 2750
-Connection ~ 5900 2750
+	5850 2450 5850 2750
+Connection ~ 5850 2750
 Wire Wire Line
 	9150 1650 9300 1650
 Wire Wire Line
@@ -430,11 +475,17 @@ Wire Wire Line
 Wire Wire Line
 	7950 1950 7750 1950
 Wire Wire Line
-	7750 1950 7750 2700
+	7750 1950 7750 2500
+Wire Wire Line
+	7750 2500 7750 2700
 Wire Wire Line
 	7600 1850 7950 1850
 Wire Wire Line
-	7600 1650 7600 2000
+	7600 1650 7600 1750
+Wire Wire Line
+	7600 1750 7600 1850
+Wire Wire Line
+	7600 1850 7600 2000
 Wire Wire Line
 	7950 1750 7600 1750
 Connection ~ 7600 1850
@@ -449,7 +500,9 @@ Connection ~ 7750 2500
 Wire Wire Line
 	6000 3050 5800 3050
 Wire Wire Line
-	6000 1100 6000 5450
+	6000 1100 6000 3050
+Wire Wire Line
+	6000 3050 6000 5450
 Wire Wire Line
 	5850 6650 6050 6650
 Wire Wire Line
@@ -515,11 +568,15 @@ Wire Wire Line
 Wire Wire Line
 	1500 6250 1800 6250
 Wire Wire Line
-	1500 5600 1500 6250
+	1500 5600 1500 6000
+Wire Wire Line
+	1500 6000 1500 6250
 Wire Wire Line
 	1800 6350 1500 6350
 Wire Wire Line
-	1500 6350 1500 7400
+	1500 6350 1500 7100
+Wire Wire Line
+	1500 7100 1500 7400
 Wire Wire Line
 	6600 2750 6600 3750
 Wire Wire Line
@@ -534,41 +591,29 @@ Wire Wire Line
 Connection ~ 1500 7100
 Wire Wire Line
 	2450 1550 2450 2650
-$Comp
-L +5V #PWR015
-U 1 1 5B53DE56
-P 2450 1100
-F 0 "#PWR015" H 2450 950 50  0001 C CNN
-F 1 "+5V" H 2450 1240 50  0000 C CNN
-F 2 "" H 2450 1100 50  0001 C CNN
-F 3 "" H 2450 1100 50  0001 C CNN
-	1    2450 1100
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	2100 1450 2450 1450
 Wire Wire Line
 	2450 1450 2450 1100
-Text Notes 8050 5500 0    60   ~ 0
-I2C pull up inside LCD
-Text Notes 750  1150 0    60   ~ 0
-I2C pull up inside the module
 Wire Notes Line
-	3150 2150 3150 4900
+	3150 1950 3150 4650
 Wire Notes Line
-	3150 4900 6250 4900
+	3150 4650 6250 4650
 Wire Notes Line
-	6250 4900 6250 2150
+	6250 4650 6250 1950
 Wire Notes Line
-	6250 2150 3150 2150
-Text Notes 4050 2100 0    60   ~ 0
-My original PIC evaluation board
+	6250 1950 3150 1950
 Wire Wire Line
 	5700 6300 5850 6300
 Connection ~ 5850 6300
 Wire Wire Line
-	5850 6300 5850 6650
-NoConn ~ 9150 1750
-NoConn ~ 2450 6450
-NoConn ~ 5700 6100
+	5850 6300 5850 6550
+Wire Wire Line
+	5850 6550 5850 6650
+Connection ~ 4000 3050
+Wire Wire Line
+	3650 2050 4000 2050
+Wire Wire Line
+	4000 2050 4000 2200
+Connection ~ 3650 2050
 $EndSCHEMATC
