@@ -1,4 +1,4 @@
-update=21/07/2018 20:15:57
+update=21/07/2018 21:34:01
 version=1
 last_client=kicad
 [pcbnew]
@@ -63,3 +63,13 @@ LibName31=contrib
 LibName32=valves
 LibName33=PIC16F1
 LibName34=pic16f1-mcu
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60
