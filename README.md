@@ -41,9 +41,9 @@ I develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchip.com
 ```
 Datasheet
 
-- [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf)
-- [MPU9250](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/)
-- [EEPROM](http://akizukidenshi.com/download/at24c256b.pdf)
+- [8bit MCU "PIC16F18326"](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf)
+- [Nine-axis motion detector "MPU9250"](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/)
+- [EEPROM "AT24C256B"(256kbits)](http://akizukidenshi.com/download/at24c256b.pdf)
 
 #### EEPROM
 
