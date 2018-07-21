@@ -1,5 +1,15 @@
 # pic16f1-mcu
 
+I graduated from Physics department some ten years ago, but I have forgetten all the theories and equations.
+
+I am relearning Physics for some reason.
+
+## PIC16F1 as measuring instrument for learning Physics
+
+I think PIC16F1 DIP package (14 pins) is a perfect solution to develop a measuring instrument for learning Physics.
+
+It is very small and very cheap, but it has a lot of capabilities comparable to Arduino.
+
 I developed my original PIC16F1 evaluation board in 2017, and I have used this board for a number of IoT demonstrations so far. When a demo is expected to be small and simple, the board is more useful than other commercial boards such as Arduino or STM32 Nucleo.
 
 ![](https://docs.google.com/drawings/d/e/2PACX-1vTHoT0TZIyVhAgkDVHyuWkc1-_6oFHT2mF53g2q36bgH_qxplkvvRIkJ3PqJBNuTZauhhMmSiemMoZO/pub?w=680&h=400)
