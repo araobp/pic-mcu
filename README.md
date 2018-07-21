@@ -39,3 +39,7 @@ Datasheet
 
 I2C address: 1 0 1 0 [A2] [A1] [A0] [R/W]
 
+### Circuit diagram
+
+- [schematic](./kicad/motion_detector/motion_detector.pdf)
+
