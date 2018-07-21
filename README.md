@@ -29,3 +29,8 @@ Datasheet
 - [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf)
 - [MPU9250](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/)
 - [EEPROM](http://akizukidenshi.com/download/at24c256b.pdf)
+
+### EEPROM
+
+I2C address: 1 0 1 0 [A2] [A1] [A0] [R/W]
+
