@@ -6,7 +6,7 @@ I am relearning Physics for some reason.
 
 ## PIC16F1 as measuring instrument for learning Physics
 
-I think PIC16F1 DIP package (14 pins, such as PIC16F18326 or PIC16F1825) is a perfect solution to develop a measuring instrument for learning Physics on my own.
+I think PIC16F1 DIP package (14 pins, such as PIC16F18326 or PIC16F1825) is a perfect solution to develop a measuring instrument for learning Physics on my own (one exception is that STM32L476RG is perfect when audio signal processing is required).
 
 It is very small and very cheap, but it has a lot of capabilities comparable to Arduino.
 
