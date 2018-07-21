@@ -1,6 +1,10 @@
 # pic16f1-mcu
 
+I developed my original PIC16F1 evaluation board in 2017, and I have used this board for a number of IoT demonstrations so far.
+
 ![](https://docs.google.com/drawings/d/e/2PACX-1vTHoT0TZIyVhAgkDVHyuWkc1-_6oFHT2mF53g2q36bgH_qxplkvvRIkJ3PqJBNuTZauhhMmSiemMoZO/pub?w=680&h=400)
+
+I usually use it with RasPi or Android, but I use it as a stand-alone system for physics experiments this time.
 
 ## PIC16F18326
 
