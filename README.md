@@ -4,7 +4,7 @@ I developed my original PIC16F1 evaluation board in 2017, and I have used this b
 
 ![](https://docs.google.com/drawings/d/e/2PACX-1vTHoT0TZIyVhAgkDVHyuWkc1-_6oFHT2mF53g2q36bgH_qxplkvvRIkJ3PqJBNuTZauhhMmSiemMoZO/pub?w=680&h=400)
 
-For example, below is a hamster wheel to which a hall sensor is attached to count the pulse: how long a hamster runs at night.
+For example, below is a hamster wheel to which a hall sensor is attached to count the number of pulses: how long a hamster runs at night.
 
 ![](./doc/hamster_wheel.jpg)
 
