@@ -35,11 +35,11 @@ Datasheet
 - [MPU9250](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/)
 - [EEPROM](http://akizukidenshi.com/download/at24c256b.pdf)
 
-### EEPROM
+#### EEPROM
 
 I2C address: 1 0 1 0 [A2] [A1] [A0] [R/W]
 
-### Circuit diagram
+#### Circuit diagram
 
 - [schematic](./kicad/motion_detector/motion_detector.pdf)
 
