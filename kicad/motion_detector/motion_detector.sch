@@ -386,7 +386,6 @@ I2C pull up inside the module
 Text Notes 4100 1900 0    60   ~ 0
 My original PIC evaluation board
 NoConn ~ 9150 1750
-NoConn ~ 2450 6450
 NoConn ~ 5700 6100
 $Comp
 L R R5
