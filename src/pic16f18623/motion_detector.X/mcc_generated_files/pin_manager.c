@@ -65,14 +65,14 @@ void PIN_MANAGER_Initialize(void)
     /**
     TRISx registers
     */
-    TRISA = 0x37;
+    TRISA = 0x30;
     TRISC = 0x27;
 
     /**
     ANSELx registers
     */
-    ANSELC = 0x07;
-    ANSELA = 0x37;
+    ANSELC = 0x00;
+    ANSELA = 0x00;
 
     /**
     WPUx registers
@@ -93,8 +93,16 @@ void PIN_MANAGER_Initialize(void)
    
     
 	
+    RC1PPSbits.RC1PPS = 0x19;   //RC1->MSSP1:SDA1;    
+    SSP1CLKPPSbits.SSP1CLKPPS = 0x10;   //RC0->MSSP1:SCL1;    
+    SSP1DATPPSbits.SSP1DATPPS = 0x11;   //RC1->MSSP1:SDA1;    
     RXPPSbits.RXPPS = 0x15;   //RC5->EUSART:RX;    
+    RA4PPSbits.RA4PPS = 0x1B;   //RA4->MSSP2:SDA2;    
     RC4PPSbits.RC4PPS = 0x14;   //RC4->EUSART:TX;    
+    RC0PPSbits.RC0PPS = 0x18;   //RC0->MSSP1:SCL1;    
+    SSP2DATPPSbits.SSP2DATPPS = 0x04;   //RA4->MSSP2:SDA2;    
+    SSP2CLKPPSbits.SSP2CLKPPS = 0x05;   //RA5->MSSP2:SCL2;    
+    RA5PPSbits.RA5PPS = 0x1A;   //RA5->MSSP2:SCL2;    
 }
   
 void PIN_MANAGER_IOC(void)

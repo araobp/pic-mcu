@@ -54,21 +54,27 @@ void SYSTEM_Initialize(void)
     PIN_MANAGER_Initialize();
     OSCILLATOR_Initialize();
     WDT_Initialize();
+    I2C1_Initialize();
+    I2C2_Initialize();
     EUSART_Initialize();
 }
 
 void OSCILLATOR_Initialize(void)
 {
-    // NOSC HFINTOSC; NDIV 1; 
-    OSCCON1 = 0x60;
+    // NOSC HFINTOSC with 2x PLL; NDIV 1; 
+    OSCCON1 = 0x00;
     // CSWHOLD may proceed; SOSCPWR Low power; SOSCBE crystal oscillator; 
     OSCCON3 = 0x00;
     // LFOEN disabled; ADOEN disabled; SOSCEN disabled; EXTOEN disabled; HFOEN disabled; 
     OSCEN = 0x00;
-    // HFFRQ 4_MHz; 
-    OSCFRQ = 0x03;
+    // HFFRQ 16_MHz; 
+    OSCFRQ = 0x06;
     // HFTUN 0; 
     OSCTUNE = 0x00;
+    // Wait for PLL to stabilize
+    while(PLLR == 0)
+    {
+    }
 }
 
 void WDT_Initialize(void)

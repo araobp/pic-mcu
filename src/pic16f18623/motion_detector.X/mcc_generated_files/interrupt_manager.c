@@ -1,21 +1,26 @@
 /**
-  Generated Main Source File
+  Generated Interrupt Manager Source File
 
-  Company:
+  @Company:
     Microchip Technology Inc.
 
-  File Name:
-    main.c
+  @File Name:
+    interrupt_manager.c
 
-  Summary:
-    This is the main file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
+  @Summary:
+    This is the Interrupt Manager file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
 
-  Description:
-    This header file provides implementations for driver APIs for all modules selected in the GUI.
+  @Description:
+    This header file provides implementations for global interrupt handling.
+    For individual peripheral handlers please see the peripheral driver for
+    all modules selected in the GUI.
     Generation Information :
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.65.2
         Device            :  PIC16F18326
-        Driver Version    :  2.00
+        Driver Version    :  1.03
+    The generated drivers are tested against the following:
+        Compiler          :  XC8 1.45 or later
+        MPLAB 	          :  MPLAB X 4.15
 */
 
 /*
@@ -41,34 +46,38 @@
     SOFTWARE.
 */
 
-#include "mcc_generated_files/mcc.h"
+#include "interrupt_manager.h"
+#include "mcc.h"
 
-/*
-                         Main application
- */
-void main(void)
+void interrupt INTERRUPT_InterruptManager (void)
 {
-    // initialize the device
-    SYSTEM_Initialize();
-
-    // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
-    // Use the following macros to:
-
-    // Enable the Global Interrupts
-    //INTERRUPT_GlobalInterruptEnable();
-
-    // Enable the Peripheral Interrupts
-    //INTERRUPT_PeripheralInterruptEnable();
-
-    // Disable the Global Interrupts
-    //INTERRUPT_GlobalInterruptDisable();
-
-    // Disable the Peripheral Interrupts
-    //INTERRUPT_PeripheralInterruptDisable();
-
-    while (1)
+    // interrupt handler
+    if(INTCONbits.PEIE == 1)
     {
-        // Add your application code
+        if(PIE1bits.BCL1IE == 1 && PIR1bits.BCL1IF == 1)
+        {
+            I2C1_BusCollisionISR();
+        } 
+        else if(PIE1bits.SSP1IE == 1 && PIR1bits.SSP1IF == 1)
+        {
+            I2C1_ISR();
+        } 
+        else if(PIE2bits.BCL2IE == 1 && PIR2bits.BCL2IF == 1)
+        {
+            I2C2_BusCollisionISR();
+        } 
+        else if(PIE2bits.SSP2IE == 1 && PIR2bits.SSP2IF == 1)
+        {
+            I2C2_ISR();
+        } 
+        else
+        {
+            //Unhandled Interrupt
+        }
+    }      
+    else
+    {
+        //Unhandled Interrupt
     }
 }
 /**
