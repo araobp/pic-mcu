@@ -60,16 +60,19 @@ I2C address: 1 0 1 0 [A2] [A1] [A0] [R/W]
 
 The length of each recording is 3 sec, so the memory can hold upto 8 recordings.
 
-#### User operation
+#### Circuit diagram
+
+- [schematic](./kicad/motion_detector/motion_detector.pdf)
+
+## User operation
 
 I assume that this sensor unit is attached to my bicycle to measure its motion in the first experiment.
 
 Loop of this operation:
+
 (1) The user pushes a tactile switch to start recording data from the nine-axis sensor onto EEPROM for 3 sec.
+
 (2) After 3 sec, the recording automatically finishes.
+
 (3) LCD showes a serial number of the recording: 0, 1, 2 .. 7.
-
-#### Circuit diagram
-
-- [schematic](./kicad/motion_detector/motion_detector.pdf)
 
