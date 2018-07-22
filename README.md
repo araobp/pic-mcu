@@ -32,9 +32,9 @@ I develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchip.com
       V                         +-------------+               +---------+
   [MPU9250]--- I2C --+--(3.3V)--|             |--- Tx(5V) --->|USB-UART |
   [EEPROM]---- I2C --+--(5V)----| PIC16F18326 |<-- Rx(3.3V) --|converter|
-                     |          +------+------+               +---------+
-  [Character LCD] ---+                 |
-                  (5V)             GPIO out (5V)
+                                +------+------+               +---------+
+                                       |
+                                  GPIO out (5V)        [LED0][LED1][LED2]
                                        |
                                  [Tactile SW]
                            
@@ -74,5 +74,5 @@ Loop of this operation:
 
 (2) After 3 sec, the recording automatically finishes.
 
-(3) LCD showes a serial number of the recording: 0, 1, 2 .. 7.
+(3) LED0-2 showes a serial number of the recording: 0(000), 1(001), 2(010) .. 7(111).
 
