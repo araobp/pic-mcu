@@ -76,3 +76,8 @@ Loop of this operation:
 
 (3) LED0-2 showes a serial number of the recording: 0(000), 1(001), 2(010) .. 7(111).
 
+## Tips
+
+C standard "C99" does not allow some of MCC-generated code. Change the setting to "C90".
+
+![](./doc/C90_standard.jpg)
