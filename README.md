@@ -32,24 +32,47 @@ I develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchip.com
       V                         +-------------+               +---------+
   [MPU9250]--- I2C --+--(3.3V)--|             |--- Tx(5V) --->|USB-UART |
   [EEPROM]---- I2C --+--(5V)----| PIC16F18326 |<-- Rx(3.3V) --|converter|
-                     |          +------+------+               +---------+
-  [Character LCD] ---+                 |
-                  (5V)             GPIO out (5V)
+                                +------+------+               +---------+
+                                       |
+                                  GPIO out (5V)        [LED0][LED1][LED2]
                                        |
                                  [Tactile SW]
                            
 ```
 Datasheet
 
-- [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf)
-- [MPU9250](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/)
-- [EEPROM](http://akizukidenshi.com/download/at24c256b.pdf)
+- [8bit MCU "PIC16F18326"](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf)
+- [Nine-axis motion detector "MPU9250"](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/)
+- [EEPROM "AT24C256B"(256kbits)](http://akizukidenshi.com/download/at24c256b.pdf)
+
+#### Nine-axis motion detector
+
+- 100Hz sampling via I2C for gyroscope and accelerometer, with the built-in low pass filter enabled to cut off frequencies over 100Hz.
+- 1Hz sampling via I2C for digital compass.
+
+Data rate estimation: 12 bytes * 8 bits * 100 Hz = 10kbps
 
 #### EEPROM
 
+Max recording time estimation: 256kbits / 10kbps = 25 sec
+
 I2C address: 1 0 1 0 [A2] [A1] [A0] [R/W]
+
+The length of each recording is 3 sec, so the memory can hold upto 8 recordings.
 
 #### Circuit diagram
 
 - [schematic](./kicad/motion_detector/motion_detector.pdf)
+
+## User operation
+
+I assume that this sensor unit is attached to my bicycle to measure its motion in the first experiment.
+
+Loop of this operation:
+
+(1) The user pushes a tactile switch to start recording data from the nine-axis sensor onto EEPROM for 3 sec.
+
+(2) After 3 sec, the recording automatically finishes.
+
+(3) LED0-2 showes a serial number of the recording: 0(000), 1(001), 2(010) .. 7(111).
 
