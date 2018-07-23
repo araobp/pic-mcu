@@ -20,7 +20,7 @@ For example, below is a hamster wheel to which a hall sensor is attached to coun
 
 I usually use the board with RasPi or Android, but I use it as a stand-alone system for physics experiments this time.
 
-## PIC16F18326
+## Motion sensor with PIC16F18326 for my bicycle
 
 I develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf) and [MPU9250](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/). I will use this for experiments of mechanics (physics).
 
