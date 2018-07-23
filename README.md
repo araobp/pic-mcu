@@ -1,6 +1,6 @@
 # pic16f1-mcu
 
-In my experience over a couple of years, if you develop IoT at work, you have to learn Physics before Computer Science (aka IT) or Machine Learning (aka AI) or Digital Signal Processing (DSP). Otherwise, you will not be able to get data what you want for data analysis, and you will end up outputing nothing valuable.
+In my experience over a couple of years, if you develop IoT at work, you have to learn Physics before Computer Science (aka IT) or Machine Learning (aka AI) or Digital Signal Processing (DSP). Otherwise, you will end up getting no valuable data for analysis.
 
 I graduated from Physics department some ten years ago, but I have forgetten all the theories and equations! I am relearning Physics...
 
