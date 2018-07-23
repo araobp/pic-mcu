@@ -13,12 +13,12 @@
          <string>class com.microchip.mcc.mcu8.systemManager.osc.Osc</string>
       </entry>
       <entry>
-         <string>PMD</string>
-         <string>class com.microchip.mcc.mcu8.systemManager.pmd.PMD</string>
-      </entry>
-      <entry>
          <string>WDT</string>
          <string>class com.microchip.mcc.mcu8.systemManager.wdt.WDT</string>
+      </entry>
+      <entry>
+         <string>PMD</string>
+         <string>class com.microchip.mcc.mcu8.systemManager.pmd.PMD</string>
       </entry>
       <entry>
          <string>Pin Module</string>
@@ -29,12 +29,12 @@
          <string>class com.microchip.mcc.mcu8.modules.mssp.MSSP</string>
       </entry>
       <entry>
-         <string>RESET</string>
-         <string>class com.microchip.mcc.mcu8.systemManager.reset.RESET</string>
-      </entry>
-      <entry>
          <string>MSSP2</string>
          <string>class com.microchip.mcc.mcu8.modules.mssp.MSSP</string>
+      </entry>
+      <entry>
+         <string>RESET</string>
+         <string>class com.microchip.mcc.mcu8.systemManager.reset.RESET</string>
       </entry>
       <entry>
          <string>Interrupt Module</string>
@@ -4663,7 +4663,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="EUSART" name="useStdio"/>
-         <value>disabled</value>
+         <value>enabled</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.RegisterKey" moduleName="Pin Module" registerAlias="RA1PPS"/>
@@ -4964,12 +4964,12 @@
    </tokenMap>
    <generatedFileHashHistoryMap class="java.util.HashMap">
       <entry>
-         <file>mcc_generated_files\interrupt_manager.h</file>
-         <hash>ab20d64d90c7899c684c2edd38e548855c484dbba1a4d34263a88ba27dfb45f3</hash>
-      </entry>
-      <entry>
          <file>mcc_generated_files\mcc.h</file>
          <hash>ff91eefa18b0fc9e2b90e8b82fbb209b1818a2a170ce754347d6a64b85aa4de6</hash>
+      </entry>
+      <entry>
+         <file>mcc_generated_files\interrupt_manager.h</file>
+         <hash>ab20d64d90c7899c684c2edd38e548855c484dbba1a4d34263a88ba27dfb45f3</hash>
       </entry>
       <entry>
          <file>mcc_generated_files\i2c1.c</file>
@@ -4984,12 +4984,12 @@
          <hash>d3e6859103b140ef553b555dd8875c50e195013274a71636b74e24cbf41ec57c</hash>
       </entry>
       <entry>
-         <file>mcc_generated_files\pin_manager.h</file>
-         <hash>1b85ae56e4cdcfb12182dc6252eefc9e658ca7c695b1167e09e57e1a5f0b9ce1</hash>
-      </entry>
-      <entry>
          <file>mcc_generated_files\i2c2.h</file>
          <hash>7696aea4b735166498df85f209b161c78ae113732c30a544af82596879b167d3</hash>
+      </entry>
+      <entry>
+         <file>mcc_generated_files\pin_manager.h</file>
+         <hash>1b85ae56e4cdcfb12182dc6252eefc9e658ca7c695b1167e09e57e1a5f0b9ce1</hash>
       </entry>
       <entry>
          <file>mcc_generated_files\i2c1.h</file>
@@ -4997,7 +4997,7 @@
       </entry>
       <entry>
          <file>mcc_generated_files\eusart.c</file>
-         <hash>aaf2a19433a061510d872b9213e13b88fe82e107307694d544ae5563011083f8</hash>
+         <hash>ce5d66fbcf15807c0e70b806f861db9efa9d236dd6099e0bdb5beae02d47660f</hash>
       </entry>
       <entry>
          <file>mcc_generated_files\pin_manager.c</file>
@@ -5005,15 +5005,15 @@
       </entry>
       <entry>
          <file>mcc_generated_files\eusart.h</file>
-         <hash>1dff973ade28d478087c317be63936a1e47ff6ce3091017d66710309762ed645</hash>
-      </entry>
-      <entry>
-         <file>mcc_generated_files\interrupt_manager.c</file>
-         <hash>8631ba76261e3302c7a0a3cfc0824bce311754b8e0088f8aab46a9fd19783edd</hash>
+         <hash>7652d8edad7b0ef1c5704e545a7a4934320e13e3ffca48789f7ed21583722a63</hash>
       </entry>
       <entry>
          <file>mcc_generated_files\mcc.c</file>
          <hash>45f19f283bd6b6d36b40704eecec5815d03bc69933b62e07d95385c94a70ed38</hash>
+      </entry>
+      <entry>
+         <file>mcc_generated_files\interrupt_manager.c</file>
+         <hash>8631ba76261e3302c7a0a3cfc0824bce311754b8e0088f8aab46a9fd19783edd</hash>
       </entry>
    </generatedFileHashHistoryMap>
 </config>

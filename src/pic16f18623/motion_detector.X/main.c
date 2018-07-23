@@ -42,12 +42,29 @@
 */
 
 #include "mcc_generated_files/mcc.h"
+#include "eeprom.h"
+#include <stdint.h>
+
+#define DIGIT_0 LATAbits.LATA0
+#define DIGIT_1 LATAbits.LATA1
+#define DIGIT_2 LATAbits.LATA2
+
+#define BUTTON PORTCbits.RC2
+
+void show_serial_num(uint8_t num) {
+    DIGIT_0 = num & 0b0001;
+    DIGIT_1 = (num >> 1) & 0b0001;
+    DIGIT_2 = (num >> 2) & 0b0001;
+}
 
 /*
                          Main application
  */
 void main(void)
 {
+    
+    int i;
+    
     // initialize the device
     SYSTEM_Initialize();
 
@@ -55,10 +72,10 @@ void main(void)
     // Use the following macros to:
 
     // Enable the Global Interrupts
-    //INTERRUPT_GlobalInterruptEnable();
+    INTERRUPT_GlobalInterruptEnable();
 
     // Enable the Peripheral Interrupts
-    //INTERRUPT_PeripheralInterruptEnable();
+    INTERRUPT_PeripheralInterruptEnable();
 
     // Disable the Global Interrupts
     //INTERRUPT_GlobalInterruptDisable();
@@ -68,7 +85,19 @@ void main(void)
 
     while (1)
     {
-        // Add your application code
+        
+        // while(BUTTON == 0);
+        __delay_ms(1000);
+        
+        uint8_t test_data[4] = { 0x01, 0x02, 0x03, 0x04 };
+        uint8_t test_buf[4] = { 0x00 };
+        uint16_t data_address = 0;
+        
+        eeprom_byte_write(data_address, test_data, 4);
+        eeprom_sequential_read(data_address, test_buf, 4);
+        for (i = 0; i < 4; i++) {
+            printf("%x\n", test_buf[i]);
+        }
     }
 }
 /**
