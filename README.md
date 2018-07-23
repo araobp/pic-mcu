@@ -76,7 +76,7 @@ Loop of this operation:
 
 (3) LED0-2 showes a serial number of the recording: 0(000), 1(001), 2(010) .. 7(111).
 
-After the measurement in the field, use Jupyter Notebook for signal analysis.
+After the measurement in the field, use Jupyter Notebook for Fourier analysis on the data.
 
 ## Tips
 
