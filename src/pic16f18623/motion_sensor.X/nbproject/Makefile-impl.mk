@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=motion_detector.X
+PROJECTNAME=motion_sensor.X
 
 # Active Configuration
 DEFAULTCONF=default
