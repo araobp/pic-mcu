@@ -64,7 +64,7 @@ The length of each recording is 3 sec, so the memory can hold upto 8 recordings.
 
 - [schematic](./kicad/motion_detector/motion_detector.pdf)
 
-## User operation
+#### User operation
 
 I assume that this sensor unit is attached to my bicycle to measure its motion in the first experiment.
 
@@ -75,6 +75,8 @@ Loop of this operation:
 (2) After 3 sec, the recording automatically finishes.
 
 (3) LED0-2 showes a serial number of the recording: 0(000), 1(001), 2(010) .. 7(111).
+
+After the measurement in the field, use Jupyter Notebook for signal analysis.
 
 ## Tips
 
