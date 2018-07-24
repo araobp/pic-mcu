@@ -37,7 +37,7 @@ I develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchip.com
                                   GPIO out (5V)        [LED0][LED1][LED2]
                                        |
                                  [Tactile SW]
-                           
+
 ```
 Datasheet
 
@@ -80,11 +80,16 @@ After the measurement in the field, use Jupyter Notebook for Fourier analysis on
 
 ## Tips
 
+#### Microchip XC8 C compiler
+
 C standard "C99" does not allow some of MCC-generated code. Change the setting to "C90".
 
 ![](./doc/C90_standard.jpg)
 
+#### Atmel EEPROM
+
+Data addresses for page write must be 64^n.
+
 ## Interesting
 
 - [dsPICworks Data Analysis](http://www.microchip.com/Developmenttools/ProductDetails/PartNo/SW300021)
-
