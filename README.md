@@ -26,27 +26,11 @@ I usually use the board with RasPi or Android, but I use it as a stand-alone sys
 
 I will develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf) and [MPU9250](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/). I will use this for experiments of mechanics (physics).
 
-```
-     5V
-      |
-     LDO
-      | (3.3V)                     5V system
-      V                         +-------------+               +---------+
-  [MPU9250]--- I2C --+--(3.3V)--|             |--- Tx(5V) --->|USB-UART |
-  [EEPROM]---- I2C --+--(5V)----| PIC16F18326 |<-- Rx(3.3V) --|converter|
-                                +------+------+               +---------+
-                                       |
-                                  GPIO out (5V)        [LED0][LED1][LED2]
-                                       |
-                                 [Tactile SW]
-
-```
-
 ![](./doc/mpu9250_front.jpg)
 
 ![](./doc/eeprom.jpg)
 
-Datasheet
+#### Datasheet
 
 - [8bit MCU "PIC16F18326"](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf)
 - [Nine-axis motion detector "MPU9250"](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/)
