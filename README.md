@@ -28,8 +28,6 @@ I will develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchi
 
 ![](./doc/mpu9250_front.jpg)
 
-![](./doc/eeprom.jpg)
-
 #### Datasheet
 
 - [8bit MCU "PIC16F18326"](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf)
