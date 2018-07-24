@@ -45,25 +45,9 @@ Datasheet
 - [Nine-axis motion detector "MPU9250"](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/)
 - [EEPROM "AT24C256B"(256kbits)](http://akizukidenshi.com/download/at24c256b.pdf)
 
-==> [Specification draft](https://docs.google.com/presentation/d/e/2PACX-1vS1QRvp0iwG9tbEkca-ZsDFF7-tqjf2MM4x4-hfQBJTx4DSAqnX8e7i9MFr4HT65ORehIFEavOaND_r/pub?start=false&loop=false&delayms=3000)
+#### Documentation
 
-#### Nine-axis motion detector
-
-- 100Hz sampling via I2C for gyroscope and accelerometer, with the built-in low pass filter enabled to cut off frequencies over 100Hz.
-- 1Hz sampling via I2C for digital compass.
-
-Data rate estimation: 12 bytes * 8 bits * 100 Hz = 10kbps
-
-#### EEPROM
-
-Max recording time estimation: 256kbits / 10kbps = 25 sec
-
-I2C address: 1 0 1 0 [A2] [A1] [A0] [R/W]
-
-The length of each recording is 3 sec, so the memory can hold upto 8 recordings.
-
-#### Circuit diagram
-
+- [Specification draft](https://docs.google.com/presentation/d/e/2PACX-1vS1QRvp0iwG9tbEkca-ZsDFF7-tqjf2MM4x4-hfQBJTx4DSAqnX8e7i9MFr4HT65ORehIFEavOaND_r/pub?start=false&loop=false&delayms=3000)
 - [schematic](./kicad/motion_detector/motion_detector.pdf)
 
 #### User operation
