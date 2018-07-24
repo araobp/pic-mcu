@@ -204,14 +204,14 @@ void I2C1_Initialize(void)
 
     i2c1_object.i2cErrors = 0;
 
-    // R_nW write_noTX; P stopbit_notdetected; S startbit_notdetected; BF RCinprocess_TXcomplete; SMP High Speed; UA dontupdate; CKE disabled; D_nA lastbyte_address; 
-    SSP1STAT = 0x00;
+    // R_nW write_noTX; P stopbit_notdetected; S startbit_notdetected; BF RCinprocess_TXcomplete; SMP Standard Speed; UA dontupdate; CKE disabled; D_nA lastbyte_address; 
+    SSP1STAT = 0x80;
     // SSPEN enabled; WCOL no_collision; CKP Idle:Low, Active:High; SSPM FOSC/4_SSPxADD_I2C; SSPOV no_overflow; 
     SSP1CON1 = 0x28;
     // ACKTIM ackseq; SBCDE disabled; BOEN disabled; SCIE disabled; PCIE disabled; DHEN disabled; SDAHT 100ns; AHEN disabled; 
     SSP1CON3 = 0x00;
-    // SSP1ADD 3; 
-    SSP1ADD = 0x03;
+    // SSP1ADD 19; 
+    SSP1ADD = 0x13;
     
     // clear the interrupt flags
     PIR1bits.SSP1IF = 0;

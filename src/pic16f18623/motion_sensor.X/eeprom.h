@@ -13,9 +13,10 @@ extern "C" {
 
 #include <stdint.h>
     
-void eeprom_byte_write(uint16_t data_address, uint8_t *pbuf, uint8_t len);
-void eeprom_sequential_read(uint16_t data_address, uint8_t *pbuf, uint8_t len);
-
+uint8_t eeprom_byte_write(uint16_t data_address, uint8_t *pbuf, uint8_t len);
+uint8_t eeprom_page_write(uint16_t data_address, uint8_t *pbuf, uint8_t len);
+uint8_t eeprom_sequential_read(uint16_t data_address, uint8_t *pbuf, uint8_t len);
+        
 #ifdef	__cplusplus
 }
 #endif

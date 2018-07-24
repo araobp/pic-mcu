@@ -48,6 +48,7 @@
 #define DIGIT_0 LATAbits.LATA0
 #define DIGIT_1 LATAbits.LATA1
 #define DIGIT_2 LATAbits.LATA2
+#define LED_RED LATCbits.LATC3
 
 #define BUTTON PORTCbits.RC2
 
@@ -62,9 +63,6 @@ void show_serial_num(uint8_t num) {
  */
 void main(void)
 {
-    
-    int i;
-    
     // initialize the device
     SYSTEM_Initialize();
 
@@ -83,20 +81,41 @@ void main(void)
     // Disable the Peripheral Interrupts
     //INTERRUPT_PeripheralInterruptDisable();
 
+    __delay_ms(1000);
+    printf("start\n");
+    uint16_t data_address = 0;
+    uint8_t i = 0;
+    uint8_t j = 0;
+    uint8_t k = 0;
+    uint8_t l = 0;
+    uint8_t data_buf[60];
+    uint8_t test_buf[60];
+    
     while (1)
     {
         
         // while(BUTTON == 0);
-        __delay_ms(1000);
         
-        uint8_t test_data[4] = { 0x01, 0x02, 0x03, 0x04 };
-        uint8_t test_buf[4] = { 0x00 };
-        uint16_t data_address = 0;
-        
-        eeprom_byte_write(data_address, test_data, 4);
-        eeprom_sequential_read(data_address, test_buf, 4);
-        for (i = 0; i < 4; i++) {
-            printf("%x\n", test_buf[i]);
+        for (l = 0; l < 8; l++) {  // Max 8 sessions (8 * 3sec = 24sec)
+            for (k = 0; k < 240; k++) {  // 80 (measurement/sec=Hz) * 3 (sec): total 23kbits
+                // Sensor
+                for (i = j; i < 12+j; i++) {  // 12 bytes of data
+                    data_buf[i] = i;  // Dummy
+                }
+                j += 12;
+                if (j >= 60) {
+                    uint8_t status = eeprom_page_write(data_address, data_buf, 60);
+                    eeprom_sequential_read(data_address, test_buf, 60);
+                    printf("\nl: %u, k: %u\n", l, k);
+                    for (i = 0; i < 60; i++) {
+                        printf("%u ", test_buf[i]);
+                    }
+                    data_address += 64;
+                    j = 0;
+                    __delay_ms(1);
+                    LED_RED ^= 1;
+                }
+            }
         }
     }
 }
