@@ -20,6 +20,8 @@ For example, below is a hamster wheel to which a hall sensor is attached to coun
 
 I have also developed IoT of baby car, IoT of bus etc...
 
+![](./doc/hall_sensor.jpg)
+
 I usually use the board with RasPi or Android, but I use it as a stand-alone system for physics experiments this time.
 
 ## Motion sensor with PIC16F18326 for my bicycle
