@@ -38,14 +38,14 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title "Motion detector"
-Date "2018-07-21"
-Rev "v0.1"
+Title "Motion sensor"
+Date "2018-07-24"
+Rev "v0.2"
 Comp "https://github.com/araobp"
 Comment1 ""
 Comment2 ""
-Comment3 ""
-Comment4 ""
+Comment3 "Atmel 256kbits EEPROM (I2C)"
+Comment4 "TDK InvenSense nine-axis sensor (I2C)"
 $EndDescr
 $Comp
 L pic16f18326 U3
@@ -169,10 +169,10 @@ F 3 "" H 4150 3850 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R2
+L R R3
 U 1 1 5B533F63
 P 4150 4250
-F 0 "R2" V 4230 4250 50  0000 C CNN
+F 0 "R3" V 4230 4250 50  0000 C CNN
 F 1 "1k" V 4150 4250 50  0000 C CNN
 F 2 "" V 4080 4250 50  0001 C CNN
 F 3 "" H 4150 4250 50  0001 C CNN
@@ -327,10 +327,10 @@ Text Notes 4100 1900 0    60   ~ 0
 My original PIC evaluation board
 NoConn ~ 5700 6100
 $Comp
-L R R5
+L R R2
 U 1 1 5B53AB68
 P 4000 2350
-F 0 "R5" V 4080 2350 50  0000 C CNN
+F 0 "R2" V 4080 2350 50  0000 C CNN
 F 1 "51k" V 4000 2350 50  0000 C CNN
 F 2 "" V 3930 2350 50  0001 C CNN
 F 3 "" H 4000 2350 50  0001 C CNN
@@ -338,10 +338,10 @@ F 3 "" H 4000 2350 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R3
+L R R4
 U 1 1 5B53B926
 P 6000 1700
-F 0 "R3" V 6080 1700 50  0000 C CNN
+F 0 "R4" V 6080 1700 50  0000 C CNN
 F 1 "R" V 6000 1700 50  0000 C CNN
 F 2 "" V 5930 1700 50  0001 C CNN
 F 3 "" H 6000 1700 50  0001 C CNN
@@ -382,10 +382,10 @@ F 3 "" H 7500 4650 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R6
+L R R5
 U 1 1 5B53F808
 P 6900 5250
-F 0 "R6" V 6980 5250 50  0000 C CNN
+F 0 "R5" V 6980 5250 50  0000 C CNN
 F 1 "1k" V 6900 5250 50  0000 C CNN
 F 2 "" V 6830 5250 50  0001 C CNN
 F 3 "" H 6900 5250 50  0001 C CNN
@@ -393,10 +393,10 @@ F 3 "" H 6900 5250 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R7
+L R R6
 U 1 1 5B53F875
 P 7200 5250
-F 0 "R7" V 7280 5250 50  0000 C CNN
+F 0 "R6" V 7280 5250 50  0000 C CNN
 F 1 "1k" V 7200 5250 50  0000 C CNN
 F 2 "" V 7130 5250 50  0001 C CNN
 F 3 "" H 7200 5250 50  0001 C CNN
@@ -404,10 +404,10 @@ F 3 "" H 7200 5250 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R8
+L R R7
 U 1 1 5B53F8B4
 P 7500 5250
-F 0 "R8" V 7580 5250 50  0000 C CNN
+F 0 "R7" V 7580 5250 50  0000 C CNN
 F 1 "1k" V 7500 5250 50  0000 C CNN
 F 2 "" V 7430 5250 50  0001 C CNN
 F 3 "" H 7500 5250 50  0001 C CNN
@@ -657,10 +657,10 @@ Wire Wire Line
 	4850 6100 4900 6100
 Connection ~ 6000 3350
 $Comp
-L R R?
+L R R8
 U 1 1 5B56667D
 P 10100 1950
-F 0 "R?" V 10180 1950 50  0000 C CNN
+F 0 "R8" V 10180 1950 50  0000 C CNN
 F 1 "R" V 10100 1950 50  0000 C CNN
 F 2 "" V 10030 1950 50  0001 C CNN
 F 3 "" H 10100 1950 50  0001 C CNN
@@ -668,10 +668,10 @@ F 3 "" H 10100 1950 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R?
+L R R9
 U 1 1 5B5666DA
 P 10350 1950
-F 0 "R?" V 10430 1950 50  0000 C CNN
+F 0 "R9" V 10430 1950 50  0000 C CNN
 F 1 "R" V 10350 1950 50  0000 C CNN
 F 2 "" V 10280 1950 50  0001 C CNN
 F 3 "" H 10350 1950 50  0001 C CNN
@@ -685,10 +685,10 @@ Wire Wire Line
 	10350 3250 10350 2100
 Connection ~ 9400 3250
 $Comp
-L +5V #PWR?
+L +5V #PWR13
 U 1 1 5B56687B
 P 10100 1100
-F 0 "#PWR?" H 10100 950 50  0001 C CNN
+F 0 "#PWR13" H 10100 950 50  0001 C CNN
 F 1 "+5V" H 10100 1240 50  0000 C CNN
 F 2 "" H 10100 1100 50  0001 C CNN
 F 3 "" H 10100 1100 50  0001 C CNN
@@ -696,10 +696,10 @@ F 3 "" H 10100 1100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +5V #PWR?
+L +5V #PWR14
 U 1 1 5B5668BB
 P 10350 1100
-F 0 "#PWR?" H 10350 950 50  0001 C CNN
+F 0 "#PWR14" H 10350 950 50  0001 C CNN
 F 1 "+5V" H 10350 1240 50  0000 C CNN
 F 2 "" H 10350 1100 50  0001 C CNN
 F 3 "" H 10350 1100 50  0001 C CNN
@@ -721,4 +721,14 @@ Wire Wire Line
 Wire Wire Line
 	9300 2150 7600 2150
 Connection ~ 7600 2150
+Text Notes 2350 6100 0    60   ~ 0
+Or connect a mobile battery 5V\nto use this system in a stand alone mode
+Text Notes 8300 3100 0    60   ~ 0
+400kHz
+Text Notes 3200 1600 0    60   ~ 0
+400kHz
+Text Notes 8450 1500 0    60   ~ 0
+256kbits
+Text Notes 4950 5800 0    60   ~ 0
+Push to start measurement for 3 sec
 $EndSCHEMATC
