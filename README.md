@@ -10,7 +10,7 @@ I think PIC16F1 DIP package (14 pins, such as PIC16F18326 or PIC16F1825) is a pe
 
 It is very small and very cheap, but it has a lot of capabilities comparable to Arduino.
 
-I developed my original PIC16F1 evaluation board in 2017, and I have used this board for a number of IoT demonstrations so far. When a demo is expected to be small and simple, the board is more useful than other commercial boards such as Arduino or STM32 Nucleo.
+I developed my original PIC16F1 evaluation board in 2017, and I have used this board for a number of IoT demonstrations so far. When a demo is expected to be small and simple, the board is more useful than other commercial boards such as Arduino or STM32 Nucleo. The total cost of the board (~ $10) is much cheaper than Arduino Uno. I have also developed [CAN driver](https://github.com/araobp/can-bus) for 14-pin PIC16F1 MCUs.
 
 ![](https://docs.google.com/drawings/d/e/2PACX-1vTHoT0TZIyVhAgkDVHyuWkc1-_6oFHT2mF53g2q36bgH_qxplkvvRIkJ3PqJBNuTZauhhMmSiemMoZO/pub?w=680&h=400)
 
@@ -18,11 +18,13 @@ For example, below is a hamster wheel to which a hall sensor is attached to coun
 
 ![](./doc/hamster_wheel.jpg)
 
+I have also developed IoT of baby car, IoT of bus etc...
+
 I usually use the board with RasPi or Android, but I use it as a stand-alone system for physics experiments this time.
 
 ## Motion sensor with PIC16F18326 for my bicycle
 
-I develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf) and [MPU9250](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/). I will use this for experiments of mechanics (physics).
+I will develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf) and [MPU9250](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/). I will use this for experiments of mechanics (physics).
 
 ```
      5V
@@ -39,29 +41,20 @@ I develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchip.com
                                  [Tactile SW]
 
 ```
+
+![](./doc/mpu9250_front.jpg)
+
+![](./doc/eeprom.jpg)
+
 Datasheet
 
 - [8bit MCU "PIC16F18326"](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf)
 - [Nine-axis motion detector "MPU9250"](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/)
 - [EEPROM "AT24C256B"(256kbits)](http://akizukidenshi.com/download/at24c256b.pdf)
 
-#### Nine-axis motion detector
+#### Documentation
 
-- 100Hz sampling via I2C for gyroscope and accelerometer, with the built-in low pass filter enabled to cut off frequencies over 100Hz.
-- 1Hz sampling via I2C for digital compass.
-
-Data rate estimation: 12 bytes * 8 bits * 100 Hz = 10kbps
-
-#### EEPROM
-
-Max recording time estimation: 256kbits / 10kbps = 25 sec
-
-I2C address: 1 0 1 0 [A2] [A1] [A0] [R/W]
-
-The length of each recording is 3 sec, so the memory can hold upto 8 recordings.
-
-#### Circuit diagram
-
+- [Specification draft](https://docs.google.com/presentation/d/e/2PACX-1vS1QRvp0iwG9tbEkca-ZsDFF7-tqjf2MM4x4-hfQBJTx4DSAqnX8e7i9MFr4HT65ORehIFEavOaND_r/pub?start=false&loop=false&delayms=3000)
 - [schematic](./kicad/motion_detector/motion_detector.pdf)
 
 #### User operation
