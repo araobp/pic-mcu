@@ -56,7 +56,6 @@ uint8_t i2c2_read(uint16_t dev_addr, uint8_t reg_addr, uint8_t *pbuf, uint8_t le
 }
 
 uint8_t i2c2_write_no_data(uint16_t dev_addr, uint8_t reg_addr) {
-
     uint8_t buf[1];
     I2C2_MESSAGE_STATUS status;
     uint8_t write_status = 1;

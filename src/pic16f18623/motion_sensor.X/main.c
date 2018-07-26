@@ -93,9 +93,12 @@ void main(void)
     
     while (1)
     {
+        if (TMR0_HasOverflowOccured()) {
+            TMR0IF = 0;
+        }
         
         // while(BUTTON == 0);
-        
+        /*
         for (l = 0; l < 8; l++) {  // Max 8 sessions (8 * 3sec = 24sec)
             for (k = 0; k < 240; k++) {  // 80 (measurement/sec=Hz) * 3 (sec): total 23kbits
                 // Sensor
@@ -116,7 +119,8 @@ void main(void)
                     LED_RED ^= 1;
                 }
             }
-        }
+       }
+       */
     }
 }
 /**
