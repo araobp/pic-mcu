@@ -56,6 +56,21 @@ Loop of this operation:
 
 After the measurement in the field, use Jupyter Notebook for Fourier analysis on the data.
 
+## Physics versus machine learning
+
+The output of the motion sensor is to be fed into TensorFlow as well.
+
+Although all the actions can be explained by Mechanics, I will also teach TensorFlow what is going on with the input data:
+- turning right
+- turing left
+- running over the bump
+- accelerating
+- applying the break
+
+I am curious about if AI can explain Physical event or not.
+
+I use Jupyter Notebook for anything these days, so Google's [Colaboratory](https://colab.research.google.com/notebooks/welcome.ipynb) is my first choice to make the test.
+
 ## Tips
 
 #### Microchip XC8 C compiler
