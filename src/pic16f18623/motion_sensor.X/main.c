@@ -112,7 +112,6 @@ void main(void)
             TMR0IF = 0;
             mpu9250_gyro_read(gyro_data, 6);
             mpu9250_accel_read(accel_data, 6);
-            
             printf("Gyro  %x:%x, %x:%x, %x:%x\n",\
                     gyro_data[0], gyro_data[1],\
                     gyro_data[2], gyro_data[3],\
