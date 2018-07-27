@@ -1,0 +1,289 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:switches
+LIBS:relays
+LIBS:motors
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:pic16f1-mcu
+LIBS:speed_sensor-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "Speed sensor"
+Date "2018-07-28"
+Rev "v0.0"
+Comp "https://github.com/araobp"
+Comment1 "Allegro A1324LUA-T hall sensor"
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L pic16f1825 U?
+U 1 1 5B5BA743
+P 5350 3950
+F 0 "U?" H 4800 4400 60  0000 C CNN
+F 1 "pic16f1825" H 5350 3950 60  0000 C CNN
+F 2 "" H 4950 4000 60  0001 C CNN
+F 3 "" H 4950 4000 60  0001 C CNN
+	1    5350 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L a1324lua-t U?
+U 1 1 5B5BA862
+P 2550 3850
+F 0 "U?" H 2300 4000 60  0000 C CNN
+F 1 "a1324lua-t" H 2500 3600 60  0000 C CNN
+F 2 "" H 2550 3850 60  0001 C CNN
+F 3 "" H 2550 3850 60  0001 C CNN
+	1    2550 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L +5V #PWR?
+U 1 1 5B5BA973
+P 3200 1900
+F 0 "#PWR?" H 3200 1750 50  0001 C CNN
+F 1 "+5V" H 3200 2040 50  0000 C CNN
+F 2 "" H 3200 1900 50  0001 C CNN
+F 3 "" H 3200 1900 50  0001 C CNN
+	1    3200 1900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3200 1900 3200 3800
+Wire Wire Line
+	3200 3800 3050 3800
+$Comp
+L GND #PWR?
+U 1 1 5B5BA9E3
+P 3200 4750
+F 0 "#PWR?" H 3200 4500 50  0001 C CNN
+F 1 "GND" H 3200 4600 50  0000 C CNN
+F 2 "" H 3200 4750 50  0001 C CNN
+F 3 "" H 3200 4750 50  0001 C CNN
+	1    3200 4750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3050 3900 3200 3900
+Wire Wire Line
+	3200 3900 3200 4750
+Wire Wire Line
+	3050 4000 3400 4000
+Wire Wire Line
+	3400 4000 3400 3850
+Wire Wire Line
+	3400 3850 4550 3850
+$Comp
+L +5V #PWR?
+U 1 1 5B5BAA0A
+P 4200 1900
+F 0 "#PWR?" H 4200 1750 50  0001 C CNN
+F 1 "+5V" H 4200 2040 50  0000 C CNN
+F 2 "" H 4200 1900 50  0001 C CNN
+F 3 "" H 4200 1900 50  0001 C CNN
+	1    4200 1900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4200 3650 4500 3650
+Wire Wire Line
+	4500 3650 4550 3650
+Wire Wire Line
+	4200 1900 4200 2200
+Wire Wire Line
+	4200 2200 4200 2550
+Wire Wire Line
+	4200 2550 4200 3100
+Wire Wire Line
+	4200 3100 4200 3650
+$Comp
+L GND #PWR?
+U 1 1 5B5BAA2D
+P 6650 5200
+F 0 "#PWR?" H 6650 4950 50  0001 C CNN
+F 1 "GND" H 6650 5050 50  0000 C CNN
+F 2 "" H 6650 5200 50  0001 C CNN
+F 3 "" H 6650 5200 50  0001 C CNN
+	1    6650 5200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6150 3650 6250 3650
+Wire Wire Line
+	6250 3650 6650 3650
+Wire Wire Line
+	6650 3650 6650 3950
+Wire Wire Line
+	6650 3950 6650 5000
+Wire Wire Line
+	6650 5000 6650 5200
+$Comp
+L Conn_01x04_Male J?
+U 1 1 5B5BAA9F
+P 8000 4050
+F 0 "J?" H 8000 4250 50  0000 C CNN
+F 1 "Conn_01x04_Male" H 8000 3750 50  0000 C CNN
+F 2 "" H 8000 4050 50  0001 C CNN
+F 3 "" H 8000 4050 50  0001 C CNN
+	1    8000 4050
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	6150 4050 7800 4050
+Wire Wire Line
+	6150 4150 7800 4150
+Wire Wire Line
+	7800 3950 6650 3950
+Connection ~ 6650 3950
+Wire Wire Line
+	4000 3100 4200 3100
+Wire Wire Line
+	4200 3100 7300 3100
+Wire Wire Line
+	7300 3100 7300 3850
+Wire Wire Line
+	7300 3850 7800 3850
+Connection ~ 4200 3100
+$Comp
+L C_Small 0.1uF
+U 1 1 5B5BAB40
+P 5350 3350
+F 0 "0.1uF" H 5360 3420 50  0000 L CNN
+F 1 "C_Small" H 5360 3270 50  0000 L CNN
+F 2 "" H 5350 3350 50  0001 C CNN
+F 3 "" H 5350 3350 50  0001 C CNN
+	1    5350 3350
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5450 3350 6250 3350
+Wire Wire Line
+	6250 3350 6250 3650
+Connection ~ 6250 3650
+Wire Wire Line
+	5250 3350 4500 3350
+Wire Wire Line
+	4500 3350 4500 3650
+Connection ~ 4500 3650
+NoConn ~ 6150 3750
+NoConn ~ 6150 3850
+NoConn ~ 6150 3950
+NoConn ~ 6150 4250
+NoConn ~ 4550 4150
+NoConn ~ 4550 4050
+$Comp
+L R R?
+U 1 1 5B5BABCE
+P 4000 3500
+F 0 "R?" V 4080 3500 50  0000 C CNN
+F 1 "51k" V 4000 3500 50  0000 C CNN
+F 2 "" V 3930 3500 50  0001 C CNN
+F 3 "" H 4000 3500 50  0001 C CNN
+	1    4000 3500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4000 3350 4000 3100
+Wire Wire Line
+	4000 3650 4000 3950
+Wire Wire Line
+	4000 3950 4550 3950
+NoConn ~ 4550 3750
+$Comp
+L PWR_FLAG #FLG?
+U 1 1 5B5BAC5F
+P 4500 2050
+F 0 "#FLG?" H 4500 2125 50  0001 C CNN
+F 1 "PWR_FLAG" H 4500 2200 50  0000 C CNN
+F 2 "" H 4500 2050 50  0001 C CNN
+F 3 "" H 4500 2050 50  0001 C CNN
+	1    4500 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L PWR_FLAG #FLG?
+U 1 1 5B5BAC91
+P 6950 4850
+F 0 "#FLG?" H 6950 4925 50  0001 C CNN
+F 1 "PWR_FLAG" H 6950 5000 50  0000 C CNN
+F 2 "" H 6950 4850 50  0001 C CNN
+F 3 "" H 6950 4850 50  0001 C CNN
+	1    6950 4850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4500 2050 4500 2200
+Wire Wire Line
+	4500 2200 4200 2200
+Connection ~ 4200 2200
+Wire Wire Line
+	6950 4850 6950 5000
+Wire Wire Line
+	6950 5000 6650 5000
+Connection ~ 6650 5000
+$Comp
+L LED D?
+U 1 1 5B5BAE9B
+P 3650 2900
+F 0 "D?" H 3650 3000 50  0000 C CNN
+F 1 "LED" H 3650 2800 50  0000 C CNN
+F 2 "" H 3650 2900 50  0001 C CNN
+F 3 "" H 3650 2900 50  0001 C CNN
+	1    3650 2900
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R 1k
+U 1 1 5B5BBB47
+P 3650 3500
+F 0 "1k" V 3730 3500 50  0000 C CNN
+F 1 "R" V 3650 3500 50  0000 C CNN
+F 2 "" V 3580 3500 50  0001 C CNN
+F 3 "" H 3650 3500 50  0001 C CNN
+	1    3650 3500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3650 3050 3650 3350
+Wire Wire Line
+	3650 3650 3650 4250
+Wire Wire Line
+	3650 4250 4550 4250
+Wire Wire Line
+	3650 2750 3650 2550
+Wire Wire Line
+	3650 2550 4200 2550
+Connection ~ 4200 2550
+$EndSCHEMATC
