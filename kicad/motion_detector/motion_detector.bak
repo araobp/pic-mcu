@@ -39,11 +39,11 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "Motion sensor"
-Date "2018-07-24"
-Rev "v0.2"
+Date "2018-07-25"
+Rev "v0.3"
 Comp "https://github.com/araobp"
 Comment1 ""
-Comment2 ""
+Comment2 "Allegro hall sensor"
 Comment3 "Atmel 256kbits EEPROM (I2C)"
 Comment4 "TDK InvenSense nine-axis sensor (I2C)"
 $EndDescr
@@ -636,7 +636,7 @@ L R R9
 U 1 1 5B5666DA
 P 10350 1950
 F 0 "R9" V 10430 1950 50  0000 C CNN
-F 1 "R" V 10350 1950 50  0000 C CNN
+F 1 "10k" V 10350 1950 50  0000 C CNN
 F 2 "" V 10280 1950 50  0001 C CNN
 F 3 "" H 10350 1950 50  0001 C CNN
 	1    10350 1950
