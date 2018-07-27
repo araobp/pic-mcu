@@ -8,7 +8,7 @@
 #define ACCEL_CONFIG2 0x1D
 #define ACCEL_XOUT_H 0x3B
 #define GYRO_XOUT_H 0x43
-#define WHO_AM_I 0x75
+#define WHO_AM_I 0x73  // the chip is actually MPU9255
 
 /* Low-Pass Filter setting
  * Datasheet: https://www.invensense.com/wp-content/uploads/2015/02/RM-MPU-9250A-00-v1.6.pdf

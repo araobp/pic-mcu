@@ -15,8 +15,8 @@ extern "C" {
     
 uint8_t mpu9250_who_am_i(void);
 
-uint8_t mpu9250_gyro_lpf(uint8_t fchoice_b, uint8_t dlpf_cfg);
-uint8_t mpu9250_accel_lpf(uint8_t accel_fchoice_b, uint8_t a_dlpf_cfg);
+uint8_t mpu9250_gyro_lpf(void);
+uint8_t mpu9250_accel_lpf(void);
 
 uint8_t mpu9250_gyro_read(uint8_t *pbuf, uint8_t len);
 uint8_t mpu9250_accel_read(uint8_t *pbuf, uint8_t len);

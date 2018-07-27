@@ -43,6 +43,7 @@
 
 #include "mcc_generated_files/mcc.h"
 #include "eeprom.h"
+#include "mpu9250.h"
 #include <stdint.h>
 
 #define DIGIT_0 LATAbits.LATA0
@@ -53,9 +54,9 @@
 #define BUTTON PORTCbits.RC2
 
 void show_serial_num(uint8_t num) {
-    DIGIT_0 = num & 0b0001;
-    DIGIT_1 = (num >> 1) & 0b0001;
-    DIGIT_2 = (num >> 2) & 0b0001;
+    DIGIT_0 = num & 0b0001U;
+    DIGIT_1 = (num >> 1) & 0b0001U;
+    DIGIT_2 = (num >> 2) & 0b0001U;
 }
 
 /*
@@ -90,11 +91,37 @@ void main(void)
     uint8_t l = 0;
     uint8_t data_buf[60];
     uint8_t test_buf[60];
+
+    uint8_t who = mpu9250_who_am_i();
+    if (who == WHO_AM_I_RESPONSE) {
+        printf("MPU9255 OK\n");
+    }
+    
+    uint8_t status;
+    status = mpu9250_gyro_lpf();
+    printf("gyro lpf status: %d\n", status);
+    status = mpu9250_accel_lpf();
+    printf("accel lpf status: %d\n", status);
+    
+    uint8_t gyro_data[6];
+    uint8_t accel_data[6];
     
     while (1)
     {
         if (TMR0_HasOverflowOccured()) {
             TMR0IF = 0;
+            mpu9250_gyro_read(gyro_data, 6);
+            mpu9250_accel_read(accel_data, 6);
+            
+            printf("Gyro  %x:%x, %x:%x, %x:%x\n",\
+                    gyro_data[0], gyro_data[1],\
+                    gyro_data[2], gyro_data[3],\
+                    gyro_data[4], gyro_data[5]);
+            printf("Accel %x:%x, %x:%x, %x:%x\n",\
+                    accel_data[0], accel_data[1],\
+                    accel_data[2], accel_data[3],\
+                    accel_data[4], accel_data[5]);
+            
         }
         
         // while(BUTTON == 0);

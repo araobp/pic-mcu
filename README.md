@@ -26,14 +26,16 @@ I usually use the board with RasPi or Android, but I use it as a stand-alone sys
 
 ## Motion sensor with PIC16F18326 for my bicycle
 
-I will develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf) and [MPU9250](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/). I will use this for experiments of mechanics (physics).
+I will develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf) and [MPU9255](https://stanford.edu/class/ee267/misc/MPU-9255-Datasheet.pdf). I will use this for experiments of mechanics (physics).
 
 ![](./doc/mpu9250_front.jpg)
+
+Note: the MPU9250 sensor module I purchased from Amazon turned out to be MPU9255, because WHO_AM_I response is 0x73.
 
 #### Datasheet
 
 - [8bit MCU "PIC16F18326"](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf)
-- [Nine-axis motion detector "MPU9250"](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/)
+- [Nine-axis motion detector "MPU9255"](https://stanford.edu/class/ee267/misc/MPU-9255-Datasheet.pdf)
 - [Hall sensor "A1324LUA-T"](https://www.allegromicro.com/~/media/Files/Datasheets/A1324-5-6-Datasheet.ashx)
 - [EEPROM "AT24C256B"(256kbits)](http://akizukidenshi.com/download/at24c256b.pdf)
 
@@ -54,7 +56,7 @@ Loop of this operation:
 
 (3) LED0-2 showes a serial number of the recording: 0(000), 1(001), 2(010) .. 7(111).
 
-After the measurement in the field, use Jupyter Notebook for Fourier analysis on the data.
+After the measurement in the field, use Jupyter Notebook for data analysis.
 
 ## Physics versus machine learning
 
