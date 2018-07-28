@@ -1,10 +1,10 @@
-# Microchip PIC16F1 MCUs
+# PIC16F1 as measuring instrument for learning Physics
 
-In my experience over a couple of years, if you develop IoT at work, you have to __learn Physics__ before Computer Science (aka IT) or Machine Learning (aka AI) or Digital Signal Processing (DSP). Otherwise, you will end up getting no valuable data for analysis.
+## Background
 
-I graduated from Physics department some ten years ago, but I have forgetten all the theories and equations! I am relearning Physics...
+In my experiences, if you develop IoT, you have to __learn Physics__ before IT or AI. Otherwise, you will end up getting nothing for data analysis.
 
-## PIC16F1 as measuring instrument for learning Physics
+I graduated from Physics department, but I have forgetten all the theories and equations! I am relearning Physics this time.
 
 I think PIC16F1 DIP package (14 pins, such as PIC16F18326 or PIC16F1825) is a perfect solution to develop a measuring instrument for learning Physics on my own (one exception is that STM32L476RG is perfect when audio signal processing is required).
 
