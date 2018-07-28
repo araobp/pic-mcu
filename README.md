@@ -1,4 +1,4 @@
-# pic16f1-mcu
+# Microchip PIC16F1 MCUs
 
 In my experience over a couple of years, if you develop IoT at work, you have to __learn Physics__ before Computer Science (aka IT) or Machine Learning (aka AI) or Digital Signal Processing (DSP). Otherwise, you will end up getting no valuable data for analysis.
 
