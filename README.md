@@ -76,7 +76,7 @@ After the measurement in the field, use Jupyter Notebook for data analysis.
 
 The output of the motion sensor is to be fed into TensorFlow as well.
 
-Although all the actions can be explained by Mechanics, I will also teach TensorFlow what is going on with the input data:
+Although all the actions can be explained by Mechanics, I will also teach TensorFlow to judge what is going on with the input data:
 - turning right
 - turing left
 - running over the bump
