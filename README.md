@@ -53,9 +53,9 @@ Note: the MPU9250 sensor module I purchased from Amazon turned out to be MPU9255
 - [Motion sensor schematic (main board)](./kicad/motion_detector/motion_detector.pdf)
 - [Speed sensor schematic (I2C slave device)](./kicad/speed_sensor/speed_sensor.pdf)
 
-#### Code
+#### Code in development
 
-- [Motion sensor](./src/pic16f1825/motion_detector.X)
+- [Motion sensor](./src/pic16f18326/motion_sensor.X)
 - [Speed sensor](./src/pic16f1825/speed_sensor.X)
 
 #### User operation
