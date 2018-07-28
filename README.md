@@ -1,4 +1,4 @@
-# PIC16F1 as measuring instrument for learning Physics
+# PIC16F1 as measuring instruments for learning Physics
 
 ## Background
 
