@@ -89,6 +89,10 @@ I am curious about if AI can explain Physical event or not.
 
 I use "A/D converter to UART bridge" developed in [my other project on github.com](https://github.com/araobp/motion-detector).
 
+Thermistor:
+- [103AT-2](http://akizukidenshi.com/catalog/g/gP-07258/)
+- [103AT-11](http://akizukidenshi.com/catalog/g/gP-07257/)
+
 ## Tips
 
 #### Microchip XC8 C compiler
