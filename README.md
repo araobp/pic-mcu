@@ -24,7 +24,7 @@ I have also developed IoT of baby car, IoT of bus etc...
 
 ![](./doc/hall_sensor.jpg)
 
-I usually use the board with RasPi or Android, but I use it as a stand-alone system for physics experiments this time.
+I usually use the board with RasPi or Android for IoT demo, but I use it as a stand-alone system for physics experiments this time.
 
 #### Communications
 
@@ -84,8 +84,6 @@ Although all the actions can be explained by Mechanics, I will also teach Tensor
 - applying the break
 
 I am curious about if AI can explain Physical event or not.
-
-I use Jupyter Notebook for anything these days, so Google's [Colaboratory](https://colab.research.google.com/notebooks/welcome.ipynb) is my first choice to make the test.
 
 ## Measuring heat conduction
 
