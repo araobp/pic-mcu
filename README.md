@@ -55,8 +55,8 @@ Note: the MPU9250 sensor module I purchased from Amazon turned out to be MPU9255
 
 #### Code
 
-- [Motion sensor](./src/src/pic16f1825/motion_detector.X)
-- [Speed sensor](./src/src/pic16f1825/speed_sensor.X)
+- [Motion sensor](./src/pic16f1825/motion_detector.X)
+- [Speed sensor](./src/pic16f1825/speed_sensor.X)
 
 #### User operation
 
