@@ -45,6 +45,11 @@ Note: the MPU9250 sensor module I purchased from Amazon turned out to be MPU9255
 - [Motion sensor schematic (main board)](./kicad/motion_detector/motion_detector.pdf)
 - [Speed sensor schematic (I2C slave device)](./kicad/speed_sensor/speed_sensor.pdf)
 
+#### Code
+
+- [Motion sensor](./src/src/pic16f1825/motion_detector.X)
+- [Speed sensor](./src/src/pic16f1825/speed_sensor.X)
+
 #### User operation
 
 I assume that this sensor unit is attached to my bicycle to measure its motion in the first experiment.
@@ -59,7 +64,7 @@ Loop of this operation:
 
 After the measurement in the field, use Jupyter Notebook for data analysis.
 
-## Physics versus machine learning
+#### Physics versus machine learning
 
 The output of the motion sensor is to be fed into TensorFlow as well.
 
@@ -73,6 +78,10 @@ Although all the actions can be explained by Mechanics, I will also teach Tensor
 I am curious about if AI can explain Physical event or not.
 
 I use Jupyter Notebook for anything these days, so Google's [Colaboratory](https://colab.research.google.com/notebooks/welcome.ipynb) is my first choice to make the test.
+
+## Measuring heat conduction
+
+I use "A/D converter to UART bridge" developed in [my other project on github.com](https://github.com/araobp/motion-detector).
 
 ## Tips
 
