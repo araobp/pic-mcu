@@ -102,7 +102,3 @@ C standard "C99" does not allow some of MCC-generated code. Change the setting t
 #### Atmel EEPROM
 
 Data addresses for page write must be 64^n.
-
-## Interesting
-
-- [dsPICworks Data Analysis](http://www.microchip.com/Developmenttools/ProductDetails/PartNo/SW300021)
