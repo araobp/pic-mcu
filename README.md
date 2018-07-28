@@ -6,7 +6,7 @@ In my experiences, if you develop IoT, you have to __learn Physics__ before IT o
 
 I graduated from Physics department, but I have forgetten all the theories and equations! I am relearning Physics this time.
 
-I think PIC16F1 DIP package (14 pins, such as PIC16F18326 or PIC16F1825) is a perfect solution to develop a measuring instrument for learning Physics on my own (one exception is that STM32L476RG is perfect when audio signal processing is required).
+I think PIC16F1 DIP package (14 pins, such as PIC16F18326 or PIC16F1825) is a perfect solution to develop a measuring instrument for learning Physics on my own (one exception is that a combination of [Nucleo-L476RG](https://www.st.com/en/evaluation-tools/nucleo-l476rg.html) and [Knowles MEMS mic](http://akizukidenshi.com/catalog/g/gM-05577/)is perfect when audio signal processing is required).
 
 It is very small and very cheap, but it has a lot of capabilities comparable to Arduino.
 
