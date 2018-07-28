@@ -1,16 +1,18 @@
-# pic16f1-mcu
+# PIC16F1 as measuring instruments for learning Physics
 
-In my experience over a couple of years, if you develop IoT at work, you have to __learn Physics__ before Computer Science (aka IT) or Machine Learning (aka AI) or Digital Signal Processing (DSP). Otherwise, you will end up getting no valuable data for analysis.
+## Background
 
-I graduated from Physics department some ten years ago, but I have forgetten all the theories and equations! I am relearning Physics...
+In my experiences, if you develop IoT, you have to __learn Physics__ before IT or AI. Otherwise, you will end up getting nothing for data analysis.
 
-## PIC16F1 as measuring instrument for learning Physics
+I graduated from Physics department, but I have forgetten all the theories and equations! I am relearning Physics this time.
 
 I think PIC16F1 DIP package (14 pins, such as PIC16F18326 or PIC16F1825) is a perfect solution to develop a measuring instrument for learning Physics on my own (one exception is that STM32L476RG is perfect when audio signal processing is required).
 
 It is very small and very cheap, but it has a lot of capabilities comparable to Arduino.
 
-I developed my original PIC16F1 evaluation board in 2017, and I have used this board for a number of IoT demonstrations so far. When a demo is expected to be small and simple, the board is more useful than other commercial boards such as Arduino or STM32 Nucleo. The total cost of the board (~ $10) is much cheaper than Arduino Uno. I have also developed [CAN driver](https://github.com/araobp/can-bus) for 14-pin PIC16F1 MCUs.
+#### My original PIC16F1 evaluation board
+
+I developed my original PIC16F1 evaluation board in 2017, and I have used this board for a number of IoT demonstrations so far. When a demo is expected to be small and simple, the board is more useful than other commercial boards such as Arduino or STM32 Nucleo. The total cost of the board (~ $10) is much cheaper than Arduino Uno.
 
 ![](https://docs.google.com/drawings/d/e/2PACX-1vTHoT0TZIyVhAgkDVHyuWkc1-_6oFHT2mF53g2q36bgH_qxplkvvRIkJ3PqJBNuTZauhhMmSiemMoZO/pub?w=680&h=400)
 
@@ -22,7 +24,13 @@ I have also developed IoT of baby car, IoT of bus etc...
 
 ![](./doc/hall_sensor.jpg)
 
-I usually use the board with RasPi or Android, but I use it as a stand-alone system for physics experiments this time.
+I usually use the board with RasPi or Android for IoT demo, but I use it as a stand-alone system for physics experiments this time.
+
+#### Communications
+
+I developed I2C-based plug & play protocol and CAN driver for the evaluation board as well:
+- [I2C-based plug & play protocol](https://github.com/araobp/sensor-network)
+- [CAN driver](https://github.com/araobp/can-bus)
 
 ## Motion sensor with PIC16F18326 for my bicycle
 
@@ -45,6 +53,11 @@ Note: the MPU9250 sensor module I purchased from Amazon turned out to be MPU9255
 - [Motion sensor schematic (main board)](./kicad/motion_detector/motion_detector.pdf)
 - [Speed sensor schematic (I2C slave device)](./kicad/speed_sensor/speed_sensor.pdf)
 
+#### Code in development
+
+- [Motion sensor](./src/pic16f18623/motion_sensor.X)
+- [Speed sensor](./src/pic16f1825/speed_sensor.X)
+
 #### User operation
 
 I assume that this sensor unit is attached to my bicycle to measure its motion in the first experiment.
@@ -59,11 +72,11 @@ Loop of this operation:
 
 After the measurement in the field, use Jupyter Notebook for data analysis.
 
-## Physics versus machine learning
+#### Physics versus machine learning
 
 The output of the motion sensor is to be fed into TensorFlow as well.
 
-Although all the actions can be explained by Mechanics, I will also teach TensorFlow what is going on with the input data:
+Although all the actions can be explained by Mechanics, I will also teach TensorFlow to judge what is going on with the input data:
 - turning right
 - turing left
 - running over the bump
@@ -72,7 +85,13 @@ Although all the actions can be explained by Mechanics, I will also teach Tensor
 
 I am curious about if AI can explain Physical event or not.
 
-I use Jupyter Notebook for anything these days, so Google's [Colaboratory](https://colab.research.google.com/notebooks/welcome.ipynb) is my first choice to make the test.
+## Measuring heat conduction
+
+I use "A/D converter to UART bridge" developed in [my other project on github.com](https://github.com/araobp/motion-detector).
+
+Thermistor:
+- [103AT-2](http://akizukidenshi.com/catalog/g/gP-07258/)
+- [103AT-11](http://akizukidenshi.com/catalog/g/gP-07257/)
 
 ## Tips
 
@@ -85,7 +104,3 @@ C standard "C99" does not allow some of MCC-generated code. Change the setting t
 #### Atmel EEPROM
 
 Data addresses for page write must be 64^n.
-
-## Interesting
-
-- [dsPICworks Data Analysis](http://www.microchip.com/Developmenttools/ProductDetails/PartNo/SW300021)
