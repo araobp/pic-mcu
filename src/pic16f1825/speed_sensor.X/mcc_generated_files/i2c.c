@@ -164,7 +164,7 @@ void I2C_ISR ( void )
     When the end of the EEPROM is reached, the EEPROM address will
     continue from the start of the EEPROM.
 */
-
+/*
 void I2C_StatusCallback(I2C_SLAVE_DRIVER_STATUS i2c_bus_state)
 {
     static uint8_t EEPROM_Buffer[] =
@@ -229,4 +229,5 @@ void I2C_StatusCallback(I2C_SLAVE_DRIVER_STATUS i2c_bus_state)
     } // end switch(i2c_bus_state)
 
 }
+ */
 
