@@ -15,10 +15,17 @@
 
 #define START_BUTTON PORTCbits.RC2
 
+#define UART_OUTPUT true
+
 void show_serial_num(uint8_t num) {
     DIGIT_0 = ((num & 0b00000001U) > 0) ? ON: OFF;
     DIGIT_1 = ((num & 0b00000010U) > 0) ? ON: OFF;
     DIGIT_2 = ((num & 0b00000100U) > 0) ? ON: OFF;
+}
+
+void output_to_uart(uint32_t cnt, char label, uint8_t *pbuf) {
+    //printf("%02x:%c:%02x%02x%02x%02x%02x%02x\n", cnt, label, pbuf[0], pbuf[1], pbuf[2], pbuf[3], pbuf[4], pbuf[5]);
+    printf("%ld:%c:%03d,%03d,%03d,%03d,%03d,%03d\n", cnt, label, pbuf[0], pbuf[1], pbuf[2], pbuf[3], pbuf[4], pbuf[5]);
 }
 
 void main(void)
@@ -30,6 +37,7 @@ void main(void)
     uint8_t data_buf[61];
     bool measure = false;
     uint8_t status;
+    uint32_t cnt=0;
 
     SYSTEM_Initialize();
     INTERRUPT_GlobalInterruptEnable();
@@ -64,7 +72,17 @@ void main(void)
         
         if (TMR0_HasOverflowOccured()) {  // every 12.5msec
             TMR0IF = 0;
-            if (measure) {
+            if (UART_OUTPUT) {
+                mpu9250_gyro_read(data_buf, 6);
+                output_to_uart(cnt, 'g', data_buf);
+                mpu9250_accel_read(data_buf, 6);
+                output_to_uart(cnt++, 'a', data_buf);
+                if (++i >= 40) {
+                    LED_RED ^= 1;
+                    i = 0;
+                }
+            }
+            else if (measure) {
                 mpu9250_gyro_read(&data_buf[i], 6);
                 i += 6;
                 mpu9250_accel_read(&data_buf[i], 6);
