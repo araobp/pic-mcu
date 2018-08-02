@@ -17,6 +17,9 @@
 
 #define UART_OUTPUT true
 
+#define SAMPLING_RATE 80
+const uint8_t HALF = SAMPLING_RATE / 2;
+
 void show_serial_num(uint8_t num) {
     DIGIT_0 = ((num & 0b00000001U) > 0) ? ON: OFF;
     DIGIT_1 = ((num & 0b00000010U) > 0) ? ON: OFF;
@@ -24,8 +27,22 @@ void show_serial_num(uint8_t num) {
 }
 
 void output_to_uart(uint32_t cnt, char label, uint8_t *pbuf) {
-    //printf("%02x:%c:%02x%02x%02x%02x%02x%02x\n", cnt, label, pbuf[0], pbuf[1], pbuf[2], pbuf[3], pbuf[4], pbuf[5]);
-    printf("%ld:%c:%03d,%03d,%03d,%03d,%03d,%03d\n", cnt, label, pbuf[0], pbuf[1], pbuf[2], pbuf[3], pbuf[4], pbuf[5]);
+    static uint32_t c = 0xffffU;
+    int16_t gx, gy, gz, ax, ay, az;
+    if (label == 'g') {
+        c = cnt;
+        gx = (int16_t)((pbuf[0] << 8) | pbuf[1]);
+        gy = (int16_t)((pbuf[2] << 8) | pbuf[3]);
+        gz = (int16_t)((pbuf[4] << 8) | pbuf[5]);
+        //printf("%ld,%03d,%03d,%03d,%03d,%03d,%03d,", cnt, pbuf[0], pbuf[1], pbuf[2], pbuf[3], pbuf[4], pbuf[5]);            
+        printf("%ld,%d,%d,%d,", cnt, gx, gy, gz);            
+    } else if (label == 'a' && c == cnt) {
+        ax = (int16_t)((pbuf[0] << 8) | pbuf[1]);
+        ay = (int16_t)((pbuf[2] << 8) | pbuf[3]);
+        az = (int16_t)((pbuf[4] << 8) | pbuf[5]);
+        //printf("%03d,%03d,%03d,%03d,%03d,%03d\n", pbuf[0], pbuf[1], pbuf[2], pbuf[3], pbuf[4], pbuf[5]);    
+        printf("%d,%d,%d\n", ax, ay, az);            
+    }
 }
 
 void main(void)
@@ -73,11 +90,11 @@ void main(void)
         if (TMR0_HasOverflowOccured()) {  // every 12.5msec
             TMR0IF = 0;
             if (UART_OUTPUT) {
-                mpu9250_gyro_read(data_buf, 6);
-                output_to_uart(cnt, 'g', data_buf);
-                mpu9250_accel_read(data_buf, 6);
-                output_to_uart(cnt++, 'a', data_buf);
-                if (++i >= 40) {
+                mpu9250_gyro_read(&data_buf[0], 6);
+                output_to_uart(cnt, 'g', &data_buf[0]);
+                mpu9250_accel_read(&data_buf[6], 6);
+                output_to_uart(cnt++, 'a', &data_buf[6]);
+                if (++i >= HALF) {
                     LED_RED ^= 1;
                     i = 0;
                 }

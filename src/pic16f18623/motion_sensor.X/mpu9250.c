@@ -52,9 +52,9 @@ uint8_t mpu9250_accel_lpf(void) {
 }
 
 uint8_t mpu9250_gyro_read(uint8_t *pbuf, uint8_t len) {
-    return i2c2_read(MPU9250_I2C_ADDR, ACCEL_XOUT_H, pbuf, len);
+    return i2c2_read(MPU9250_I2C_ADDR, GYRO_XOUT_H, pbuf, len);
 }
 
 uint8_t mpu9250_accel_read(uint8_t *pbuf, uint8_t len) {
-    return i2c2_read(MPU9250_I2C_ADDR, GYRO_XOUT_H, pbuf, len);
+    return i2c2_read(MPU9250_I2C_ADDR, ACCEL_XOUT_H, pbuf, len);
 }

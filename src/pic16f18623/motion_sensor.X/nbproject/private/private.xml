@@ -4,6 +4,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18623/motion_sensor.X/eeprom.c</file>
+            <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18623/motion_sensor.X/mpu9250.c</file>
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18623/motion_sensor.X/mcc_generated_files/tmr0.c</file>
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18623/motion_sensor.X/main.c</file>
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18623/motion_sensor.X/i2c_util.c</file>
