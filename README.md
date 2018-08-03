@@ -18,7 +18,7 @@ I developed I2C-based plug & play protocol and CAN driver for the evaluation boa
 - [I2C-based plug & play protocol](https://github.com/araobp/sensor-network)
 - [CAN driver](https://github.com/araobp/can-bus)
 
-## Motion sensor with PIC16F18326 for my bicycle
+## [Instrument 1] Motion sensor with PIC16F18326 for my bicycle
 
 I will develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf) and [MPU9255](https://stanford.edu/class/ee267/misc/MPU-9255-Datasheet.pdf). I will use this for experiments of mechanics (physics).
 
@@ -52,34 +52,7 @@ The result is OK, and the sensor is great.
 - [Motion sensor](./src/pic16f18623/motion_sensor.X)
 - [Speed sensor](./src/pic16f1825/speed_sensor.X)
 
-#### User operation
-
-I assume that this sensor unit is attached to my bicycle to measure its motion in the first experiment.
-
-Loop of this operation:
-
-(1) The user pushes a tactile switch to start recording data from the nine-axis sensor onto EEPROM for 3 sec.
-
-(2) After 3 sec, the recording automatically finishes.
-
-(3) LED0-2 showes a serial number of the recording: 0(000), 1(001), 2(010) .. 7(111).
-
-After the measurement in the field, use Jupyter Notebook for data analysis.
-
-#### Physics versus machine learning
-
-The output of the motion sensor is to be fed into TensorFlow as well.
-
-Although all the actions can be explained by Mechanics, I will also teach TensorFlow to judge what is going on with the input data:
-- turning right
-- turing left
-- running over the bump
-- accelerating
-- applying the break
-
-I am curious about if AI can explain Physical event or not.
-
-## Measuring heat conduction
+## [Instrument 2] Measuring heat conduction
 
 I use "A/D converter to UART bridge" developed in [my other project on github.com](https://github.com/araobp/motion-detector).
 
