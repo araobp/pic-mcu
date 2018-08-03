@@ -52,13 +52,17 @@ The result is OK, and the sensor is great.
 - [Motion sensor](./src/pic16f18623/motion_sensor.X)
 - [Speed sensor](./src/pic16f1825/speed_sensor.X)
 
-## [Instrument 2] Measuring heat conduction
+## [Instrument 2] Measuring heat conduction with thermistor
 
 I use "A/D converter to UART bridge" developed in [my other project on github.com](https://github.com/araobp/motion-detector).
 
 Thermistor:
 - [103AT-2](http://akizukidenshi.com/catalog/g/gP-07258/)
 - [103AT-11](http://akizukidenshi.com/catalog/g/gP-07257/)
+
+## [Instrument 3] Atmospheric pressure and temperature sensor with MPL115A1 and thermistor
+
+Experiments on Boyle's law and Charles's law
 
 ## Tips
 
