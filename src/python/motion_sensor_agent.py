@@ -6,7 +6,6 @@ RAW_DATA_FILE = './raw_data.csv'
 
 ser = serial.Serial('COM5', 115200)
 
-
 if __name__ == '__main__':
 
     with open(RAW_DATA_FILE, 'w') as f:
