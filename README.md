@@ -18,7 +18,7 @@ I developed I2C-based plug & play protocol and CAN driver for the evaluation boa
 - [I2C-based plug & play protocol](https://github.com/araobp/sensor-network)
 - [CAN driver](https://github.com/araobp/can-bus)
 
-## [Instrument 1] Motion sensor with PIC16F18326
+## [Instrument 1] Motion sensor with PIC16F18326, MPU9255 and A1324LUA-T
 
 I will develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf) and [MPU9255](https://stanford.edu/class/ee267/misc/MPU-9255-Datasheet.pdf). I will use this for experiments of mechanics (physics).
 
