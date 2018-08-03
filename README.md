@@ -43,7 +43,7 @@ Note: the MPU9250 sensor module I purchased from Amazon turned out to be MPU9255
 
 I have tested MPU9255 9axis sensor by measuring acceleration and angular velocity of a train in Tokyo/Kanagawa, Japan.
 
-==> [Preliminary test](./src/python/motion_sensor_analyze.ipynb)
+==> [Preliminary test (Jupyter Notebook)](./src/python/motion_sensor_analyze.ipynb)
 
 The result is OK, and the sensor is great.
 
