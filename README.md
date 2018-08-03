@@ -2,13 +2,7 @@
 
 ## Background
 
-In my experiences, if you develop IoT, you have to __learn Physics__ before IT or AI. Otherwise, you will end up getting nothing for data analysis.
-
-I graduated from Physics department, but I have forgetten all the theories and equations! I am relearning Physics this time.
-
-I think [PIC16F1 DIP (14 pins, such as PIC16F18326 or PIC16F1825)](http://microchipdeveloper.com/mcu1102:start) is a perfect solution to develop a measuring instrument for learning Physics on my own (one exception is that a combination of [Nucleo-L476RG](https://www.st.com/en/evaluation-tools/nucleo-l476rg.html) and [Knowles MEMS mic](http://akizukidenshi.com/catalog/g/gM-05577/) is perfect when audio signal processing is required).
-
-It is very small and very cheap, but it has a lot of capabilities comparable to Arduino.
+Use [PIC16F1 DIP (14 pins, such as PIC16F18326 or PIC16F1825)](http://microchipdeveloper.com/mcu1102:start) to develop a measuring instrument for learning Physics. It is very small and very cheap, but it has a lot of capabilities comparable to Arduino.
 
 #### My original PIC16F1 evaluation board
 
@@ -19,10 +13,6 @@ I developed my original PIC16F1 evaluation board in 2017, and I have used this b
 For example, below is a hamster wheel to which a hall sensor is attached to count the number of pulses: how long a hamster runs at night.
 
 ![](./doc/hamster_wheel.jpg)
-
-I have also developed IoT of baby car, IoT of bus etc...
-
-![](./doc/hall_sensor.jpg)
 
 I usually use the board with RasPi or Android for IoT demo, but I use it as a stand-alone system for physics experiments this time.
 
@@ -52,6 +42,12 @@ Note: the MPU9250 sensor module I purchased from Amazon turned out to be MPU9255
 - [Specification draft](https://docs.google.com/presentation/d/e/2PACX-1vS1QRvp0iwG9tbEkca-ZsDFF7-tqjf2MM4x4-hfQBJTx4DSAqnX8e7i9MFr4HT65ORehIFEavOaND_r/pub?start=false&loop=false&delayms=3000)
 - [Motion sensor schematic (main board)](./kicad/motion_detector/motion_detector.pdf)
 - [Speed sensor schematic (I2C slave device)](./kicad/speed_sensor/speed_sensor.pdf)
+
+#### Preliminary test
+
+I have tested MPU9255 9axis sensor by measuring acceleration and angular velocity of a train in Tokyo/Kanagawa, Japan.
+
+==> [Preliminary test](./src/python/motion_sensor_analyze.ipynb)
 
 #### Code in development
 
