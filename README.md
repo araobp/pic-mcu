@@ -18,7 +18,7 @@ I developed I2C-based plug & play protocol and CAN driver for the evaluation boa
 - [I2C-based plug & play protocol](https://github.com/araobp/sensor-network)
 - [CAN driver](https://github.com/araobp/can-bus)
 
-## [Instrument 1] Motion sensor with PIC16F18326 for my bicycle
+## [Instrument 1] Motion sensor with PIC16F18326, MPU9255 and A1324LUA-T
 
 I will develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf) and [MPU9255](https://stanford.edu/class/ee267/misc/MPU-9255-Datasheet.pdf). I will use this for experiments of mechanics (physics).
 
@@ -52,13 +52,17 @@ The result is OK, and the sensor is great.
 - [Motion sensor](./src/pic16f18623/motion_sensor.X)
 - [Speed sensor](./src/pic16f1825/speed_sensor.X)
 
-## [Instrument 2] Measuring heat conduction
+## [Instrument 2] Measuring heat conduction with thermistor
 
 I use "A/D converter to UART bridge" developed in [my other project on github.com](https://github.com/araobp/motion-detector).
 
 Thermistor:
 - [103AT-2](http://akizukidenshi.com/catalog/g/gP-07258/)
 - [103AT-11](http://akizukidenshi.com/catalog/g/gP-07257/)
+
+## [Instrument 3] Atmospheric pressure and temperature sensor with MPL115A1 and thermistor
+
+Experiments on Boyle's law and Charles's law
 
 ## Tips
 
