@@ -39,19 +39,15 @@ Note: the MPU9250 sensor module I purchased from Amazon turned out to be MPU9255
 - [Motion sensor schematic (main board)](./kicad/motion_detector/motion_detector.pdf)
 - [Speed sensor schematic (I2C slave device)](./kicad/speed_sensor/speed_sensor.pdf)
 
-#### Preliminary test on MPU9255
-
-I have tested MPU9255 9axis sensor by measuring acceleration and angular velocity of a train in Tokyo/Kanagawa, Japan.
-
-- [Acceleration and angular velocity of a train (Jupyter Notebook)](./src/python/motion_sensor_analyze.ipynb)
-- [Free fall (Jupyter Notebook)](./src/python/motion_sensor_free_fall.ipynb)
-
-The result is OK, and the sensor is great.
-
 #### Code in development
 
 - [Motion sensor](./src/pic16f18623/motion_sensor.X)
 - [Speed sensor](./src/pic16f1825/speed_sensor.X)
+
+#### Preliminary test on MPU9255
+
+- [Acceleration and angular velocity of a train (Jupyter Notebook)](./src/python/motion_sensor_analyze.ipynb)
+- [Free fall (Jupyter Notebook)](./src/python/motion_sensor_free_fall.ipynb)
 
 ## [Instrument 2] Measuring heat conduction with thermistor
 
