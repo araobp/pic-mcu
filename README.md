@@ -1,5 +1,7 @@
 # PIC16F1 as measuring instruments for learning Physics
 
+![](./src/python/raw_data_gravity_free_fall.jpg)
+
 ## Background
 
 Use [PIC16F1 DIP (14 pins, such as PIC16F18326 or PIC16F1825)](http://microchipdeveloper.com/mcu1102:start) to develop a measuring instrument for learning Physics. It is very small and very cheap, but it has a lot of capabilities comparable to Arduino.
