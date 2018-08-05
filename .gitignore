@@ -20,3 +20,5 @@ funclist
 nbproject/Makefile-*
 disassembly/
 *.map
+
+.ipynb_checkpoints/
