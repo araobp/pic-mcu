@@ -24,7 +24,12 @@ I will develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchi
 
 ![](./doc/mpu9250_front.jpg)
 
-Note: the MPU9250 sensor module I purchased from Amazon turned out to be MPU9255, because WHO_AM_I response is 0x73.
+Typical applications in this project:
+- measuring ride quality of public transport
+- wearable/embeddeable motion sensor for sports
+
+Note1: the MPU9250 sensor module I purchased from Amazon turned out to be MPU9255, because WHO_AM_I response is 0x73.
+Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.invensense.com/products/motion-tracking/9-axis/).
 
 #### Datasheet
 
@@ -62,6 +67,10 @@ Thermistor:
 Experiments on Boyle's law and Charles's law
 
 ## Tips
+
+## [Instrument 4] GPS and inertial navigation
+
+I have already developed a GPS gadget [in this project](https://github.com/araobp/gps_android). I will add an [inertial navigation system](https://en.wikipedia.org/wiki/Inertial_navigation_system) to the gadget.
 
 #### Microchip XC8 C compiler
 
