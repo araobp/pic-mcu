@@ -66,11 +66,11 @@ Thermistor:
 
 Experiments on Boyle's law and Charles's law
 
-## Tips
-
 ## [Instrument 4] GPS and inertial navigation
 
 I have already developed a GPS gadget [in this project](https://github.com/araobp/gps_android). I will add an [inertial navigation system](https://en.wikipedia.org/wiki/Inertial_navigation_system) to the gadget.
+
+## Tips
 
 #### Microchip XC8 C compiler
 
