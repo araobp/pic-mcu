@@ -1,6 +1,6 @@
 # PIC16F1 as measuring instruments for learning Physics
 
-![](./src/python/raw_data_gravity_free_fall.jpg)
+![](./doc/board.jpg)
 
 ## Background
 
@@ -55,6 +55,8 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 
 - [Acceleration and angular velocity of a train (Jupyter Notebook)](./src/python/motion_sensor_analyze.ipynb)
 - [Free fall (Jupyter Notebook)](./src/python/motion_sensor_free_fall.ipynb)
+
+![](./src/python/raw_data_gravity_free_fall.jpg)
 
 ## [Instrument 2] Measuring heat conduction with thermistor
 
