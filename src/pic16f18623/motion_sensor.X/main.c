@@ -53,6 +53,17 @@ void output_to_uart(uint32_t cnt, char label, uint8_t *pbuf) {
     }
 }
 
+void dump(uint8_t id, uint32_t cnt, uint8_t *pbuf, uint8_t pls) {
+    int16_t gx, gy, gz, ax, ay, az;
+    gx = (int16_t)((pbuf[0] << 8) | pbuf[1]);
+    gy = (int16_t)((pbuf[2] << 8) | pbuf[3]);
+    gz = (int16_t)((pbuf[4] << 8) | pbuf[5]);
+    ax = (int16_t)((pbuf[6] << 8) | pbuf[7]);
+    ay = (int16_t)((pbuf[8] << 8) | pbuf[9]);
+    az = (int16_t)((pbuf[10] << 8) | pbuf[11]);
+    printf("%d,%ld,%d,%d,%d,%d,%d,%d,%d\n", id, cnt, gx, gy, gz, ax, ay, az, pls);
+}
+
 void main(void)
 {
     uint16_t data_address = 0;
@@ -142,26 +153,20 @@ void main(void)
                 LED_RED = ON;
                 data_address = 0;
                 uint8_t measurements = (DATAEE_ReadByte(EEPROM_NVMADR) & 0b00000111) + 1;
+                printf("id,cnt,gx,gy,gz,ax,ay,az,pls\n");
                 for (k = 0; k < measurements; k++) {
-                    cnt = 0;
-                    printf("id,cnt,gx,gy,gz,ax,ay,az,pls\n");
                     for (j = 0; j < 52; j++) {
                         status = eeprom_sequential_read(data_address, data_buf, 61);
                         data_address += 64;
                         i = 0;
                         uint8_t pls = data_buf[60];
                         for (int h = 0; h < 5; h++) {
-                            printf("%d,%ld,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n",
-                                    k, cnt++,
-                                    data_buf[i], data_buf[i+1], data_buf[i+2], data_buf[i+3], data_buf[i+4], data_buf[i+5],
-                                    data_buf[i+6], data_buf[i+7], data_buf[i+8], data_buf[i+9], data_buf[i+10], data_buf[i+11],
-                                    pls
-                                    );
+                            dump(k, cnt++, &data_buf[i], pls);
                             i += 12;
                         }
                     }
-                    printf("\n");                   
                 }
+                printf("\n");
                 LED_RED = OFF;
             }
         }
