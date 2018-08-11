@@ -5,7 +5,6 @@ uint8_t i2c1_write(uint16_t dev_addr, uint8_t *pbuf, uint8_t len) {
     I2C1_MESSAGE_STATUS status;
     uint8_t write_status = 1;
     I2C1_MasterWrite(pbuf, len, dev_addr, &status);
-    printf("master write\n");
     while (status == I2C1_MESSAGE_PENDING);
     if (status == I2C1_MESSAGE_COMPLETE) write_status = 0;
     return write_status;
