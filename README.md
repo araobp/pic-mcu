@@ -40,7 +40,7 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 - [Hall sensor "A1324LUA-T"](https://www.allegromicro.com/~/media/Files/Datasheets/A1324-5-6-Datasheet.ashx)
 - [EEPROM "AT24C256B"(256kbits)](http://akizukidenshi.com/download/at24c256b.pdf)
 
-#### Documentation
+#### Project documentation
 
 - [Specification draft](https://docs.google.com/presentation/d/e/2PACX-1vS1QRvp0iwG9tbEkca-ZsDFF7-tqjf2MM4x4-hfQBJTx4DSAqnX8e7i9MFr4HT65ORehIFEavOaND_r/pub?start=false&loop=false&delayms=3000)
 - [Motion sensor schematic (main board)](./kicad/motion_detector/motion_detector.pdf)
