@@ -134,6 +134,7 @@ void main(void)
                 i += 6;
                 if (i >= 60) {  // 5 times corresponds to 1/16 sec
                     data_buf[i] = fetch_speed_pulses();
+                    if (j == 0) data_buf[i] =0;  // discard accumrated pulses
                     printf("speed:%d\n", data_buf[i]);
                     status = eeprom_page_write(data_address, data_buf, 61);
                     data_address += 64;
@@ -161,10 +162,11 @@ void main(void)
                         data_address += 64;
                         i = 0;
                         uint8_t pls = data_buf[60];
-                        for (int h = 0; h < 5; h++) {
-                            dump(k, cnt++, &data_buf[i], pls);
+                        for (int h = 0; h < 4; h++) {
+                            dump(k, cnt++, &data_buf[i], 0);
                             i += 12;
                         }
+                        dump(k, cnt++, &data_buf[i], pls);
                     }
                 }
                 printf("\n");
