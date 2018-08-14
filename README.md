@@ -53,7 +53,7 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 
 #### Preliminary test on MPU9255
 
-- [Acceleration and angular velocity of a train (Jupyter Notebook)](./jupyter/motion_sensor_analyze.ipynb)
+- [Acceleration and angular velocity of a train (Jupyter Notebook)](./jupyter/motion in a train.ipynb)
 - [Free fall (Jupyter Notebook)](./jupyter/motion_sensor_free_fall.ipynb)
 
 ![](./jupyter/raw_data_gravity_free_fall.jpg)
