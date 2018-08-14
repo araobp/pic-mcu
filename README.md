@@ -68,7 +68,17 @@ Thermistor:
 
 ## [Instrument 3] Atmospheric pressure and temperature sensor with MPL115A1 and thermistor
 
-Experiments on Boyle's law and Charles's law
+Experiments on Boyle's law and Charles's law:
+```
+PV = nRT
+```
+
+Thermistor:
+- [103AT-2](http://akizukidenshi.com/catalog/g/gP-07258/)
+- [103AT-11](http://akizukidenshi.com/catalog/g/gP-07257/)
+
+Barometer:
+- [Freescale(NXP) MPL115A1](http://akizukidenshi.com/download/ds/freescale/MPL115A1.pdf)
 
 ## [Instrument 4] GPS and inertial navigation
 
