@@ -48,8 +48,8 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 
 #### Code in development
 
-- [Motion sensor](./src/pic16f18623/motion_sensor.X)
-- [Speed sensor](./src/pic16f1825/speed_sensor.X)
+- [Motion sensor](./src/pic16f18326/motion_sensor.X)
+- [Speed sensor](./src/pic16f18326/speed_sensor.X)
 
 #### Preliminary test on MPU9255
 
