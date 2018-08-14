@@ -60,6 +60,8 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 
 ## [Instrument 2] Measuring heat conduction with thermistor
 
+Measure thermal conductivity and specific heat of iron, copper and alminium.
+
 I use "A/D converter to UART bridge" developed in [my other project on github.com](https://github.com/araobp/motion-detector).
 
 Thermistor:
