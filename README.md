@@ -75,12 +75,18 @@ Experiments on Boyle's law and Charles's law:
 PV = nRT
 ```
 
+#### Datasheet
+
 Thermistor:
 - [103AT-2](http://akizukidenshi.com/catalog/g/gP-07258/)
 - [103AT-11](http://akizukidenshi.com/catalog/g/gP-07257/)
 
 Barometer:
 - [Freescale(NXP) MPL115A1](http://akizukidenshi.com/download/ds/freescale/MPL115A1.pdf)
+
+#### Project documentation
+
+- [Specification draft](https://docs.google.com/presentation/d/e/2PACX-1vTFWhwneuLkQ1FZPOrrmI1i-VYzVfW0b4dV-kViTS8dXYShsPu_ecb1oB_iyxuuK2mhmNJEHwSKUAcR/pub?start=false&loop=false&delayms=3000)
 
 ## [Instrument 4] GPS and inertial navigation
 
