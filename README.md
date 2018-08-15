@@ -40,7 +40,7 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 - [Hall sensor "A1324LUA-T"](https://www.allegromicro.com/~/media/Files/Datasheets/A1324-5-6-Datasheet.ashx)
 - [EEPROM "AT24C256B"(256kbits)](http://akizukidenshi.com/download/at24c256b.pdf)
 
-#### Documentation
+#### Project documentation
 
 - [Specification draft](https://docs.google.com/presentation/d/e/2PACX-1vS1QRvp0iwG9tbEkca-ZsDFF7-tqjf2MM4x4-hfQBJTx4DSAqnX8e7i9MFr4HT65ORehIFEavOaND_r/pub?start=false&loop=false&delayms=3000)
 - [Motion sensor schematic (main board)](./kicad/motion_detector/motion_detector.pdf)
@@ -48,8 +48,8 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 
 #### Code in development
 
-- [Motion sensor](./src/pic16f18623/motion_sensor.X)
-- [Speed sensor](./src/pic16f1825/speed_sensor.X)
+- [Motion sensor](./src/pic16f18326/motion_sensor.X)
+- [Speed sensor](./src/pic16f18326/speed_sensor.X)
 
 #### Preliminary test on MPU9255
 
@@ -60,6 +60,8 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 
 ## [Instrument 2] Measuring heat conduction with thermistor
 
+Measure thermal conductivity and specific heat of iron, copper and alminium.
+
 I use "A/D converter to UART bridge" developed in [my other project on github.com](https://github.com/araobp/motion-detector).
 
 Thermistor:
@@ -68,7 +70,17 @@ Thermistor:
 
 ## [Instrument 3] Atmospheric pressure and temperature sensor with MPL115A1 and thermistor
 
-Experiments on Boyle's law and Charles's law
+Experiments on Boyle's law and Charles's law:
+```
+PV = nRT
+```
+
+Thermistor:
+- [103AT-2](http://akizukidenshi.com/catalog/g/gP-07258/)
+- [103AT-11](http://akizukidenshi.com/catalog/g/gP-07257/)
+
+Barometer:
+- [Freescale(NXP) MPL115A1](http://akizukidenshi.com/download/ds/freescale/MPL115A1.pdf)
 
 ## [Instrument 4] GPS and inertial navigation
 
