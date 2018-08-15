@@ -92,6 +92,12 @@ Barometer:
 
 I have already developed a GPS gadget [in this project](https://github.com/araobp/gps_android). I will add an [inertial navigation system](https://en.wikipedia.org/wiki/Inertial_navigation_system) to the gadget.
 
+## Deep learning
+
+I don't know if deep learning can be applied to problems of physics or not, but I will try to solve part of problems anyway, just for curiosity.
+
+Reference: [Pros and Cons of Neural Networks](https://towardsdatascience.com/hype-disadvantages-of-neural-networks-6af04904ba5b)
+
 ## Tips
 
 #### Microchip XC8 C compiler
