@@ -97,6 +97,8 @@ I have already developed a GPS gadget [in this project](https://github.com/araob
 I don't know if deep learning can be applied to problems of physics or not, but I will try to solve part of problems anyway, just for curiosity. I am using Google Colaboratory to learn TensorFlow.
 
 Reference: 
+- [DEEP CONVOLUTIONAL NETWORKS ON THE PITCH SPIRAL FOR
+MUSICAL INSTRUMENT RECOGNITION](https://arxiv.org/pdf/1605.06644.pdf)
 - [Using Deep and Convolutional Neural Networks for
 Accurate Emotion Classification on DEAP Dataset](https://www.aaai.org/ocs/index.php/IAAI/IAAI17/paper/download/15007/13731)
 - [Pros and Cons of Neural Networks](https://towardsdatascience.com/hype-disadvantages-of-neural-networks-6af04904ba5b)
