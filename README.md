@@ -47,7 +47,7 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 - [Speed sensor schematic (I2C slave device)](./kicad/speed_sensor/speed_sensor.pdf)
 - [Speed sensor CAD data for 3D printer](./freecad/speed_pulses.stl)
 
-![](./doc/3d_printed_speed_pulsed.jpg)
+![](./doc/3D_printed_speed_pulsed.jpg)
 
 #### Code in development
 
