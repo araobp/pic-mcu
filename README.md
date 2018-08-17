@@ -45,6 +45,9 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 - [Specification draft](https://docs.google.com/presentation/d/e/2PACX-1vS1QRvp0iwG9tbEkca-ZsDFF7-tqjf2MM4x4-hfQBJTx4DSAqnX8e7i9MFr4HT65ORehIFEavOaND_r/pub?start=false&loop=false&delayms=3000)
 - [Motion sensor schematic (main board)](./kicad/motion_detector/motion_detector.pdf)
 - [Speed sensor schematic (I2C slave device)](./kicad/speed_sensor/speed_sensor.pdf)
+- [Speed sensor CAD data for 3D printer](./freecad/speed_pulses.stl)
+
+![](./doc/3d_printed_speed_pulsed.jpg)
 
 #### Code in development
 
