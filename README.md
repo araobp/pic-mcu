@@ -1,6 +1,6 @@
 # PIC16F1 as measuring instruments for learning Physics
 
-![](./doc/board.jpg)
+![](./doc/motion_measurement_system.jpg)
 
 ## Background
 
