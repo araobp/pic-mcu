@@ -277,7 +277,7 @@ SCL
 Text Notes 8250 4300 0    60   ~ 0
 SDA
 Text Notes 8250 4000 0    60   ~ 0
-5V
+4.5V-5V
 Text Notes 8250 4100 0    60   ~ 0
 GND\n
 $EndSCHEMATC

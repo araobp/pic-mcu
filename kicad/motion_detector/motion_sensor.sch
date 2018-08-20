@@ -653,7 +653,7 @@ Wire Wire Line
 Wire Wire Line
 	9950 2950 10200 2950
 Text Notes 2100 6500 0    60   ~ 0
-Connect to USB-UART converter with 5V power supply\nor a mobile battery 5V.
+Connect to USB-UART converter with 5V power supply\nor AAx3 (4.5V)
 $Comp
 L Conn_01x02_Male J2
 U 1 1 5B669248

@@ -59,21 +59,10 @@ F 3 "" H 4600 3100 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L tactile_sw U3
-U 1 1 5B532037
-P 5300 6200
-F 0 "U3" H 5100 6400 60  0000 C CNN
-F 1 "tactile_sw" H 5300 6200 60  0000 C CNN
-F 2 "pic16f1:tactile-sw-4p" H 5250 6150 60  0001 C CNN
-F 3 "" H 5250 6150 60  0001 C CNN
-	1    5300 6200
-	1    0    0    -1  
-$EndComp
-$Comp
-L EEPROM U4
+L EEPROM U3
 U 1 1 5B532054
 P 8100 1550
-F 0 "U4" H 7800 1850 60  0000 C CNN
+F 0 "U3" H 7800 1850 60  0000 C CNN
 F 1 "EEPROM" H 8100 1550 60  0000 C CNN
 F 2 "pic16f1:ic-pinsocket-8pins" H 8000 1550 60  0001 C CNN
 F 3 "" H 8000 1550 60  0001 C CNN
@@ -105,12 +94,12 @@ $EndComp
 $Comp
 L GND #PWR02
 U 1 1 5B532208
-P 6550 7150
-F 0 "#PWR02" H 6550 6900 50  0001 C CNN
-F 1 "GND" H 6550 7000 50  0000 C CNN
-F 2 "" H 6550 7150 50  0001 C CNN
-F 3 "" H 6550 7150 50  0001 C CNN
-	1    6550 7150
+P 6000 7300
+F 0 "#PWR02" H 6000 7050 50  0001 C CNN
+F 1 "GND" H 6000 7150 50  0000 C CNN
+F 2 "" H 6000 7300 50  0001 C CNN
+F 3 "" H 6000 7300 50  0001 C CNN
+	1    6000 7300
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -183,17 +172,6 @@ F 1 "GND" H 7150 2050 50  0000 C CNN
 F 2 "" H 7150 2200 50  0001 C CNN
 F 3 "" H 7150 2200 50  0001 C CNN
 	1    7150 2200
-	1    0    0    -1  
-$EndComp
-$Comp
-L C_Small 0.1pF2
-U 1 1 5B5364AE
-P 5850 6150
-F 0 "0.1pF2" H 5860 6220 50  0000 L CNN
-F 1 "C_Small" H 5860 6070 50  0000 L CNN
-F 2 "pic16f1:Capacitor" H 5850 6150 50  0001 C CNN
-F 3 "" H 5850 6150 50  0001 C CNN
-	1    5850 6150
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -441,8 +419,6 @@ Text Notes 3200 1600 0    60   ~ 0
 400kHz
 Text Notes 8000 1250 0    60   ~ 0
 256kbits
-Text Notes 4950 5700 0    60   ~ 0
-Push to start measurement for 3 sec
 Wire Wire Line
 	4150 3850 4150 3850
 Wire Wire Line
@@ -470,13 +446,9 @@ Wire Wire Line
 	9450 3150 9450 2100
 Connection ~ 6000 3350
 Wire Wire Line
-	4850 5800 5200 5800
+	6000 6900 5750 6900
 Wire Wire Line
-	4850 4350 4850 5800
-Wire Wire Line
-	6000 4350 4850 4350
-Wire Wire Line
-	6000 1850 6000 4350
+	6000 1850 6000 6900
 Wire Wire Line
 	5800 3350 6000 3350
 Wire Wire Line
@@ -521,10 +493,6 @@ Wire Wire Line
 	4000 2050 4000 2200
 Wire Wire Line
 	3650 2050 4000 2050
-Wire Wire Line
-	5850 6250 5850 6800
-Wire Wire Line
-	5400 6500 5850 6500
 Wire Wire Line
 	2450 1450 2450 1100
 Wire Wire Line
@@ -571,8 +539,6 @@ Wire Wire Line
 	9050 1600 9050 3150
 Wire Wire Line
 	8700 1600 9050 1600
-Wire Wire Line
-	5850 6800 6550 6800
 Connection ~ 7150 1500
 Wire Wire Line
 	7500 1400 7150 1400
@@ -631,7 +597,7 @@ Wire Wire Line
 Wire Wire Line
 	4000 2500 4000 3050
 Wire Wire Line
-	6550 6800 6550 7150
+	6000 7000 6000 7300
 $Comp
 L Conn_01x04_Female J1
 U 1 1 5B667D0B
@@ -644,10 +610,10 @@ F 3 "" H 2000 6350 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Conn_01x04_Female J2
+L Conn_01x04_Female J3
 U 1 1 5B66822E
 P 10400 3050
-F 0 "J2" H 10400 3250 50  0000 C CNN
+F 0 "J3" H 10400 3250 50  0000 C CNN
 F 1 "Conn_01x04_Female" H 10400 2750 50  0000 C CNN
 F 2 "pic16f1:pin-socket-4p" H 10400 3050 50  0001 C CNN
 F 3 "" H 10400 3050 50  0001 C CNN
@@ -688,10 +654,19 @@ Wire Wire Line
 	9950 2950 10200 2950
 Text Notes 2100 6500 0    60   ~ 0
 Connect to USB-UART converter with 5V power supply\nor a mobile battery 5V.
-NoConn ~ 5200 6500
+$Comp
+L Conn_01x02_Male J2
+U 1 1 5B669248
+P 5550 6900
+F 0 "J2" H 5550 7000 50  0000 C CNN
+F 1 "Conn_01x02_Male" H 5550 6700 50  0000 C CNN
+F 2 "pic16f1:Pin Header 2P" H 5550 6900 50  0001 C CNN
+F 3 "" H 5550 6900 50  0001 C CNN
+	1    5550 6900
+	1    0    0    -1  
+$EndComp
 Wire Wire Line
-	5400 5800 5850 5800
-Wire Wire Line
-	5850 5800 5850 6050
-Connection ~ 5850 6500
+	6000 7000 5750 7000
+Text Notes 4250 7000 0    60   ~ 0
+Connect to a tactile SW
 $EndSCHEMATC
