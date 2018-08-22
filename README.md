@@ -97,7 +97,7 @@ I have already developed a GPS gadget [in this project](https://github.com/araob
 
 ## Deep learning
 
-I don't know if deep learning can be applied to problems of physics or not, but I will try to solve part of problems anyway, just for curiosity. I am using Google Colaboratory to learn TensorFlow.
+I have just tested a simle neural network with TensorFlow to classify human body movement. [The notebook is here](./tensorflow/machine_learning_hidden_softmax.ipynb).
 
 Reference: 
 - [DEEP CONVOLUTIONAL NETWORKS ON THE PITCH SPIRAL FOR
