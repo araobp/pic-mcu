@@ -97,7 +97,7 @@ I have already developed a GPS gadget [in this project](https://github.com/araob
 
 ## Deep learning
 
-I have just tested a simle neural network with TensorFlow to classify human body movement. [The notebook is here](./tensorflow/machine_learning_hidden_softmax.ipynb).
+I have just tested a simple neural network with TensorFlow to classify human body movement. [The notebook is here](./tensorflow/machine_learning_hidden_softmax.ipynb).
 
 Reference: 
 - [DEEP CONVOLUTIONAL NETWORKS ON THE PITCH SPIRAL FOR
