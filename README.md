@@ -61,6 +61,20 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 
 ![](./jupyter/raw_data_gravity_free_fall.jpg)
 
+#### Deep learning with TensorFlow
+
+I use the instrument to record data as an input for machine learning (training and testing).
+
+I have just tested a simple CNN with TensorFlow to classify human body movement. [The notebook is here](./tensorflow/machine_learning_CNN.ipynb).
+
+Reference: 
+- [Time series classification with Tensorflow](https://burakhimmetoglu.com/2017/08/22/time-series-classification-with-tensorflow/)
+- [DEEP CONVOLUTIONAL NETWORKS ON THE PITCH SPIRAL FOR
+MUSICAL INSTRUMENT RECOGNITION](https://arxiv.org/pdf/1605.06644.pdf)
+- [Using Deep and Convolutional Neural Networks for
+Accurate Emotion Classification on DEAP Dataset](https://www.aaai.org/ocs/index.php/IAAI/IAAI17/paper/download/15007/13731)
+- [Pros and Cons of Neural Networks](https://towardsdatascience.com/hype-disadvantages-of-neural-networks-6af04904ba5b)
+
 ## [Instrument 2] Measuring heat conduction with thermistor
 
 Measure thermal conductivity and specific heat of iron, copper and alminium.
@@ -90,24 +104,6 @@ Barometer:
 #### Project documentation
 
 - [Specification draft](https://docs.google.com/presentation/d/e/2PACX-1vTFWhwneuLkQ1FZPOrrmI1i-VYzVfW0b4dV-kViTS8dXYShsPu_ecb1oB_iyxuuK2mhmNJEHwSKUAcR/pub?start=false&loop=false&delayms=3000)
-
-## [Instrument 4] GPS and inertial navigation
-
-I have already developed a GPS gadget [in this project](https://github.com/araobp/gps_android). I will add an [inertial navigation system](https://en.wikipedia.org/wiki/Inertial_navigation_system) to the gadget.
-
-## Deep learning with TensorFlow
-
-I use the Instrument 1 to generate a data set as an input for machine learning (training and testing).
-
-I have just tested a simple CNN with TensorFlow to classify human body movement. [The notebook is here](./tensorflow/machine_learning_CNN.ipynb).
-
-Reference: 
-- [Time series classification with Tensorflow](https://burakhimmetoglu.com/2017/08/22/time-series-classification-with-tensorflow/)
-- [DEEP CONVOLUTIONAL NETWORKS ON THE PITCH SPIRAL FOR
-MUSICAL INSTRUMENT RECOGNITION](https://arxiv.org/pdf/1605.06644.pdf)
-- [Using Deep and Convolutional Neural Networks for
-Accurate Emotion Classification on DEAP Dataset](https://www.aaai.org/ocs/index.php/IAAI/IAAI17/paper/download/15007/13731)
-- [Pros and Cons of Neural Networks](https://towardsdatascience.com/hype-disadvantages-of-neural-networks-6af04904ba5b)
 
 ## Tips
 
