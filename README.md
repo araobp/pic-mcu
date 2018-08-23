@@ -20,9 +20,9 @@ I developed I2C-based plug & play protocol and CAN driver for the evaluation boa
 - [I2C-based plug & play protocol](https://github.com/araobp/sensor-network)
 - [CAN driver](https://github.com/araobp/can-bus)
 
-## [Instrument 1] Motion sensor with PIC16F18326, MPU9255 and A1324LUA-T
+## [Instrument 1] Motion logger with PIC16F18326, MPU9255, A1324LUA-T and EEPROM
 
-I will develop a small 9-axis sensor unit with [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf) and [MPU9255](https://stanford.edu/class/ee267/misc/MPU-9255-Datasheet.pdf). I will use this for experiments of mechanics (physics).
+I will develop a small 9-axis motion logger with [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf) and [MPU9255](https://stanford.edu/class/ee267/misc/MPU-9255-Datasheet.pdf). I will use this for experiments of mechanics (physics).
 
 ![](./doc/mpu9250_front.jpg)
 
@@ -95,11 +95,14 @@ Barometer:
 
 I have already developed a GPS gadget [in this project](https://github.com/araobp/gps_android). I will add an [inertial navigation system](https://en.wikipedia.org/wiki/Inertial_navigation_system) to the gadget.
 
-## Deep learning
+## Deep learning with TensorFlow
+
+I use the Instrument 1 to generate a data set as an input for machine learning (training and testing).
 
 I have just tested a simple neural network with TensorFlow to classify human body movement. [The notebook is here](./tensorflow/machine_learning_hidden_softmax.ipynb).
 
 Reference: 
+- [Time series classification with Tensorflow](https://burakhimmetoglu.com/2017/08/22/time-series-classification-with-tensorflow/)
 - [DEEP CONVOLUTIONAL NETWORKS ON THE PITCH SPIRAL FOR
 MUSICAL INSTRUMENT RECOGNITION](https://arxiv.org/pdf/1605.06644.pdf)
 - [Using Deep and Convolutional Neural Networks for
