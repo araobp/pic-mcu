@@ -99,7 +99,7 @@ I have already developed a GPS gadget [in this project](https://github.com/araob
 
 I use the Instrument 1 to generate a data set as an input for machine learning (training and testing).
 
-I have just tested a simple neural network with TensorFlow to classify human body movement. [The notebook is here](./tensorflow/machine_learning_hidden_softmax.ipynb).
+I have just tested a simple CNN with TensorFlow to classify human body movement. [The notebook is here](./tensorflow/machine_learning_CNN.ipynb).
 
 Reference: 
 - [Time series classification with Tensorflow](https://burakhimmetoglu.com/2017/08/22/time-series-classification-with-tensorflow/)
