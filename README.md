@@ -67,7 +67,7 @@ I use the instrument to record data as an input for machine learning (training a
 
 I have just tested two patterns: a simple CNN and a couple of hidden layers with TensorFlow to classify human body movement:
 - [CNN](./tensorflow/machine_learning_CNN.ipynb)
-- [Two hidden layers](./tensorflow/machine_learning_two_hidden_layers.ipynb)
+- [multiple hidden layers](./tensorflow/machine_learning_multiple_hidden_layers.ipynb)
 
 Reference: 
 - [Time series classification with Tensorflow](https://burakhimmetoglu.com/2017/08/22/time-series-classification-with-tensorflow/)
