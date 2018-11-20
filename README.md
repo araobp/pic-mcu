@@ -61,21 +61,10 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 
 ![](./jupyter/raw_data_gravity_free_fall.jpg)
 
-#### Deep learning with TensorFlow
+#### Deep learning with Keras/TensorFlow
 
-I use the instrument to record data as an input for machine learning (training and testing).
-
-I have just tested two patterns: a simple CNN and a couple of hidden layers with TensorFlow to classify human body movement:
-- [CNN](./tensorflow/machine_learning_CNN.ipynb)
-- [multiple hidden layers](./tensorflow/machine_learning_multiple_hidden_layers.ipynb)
-
-Reference: 
-- [Time series classification with Tensorflow](https://burakhimmetoglu.com/2017/08/22/time-series-classification-with-tensorflow/)
-- [DEEP CONVOLUTIONAL NETWORKS ON THE PITCH SPIRAL FOR
-MUSICAL INSTRUMENT RECOGNITION](https://arxiv.org/pdf/1605.06644.pdf)
-- [Using Deep and Convolutional Neural Networks for
-Accurate Emotion Classification on DEAP Dataset](https://www.aaai.org/ocs/index.php/IAAI/IAAI17/paper/download/15007/13731)
-- [Pros and Cons of Neural Networks](https://towardsdatascience.com/hype-disadvantages-of-neural-networks-6af04904ba5b)
+I use the instrument to record data as an input for machine learning (training and testing):
+- [CNN](./tensorflow/machine_learning_CNN_Keras.ipynb)
 
 ## [Instrument 2] Measuring heat conduction with thermistor
 
