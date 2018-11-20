@@ -64,7 +64,7 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 #### Deep learning with Keras/TensorFlow
 
 I use the instrument to record data as an input for machine learning (training and testing):
-- [CNN](./tensorflow/machine_learning_CNN_Keras.ipynb)
+- [CNN on Keras/TensorFlow](./tensorflow/machine_learning_CNN_Keras.ipynb)
 
 ## [Instrument 2] Measuring heat conduction with thermistor
 
