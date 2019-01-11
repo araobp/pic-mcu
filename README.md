@@ -1,10 +1,10 @@
-# PIC16F1 as measuring instruments for learning Physics
+# Software components of IoT/AI on Microchip PIC16F1 
 
 ![](./doc/motion_measurement_system.jpg)
 
 ## Background
 
-Use [PIC16F1 DIP (14 pins, such as PIC16F18326 or PIC16F1825)](http://microchipdeveloper.com/mcu1102:start) to develop a measuring instrument for learning Physics. It is very small and very cheap, but it has a lot of capabilities comparable to Arduino.
+Use [PIC16F1 DIP (14 pins, such as PIC16F18326 or PIC16F1825)](http://microchipdeveloper.com/mcu1102:start) to develop a measuring instrument for IoT/AI. It is very small and very cheap, but it has a lot of capabilities comparable to Arduino.
 
 #### My original PIC16F1 evaluation board
 
@@ -20,7 +20,10 @@ I developed I2C-based plug & play protocol and CAN driver for the evaluation boa
 - [I2C-based plug & play protocol](https://github.com/araobp/sensor-network)
 - [CAN driver](https://github.com/araobp/can-bus)
 
-## [Instrument 1] Motion logger with PIC16F18326, MPU9255, A1324LUA-T and EEPROM
+I am also adding low-power wireless:
+- [TWELITE](https://mono-wireless.com/en/)
+
+## [Component 1] Motion logger with PIC16F18326, MPU9255, A1324LUA-T and EEPROM
 
 I will develop a small 9-axis motion logger with [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf) and [MPU9255](https://stanford.edu/class/ee267/misc/MPU-9255-Datasheet.pdf). I will use this for experiments of mechanics (physics).
 
@@ -61,51 +64,18 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 
 ![](./jupyter/raw_data_gravity_free_fall.jpg)
 
-#### Deep learning with TensorFlow
+#### Deep learning with Keras/TensorFlow
 
-I use the instrument to record data as an input for machine learning (training and testing).
+I use the instrument to record data as an input for machine learning (training and testing):
+- [CNN on Keras/TensorFlow](./tensorflow/machine_learning_CNN_Keras.ipynb)
 
-I have just tested two patterns: a simple CNN and a couple of hidden layers with TensorFlow to classify human body movement:
-- [CNN](./tensorflow/machine_learning_CNN.ipynb)
-- [multiple hidden layers](./tensorflow/machine_learning_multiple_hidden_layers.ipynb)
+## [Component 2] I2C adaptor for TWELITE
 
-Reference: 
-- [Time series classification with Tensorflow](https://burakhimmetoglu.com/2017/08/22/time-series-classification-with-tensorflow/)
-- [DEEP CONVOLUTIONAL NETWORKS ON THE PITCH SPIRAL FOR
-MUSICAL INSTRUMENT RECOGNITION](https://arxiv.org/pdf/1605.06644.pdf)
-- [Using Deep and Convolutional Neural Networks for
-Accurate Emotion Classification on DEAP Dataset](https://www.aaai.org/ocs/index.php/IAAI/IAAI17/paper/download/15007/13731)
-- [Pros and Cons of Neural Networks](https://towardsdatascience.com/hype-disadvantages-of-neural-networks-6af04904ba5b)
+Although the default firmware on TWELITE supports I2C gateway capabilties, it is intended to transfer a few bytes of data at a time. I need to transfer data the size of 128 bytes at a time over TWELITE, so I am going to develop an I2C gateway on PIC16F1 for TWELITE.
 
-## [Instrument 2] Measuring heat conduction with thermistor
-
-Measure thermal conductivity and specific heat of iron, copper and alminium.
-
-I use "A/D converter to UART bridge" developed in [my other project on github.com](https://github.com/araobp/motion-detector).
-
-Thermistor:
-- [103AT-2](http://akizukidenshi.com/catalog/g/gP-07258/)
-- [103AT-11](http://akizukidenshi.com/catalog/g/gP-07257/)
-
-## [Instrument 3] Atmospheric pressure and temperature sensor with MPL115A1 and thermistor
-
-Experiments on Boyle's law and Charles's law:
 ```
-PV = nRT
+[I2C slave]--I2C--[I2C master(PIC16F1)]--UART--[TWELITE slave]--low-power-wireless--[TWELITE master]--UART-->
 ```
-
-#### Datasheet
-
-Thermistor:
-- [103AT-2](http://akizukidenshi.com/catalog/g/gP-07258/)
-- [103AT-11](http://akizukidenshi.com/catalog/g/gP-07257/)
-
-Barometer:
-- [Freescale(NXP) MPL115A1](http://akizukidenshi.com/download/ds/freescale/MPL115A1.pdf)
-
-#### Project documentation
-
-- [Specification draft](https://docs.google.com/presentation/d/e/2PACX-1vTFWhwneuLkQ1FZPOrrmI1i-VYzVfW0b4dV-kViTS8dXYShsPu_ecb1oB_iyxuuK2mhmNJEHwSKUAcR/pub?start=false&loop=false&delayms=3000)
 
 ## Tips
 
