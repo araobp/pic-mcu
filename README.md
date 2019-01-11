@@ -23,7 +23,7 @@ I developed I2C-based plug & play protocol and CAN driver for the evaluation boa
 I am also adding low-power wireless:
 - [TWELITE](https://mono-wireless.com/en/)
 
-## [Instrument 1] Motion logger with PIC16F18326, MPU9255, A1324LUA-T and EEPROM
+## [Component 1] Motion logger with PIC16F18326, MPU9255, A1324LUA-T and EEPROM
 
 I will develop a small 9-axis motion logger with [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf) and [MPU9255](https://stanford.edu/class/ee267/misc/MPU-9255-Datasheet.pdf). I will use this for experiments of mechanics (physics).
 
@@ -69,7 +69,7 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 I use the instrument to record data as an input for machine learning (training and testing):
 - [CNN on Keras/TensorFlow](./tensorflow/machine_learning_CNN_Keras.ipynb)
 
-## [Instrument 2] I2C adaptor for TWELITE
+## [Component 2] I2C adaptor for TWELITE
 
 Although the default firmware on TWELITE supports I2C gateway capabilties, it is intended to transfer a few bytes of data at a time. I need to transfer data the size of 128 bytes at a time over TWELITE, so I am going to develop an I2C gateway on PIC16F1 for TWELITE.
 
