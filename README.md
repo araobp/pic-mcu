@@ -1,10 +1,10 @@
-# PIC16F1 as measuring instruments for learning Physics
+# https://mono-wireless.com/en/
 
 ![](./doc/motion_measurement_system.jpg)
 
 ## Background
 
-Use [PIC16F1 DIP (14 pins, such as PIC16F18326 or PIC16F1825)](http://microchipdeveloper.com/mcu1102:start) to develop a measuring instrument for learning Physics. It is very small and very cheap, but it has a lot of capabilities comparable to Arduino.
+Use [PIC16F1 DIP (14 pins, such as PIC16F18326 or PIC16F1825)](http://microchipdeveloper.com/mcu1102:start) to develop a measuring instrument for IoT/AI. It is very small and very cheap, but it has a lot of capabilities comparable to Arduino.
 
 #### My original PIC16F1 evaluation board
 
