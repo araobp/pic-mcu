@@ -20,6 +20,9 @@ I developed I2C-based plug & play protocol and CAN driver for the evaluation boa
 - [I2C-based plug & play protocol](https://github.com/araobp/sensor-network)
 - [CAN driver](https://github.com/araobp/can-bus)
 
+I am also adding low-power wireless:
+- [TWELITE](https://mono-wireless.com/en/)
+
 ## [Instrument 1] Motion logger with PIC16F18326, MPU9255, A1324LUA-T and EEPROM
 
 I will develop a small 9-axis motion logger with [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf) and [MPU9255](https://stanford.edu/class/ee267/misc/MPU-9255-Datasheet.pdf). I will use this for experiments of mechanics (physics).
@@ -65,36 +68,6 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 
 I use the instrument to record data as an input for machine learning (training and testing):
 - [CNN on Keras/TensorFlow](./tensorflow/machine_learning_CNN_Keras.ipynb)
-
-## [Instrument 2] Measuring heat conduction with thermistor
-
-Measure thermal conductivity and specific heat of iron, copper and alminium.
-
-I use "A/D converter to UART bridge" developed in [my other project on github.com](https://github.com/araobp/motion-detector).
-
-Thermistor:
-- [103AT-2](http://akizukidenshi.com/catalog/g/gP-07258/)
-- [103AT-11](http://akizukidenshi.com/catalog/g/gP-07257/)
-
-## [Instrument 3] Atmospheric pressure and temperature sensor with MPL115A1 and thermistor
-
-Experiments on Boyle's law and Charles's law:
-```
-PV = nRT
-```
-
-#### Datasheet
-
-Thermistor:
-- [103AT-2](http://akizukidenshi.com/catalog/g/gP-07258/)
-- [103AT-11](http://akizukidenshi.com/catalog/g/gP-07257/)
-
-Barometer:
-- [Freescale(NXP) MPL115A1](http://akizukidenshi.com/download/ds/freescale/MPL115A1.pdf)
-
-#### Project documentation
-
-- [Specification draft](https://docs.google.com/presentation/d/e/2PACX-1vTFWhwneuLkQ1FZPOrrmI1i-VYzVfW0b4dV-kViTS8dXYShsPu_ecb1oB_iyxuuK2mhmNJEHwSKUAcR/pub?start=false&loop=false&delayms=3000)
 
 ## Tips
 
