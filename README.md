@@ -69,6 +69,14 @@ Note2: [MPU9250(incl. 9255) is not recommended for new designs](https://www.inve
 I use the instrument to record data as an input for machine learning (training and testing):
 - [CNN on Keras/TensorFlow](./tensorflow/machine_learning_CNN_Keras.ipynb)
 
+## [Instrument 2] I2C adaptor for TWELITE
+
+Although the default firmware on TWELITE supports I2C gateway capabilties, it is intended to transfer a few bytes of data at a time. I need to transfer data the size of 128 bytes at a time over TWELITE, so I am going to develop an I2C gateway on PIC16F1 for TWELITE.
+
+```
+[I2C slave]--I2C--[I2C master(PIC16F1)]--UART--[TWELITE slave]--low-power-wireless--[TWELITE master]--UART-->
+```
+
 ## Tips
 
 #### Microchip XC8 C compiler
