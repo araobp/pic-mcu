@@ -1,6 +1,6 @@
-## [Component 1] Motion logger with PIC16F18326, MPU9255, A1324LUA-T and EEPROM
+# Motion logger with PIC16F18326, MPU9255, A1324LUA-T and EEPROM
 
-I will develop a small 9-axis motion logger with [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf) and [MPU9255](https://stanford.edu/class/ee267/misc/MPU-9255-Datasheet.pdf). I will use this for experiments of mechanics (physics).
+I develop a small 9-axis motion logger with [PIC16F18326](http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf) and [MPU9255](https://stanford.edu/class/ee267/misc/MPU-9255-Datasheet.pdf).
 
 ![](./doc/mpu9250_front.jpg)
 
