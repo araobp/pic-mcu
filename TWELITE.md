@@ -32,3 +32,19 @@ So I just ignore MSB bytes from the sensor, and transfer LSB bytes to TWELITE. I
 Temperature range: 0 - 63.5 degrees Celsius (63.5/0.25 = 0xfe)
 
 Note: the sensor also outputs temperature data from a thermistor on the chip. I transfer both MSB and LSB in this case.
+
+## Command sequence
+
+This command sequence (polling) is optimized for decreasing the power consumption.
+
+```
+ PIC16F1825           
+ (as server)          Client
+     |                  |
+     |<----- 'p' -------|
+     |---- pixels ----->|
+     |        :         |
+     |<----- 't' -------|
+     |--- thermistor -->|
+     |        :         |
+```
