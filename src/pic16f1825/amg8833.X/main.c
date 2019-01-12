@@ -1,5 +1,6 @@
 #include "mcc_generated_files/mcc.h"
 #include "amg8833.h"
+#include <stdbool.h>
 
 void main(void)
 {
@@ -10,6 +11,8 @@ void main(void)
     INTERRUPT_GlobalInterruptEnable();
     INTERRUPT_PeripheralInterruptEnable();
 
+    set_moving_average(true);
+    
     while (1)
     {
         if (EUSART_DataReady) {

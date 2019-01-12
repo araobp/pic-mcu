@@ -783,7 +783,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="MSSP" registerAlias="SSPSTAT" settingAlias="SMP"/>
-         <value>High Speed</value>
+         <value>Standard Speed</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="Pin Module" name="ioc RA3"/>
@@ -1023,7 +1023,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.RegisterKey" moduleName="MSSP" registerAlias="SSPSTAT"/>
-         <value>0</value>
+         <value>128</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="Pin Module" registerAlias="LATC" settingAlias="LATC3"/>
@@ -1047,7 +1047,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="MSSP" name="BaudRateValue"/>
-         <value>31</value>
+         <value>19</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="MSSP" registerAlias="BCLI" settingAlias="order"/>
@@ -1303,7 +1303,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="MSSP" name="i2cMasterspeedControl"/>
-         <value>High Speed</value>
+         <value>Standard Speed</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="Pin Module" registerAlias="ANSELC" settingAlias="ANSC1" alias="digital"/>
@@ -1331,7 +1331,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.RegisterKey" moduleName="MSSP" registerAlias="SSPADD"/>
-         <value>31</value>
+         <value>19</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="Pin Module" registerAlias="IOCAP" settingAlias="IOCAP1"/>
@@ -1747,7 +1747,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="MSSP" name="ClockFrequency"/>
-         <value>250 kHz</value>
+         <value>400 kHz</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="EUSART" registerAlias="TXSTA" settingAlias="TXEN" alias="disabled"/>
@@ -1935,7 +1935,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="MSSP" registerAlias="SSPADD" settingAlias="SSPADD"/>
-         <value>31</value>
+         <value>19</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="Pin Module" registerAlias="WPUC" settingAlias="WPUC2" alias="clear"/>
@@ -2706,12 +2706,12 @@
          <value>0</value>
       </entry>
       <entry>
-         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="Interrupt Module" name="IVT_NAME"/>
-         <value>IVT1</value>
-      </entry>
-      <entry>
          <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="System Module" registerAlias="CONFIG1" settingAlias="CP" alias="OFF"/>
          <value>128</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="Interrupt Module" name="IVT_NAME"/>
+         <value>IVT1</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="MSSP" registerAlias="SSPCON3" settingAlias="SBCDE" alias="enabled"/>
@@ -2840,16 +2840,16 @@
    </tokenMap>
    <generatedFileHashHistoryMap class="java.util.HashMap">
       <entry>
-         <file>mcc_generated_files\interrupt_manager.h</file>
-         <hash>2c900f6a97d5faaca3d0b508f8b723138c3e71500163e852e93a46c101dc3bf8</hash>
-      </entry>
-      <entry>
          <file>mcc_generated_files\mcc.h</file>
          <hash>2e88b11ffd6ca00b886f89a446998f3fd2a8a172bd6785c5c3f3ce264af046e8</hash>
       </entry>
       <entry>
          <file>mcc_generated_files\device_config.h</file>
          <hash>b4d602aaa12c284c6ad8c47fdab70981258f614abf29ccbd8712da7e9f25c13d</hash>
+      </entry>
+      <entry>
+         <file>mcc_generated_files\interrupt_manager.h</file>
+         <hash>2c900f6a97d5faaca3d0b508f8b723138c3e71500163e852e93a46c101dc3bf8</hash>
       </entry>
       <entry>
          <file>main.c</file>
@@ -2877,15 +2877,15 @@
       </entry>
       <entry>
          <file>mcc_generated_files\i2c.c</file>
-         <hash>c35e8a150dea26c0439d2d0bbbe173de28acf15edbfdc837446cf893f492dfcb</hash>
-      </entry>
-      <entry>
-         <file>mcc_generated_files\interrupt_manager.c</file>
-         <hash>0348b0b48ed5f1f462cd2efa2b0ead14e0f6e7e4afe54acc0a9d05784846e74e</hash>
+         <hash>a34c5185ac2156d8d85ec4db47e9149ac21cbf85cab4db801f25fca19a652cb0</hash>
       </entry>
       <entry>
          <file>mcc_generated_files\mcc.c</file>
          <hash>370a1152cbde44398a59e2a1ea36d77352d90be0e0940b6b61a507e12575d4ca</hash>
+      </entry>
+      <entry>
+         <file>mcc_generated_files\interrupt_manager.c</file>
+         <hash>0348b0b48ed5f1f462cd2efa2b0ead14e0f6e7e4afe54acc0a9d05784846e74e</hash>
       </entry>
       <entry>
          <file>mcc_generated_files\i2c.h</file>

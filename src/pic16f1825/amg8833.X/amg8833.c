@@ -39,11 +39,19 @@ void set_moving_average(bool enable) {
     }
 }
 
+#define DEBUG
+
 // Transmit data to UART TX
 void uart_transmit(char *pbuf, int len) {
     for (int i=0; i<len; i++) {
+#ifndef DEBUG
         putchar(pbuf[i]);
-    }   
+    }
+#else
+        printf("%d,", pbuf[i]);
+    }
+    printf("%d\n", 0xff);
+#endif
 }
 
 /**
@@ -53,6 +61,9 @@ void read_thermistor_temp(void) {
     uint8_t err;
     float temp;
     err = i2c_read(AMG8833_DEV_ADDR, AMG8833_TTHL_ADDR, buf, AMG8833_THERMISTOR_DATA_LENGTH);
+#ifdef DEBUG
+    buf[0] = (int)((float)(buf[1] * 256 + buf[0]) * AMG8833_THERMISTOR_RESOLUTION);
+#endif
     uart_transmit((char *)buf, AMG8833_THERMISTOR_DATA_LENGTH);
 }
 
@@ -65,6 +76,9 @@ void read_64pixels_temp(void) {
     err = i2c_read(AMG8833_DEV_ADDR, AMG8833_T01L_ADDR, buf, AMG8833_PIXEL_DATA_LENGTH);
     for (int i=0; i<AMG8833_PIXEL_DATA_LENGTH/2; i++) {
         buf[i] = buf[i*2];  // Ignore MSB of a pair of [LSB, MSB]
+#ifdef DEBUG
+        buf[i] = (int)((float)buf[i] * AMG8833_PIXEL_RESOLUTION);
+#endif
     }
     uart_transmit((char *)buf, AMG8833_PIXEL_DATA_LENGTH/2);    
 }
