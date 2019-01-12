@@ -51,8 +51,9 @@ This command sequence (polling) is optimized for decreasing the power consumptio
 
 ## Specification of the co-processor (PIC16F1825)
 
-|Peripheral|Value                   |
+|          | Value                  |
 |----------|------------------------|
+|Power     | 3.0V DC (AAA battery x 2)      |
 |CPU Clock | 8MHz x 4 (PLL) = 32MHz |
 |UART      | 115200bps              |
 |I2C Clock | 250kHz                 |
