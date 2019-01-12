@@ -4,6 +4,8 @@
 #include "i2c_util.h"
 #include "amg8833.h"
 
+//#define DEBUG
+
 uint8_t buf[AMG8833_PIXEL_DATA_LENGTH];
 
 /**
@@ -39,19 +41,38 @@ void set_moving_average(bool enable) {
     }
 }
 
-#define DEBUG
+void uart_twelite_transmit(char *pbuf, uint8_t len) {
+    static uint8_t seq = 0;
+    static uint8_t cs;
+    
+    cs = 0x00 ^ 0xA0 ^ seq++ ^ 0x01 ^ 0xff;
+    
+    //-- Header and data length
+    putchar(0xA5); // Binary transfer mode header
+    putchar(0x5A); // Binary transfer mode header
+    putchar(0x80); // Data length MSB
+    putchar((char)(len+5));  // Data length LSB
+    //--- Data ---
+    putchar(0x00);  // Destination is "parent node"
+    putchar(0xA0);  // Byte (fixed)
+    putchar((char)seq);  // Sequence number
+    putchar(0x01);  // ACK enabled
+    putchar(0xFF);  // Terminator
+    for(int i=0;i<len;i++) {  // Payload
+        putchar(pbuf[i]);
+        cs = cs ^ pbuf[i];
+    }
+    //--- Checksum
+    putchar((char)cs);  // Checksum
+}
+
 
 // Transmit data to UART TX
 void uart_transmit(char *pbuf, int len) {
     for (int i=0; i<len; i++) {
-#ifndef DEBUG
-        putchar(pbuf[i]);
-    }
-#else
         printf("%d,", pbuf[i]);
     }
     printf("%d\n", 0xff);
-#endif
 }
 
 /**
@@ -63,8 +84,10 @@ void read_thermistor_temp(void) {
     err = i2c_read(AMG8833_DEV_ADDR, AMG8833_TTHL_ADDR, buf, AMG8833_THERMISTOR_DATA_LENGTH);
 #ifdef DEBUG
     buf[0] = (int)((float)(buf[1] * 256 + buf[0]) * AMG8833_THERMISTOR_RESOLUTION);
-#endif
     uart_transmit((char *)buf, AMG8833_THERMISTOR_DATA_LENGTH);
+#else
+    uart_twelite_transmit((char *)buf, AMG8833_THERMISTOR_DATA_LENGTH);
+#endif
 }
 
 /**
@@ -78,7 +101,10 @@ void read_64pixels_temp(void) {
         buf[i] = buf[i*2];  // Ignore MSB of a pair of [LSB, MSB]
 #ifdef DEBUG
         buf[i] = (int)((float)buf[i] * AMG8833_PIXEL_RESOLUTION);
-#endif
     }
-    uart_transmit((char *)buf, AMG8833_PIXEL_DATA_LENGTH/2);    
+    uart_transmit((char *)buf, AMG8833_PIXEL_DATA_LENGTH/2);
+#else
+    }
+    uart_twelite_transmit((char *)buf, AMG8833_PIXEL_DATA_LENGTH/2);    
+#endif
 }
