@@ -12,7 +12,7 @@ I developed my original PIC16F1 evaluation board in 2017, and I have used this b
 
 ![](https://docs.google.com/drawings/d/e/2PACX-1vTHoT0TZIyVhAgkDVHyuWkc1-_6oFHT2mF53g2q36bgH_qxplkvvRIkJ3PqJBNuTZauhhMmSiemMoZO/pub?w=680&h=400)
 
-## Components in development
+## Application components
 
 - [Motion logger](MOTION_LOGGER.md)
 - [I2C adaptor for TWELITE](TWELITE.md]
