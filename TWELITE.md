@@ -53,10 +53,12 @@ This command sequence (polling) is optimized for decreasing the power consumptio
 
 |          | Value                  |
 |----------|------------------------|
-|Power     | 3.0V DC (AAA battery x 2)      |
+|VDD       | 3.0V DC (AAA battery x 2)      |
+|Power consumption| a few mA        |
 |CPU Clock | 8MHz HF                |
 |UART      | 19200bps               |
 |I2C Clock | 250kHz                 |
 
+Note: The CPU clock frequency will be increased depending on the use case.
 
 
