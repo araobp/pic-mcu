@@ -8,7 +8,8 @@
 
 ### Infrared array sensor (Panasonic AMG8833)
 
-- [Datasheet](https://cdn-learn.adafruit.com/assets/assets/000/043/261/original/Grid-EYE_SPECIFICATIONS%28Reference%29.pdf?1498680225)
+I use [AMG8833](https://cdn-learn.adafruit.com/assets/assets/000/043/261/original/Grid-EYE_SPECIFICATIONS%28Reference%29.pdf?1498680225
+) from Panasonic.
 
 ## Why I use PIC16F1 with TWELITE
 
