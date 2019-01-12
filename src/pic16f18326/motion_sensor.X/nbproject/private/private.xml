@@ -6,6 +6,8 @@
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/motion_sensor.X/i2c_util.c</file>
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/motion_sensor.X/speed.c</file>
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/motion_sensor.X/main.c</file>
+            <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/motion_sensor.X/mpu9250.h</file>
+            <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/motion_sensor.X/mpu9250.c</file>
         </group>
     </open-files>
 </project-private>

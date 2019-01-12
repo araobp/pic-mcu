@@ -1,13 +1,29 @@
 #include "mcc_generated_files/mcc.h"
+#include "amg8833.h"
 
 void main(void)
 {
+
+    char c;
+    
     SYSTEM_Initialize();
     INTERRUPT_GlobalInterruptEnable();
     INTERRUPT_PeripheralInterruptEnable();
 
     while (1)
     {
-        // Add your application code
+        if (EUSART_DataReady) {
+            c = EUSART_Read();
+            switch (c) {
+                case 't':  // Thermistor
+                    read_thermistor_temp();
+                    break;
+                case 'p':  // 64 pixels
+                    read_64pixels_temp();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

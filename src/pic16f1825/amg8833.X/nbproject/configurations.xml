@@ -10,9 +10,9 @@
         <itemPath>mcc_generated_files/interrupt_manager.h</itemPath>
         <itemPath>mcc_generated_files/pin_manager.h</itemPath>
         <itemPath>mcc_generated_files/device_config.h</itemPath>
-        <itemPath>mcc_generated_files/i2c.h</itemPath>
         <itemPath>mcc_generated_files/mcc.h</itemPath>
         <itemPath>mcc_generated_files/eusart.h</itemPath>
+        <itemPath>mcc_generated_files/i2c.h</itemPath>
       </logicalFolder>
       <itemPath>i2c_util.h</itemPath>
       <itemPath>amg8833.h</itemPath>
@@ -30,9 +30,9 @@
         <itemPath>mcc_generated_files/eusart.c</itemPath>
         <itemPath>mcc_generated_files/device_config.c</itemPath>
         <itemPath>mcc_generated_files/interrupt_manager.c</itemPath>
-        <itemPath>mcc_generated_files/i2c.c</itemPath>
         <itemPath>mcc_generated_files/mcc.c</itemPath>
         <itemPath>mcc_generated_files/pin_manager.c</itemPath>
+        <itemPath>mcc_generated_files/i2c.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
       <itemPath>i2c_util.c</itemPath>
