@@ -21,13 +21,12 @@ The SDK supports event-driven APIs to cope with such a problem, but I guess the 
 
 I use 8bit MCU as a co-processor of TWELITE just for receiving data from an infrared array sensor on I2C bus and transfer the data to TWELITE via UART.
 
-## 7bit quantization
+## 8bit quantization
 
 - Payload size of TWELITE's packet is 80, so I need to compress the image data.
 - The infrared array sensor outputs temperature data of each pixel in a range of 0 to 80 degreees Celsius.
 - Room temperature is usually in a range of 10 to 40.
 
-The resolution: (40 - 10)/2^7 = 0.23
+So I just ignore MSB bytes from the sensor, and transfer LSB bytes to TWELITE. I use 0xFF as a delimiter of data.
 
-I use 0xFF as a delimiter of data.
-
+Temperature range: 0 - 63.5 degrees Celsius (63.5/0.25 = 0xfe)
