@@ -54,8 +54,8 @@ This command sequence (polling) is optimized for decreasing the power consumptio
 |          | Value                  |
 |----------|------------------------|
 |Power     | 3.0V DC (AAA battery x 2)      |
-|CPU Clock | 8MHz x 4 (PLL) = 32MHz |
-|UART      | 115200bps              |
+|CPU Clock | 8MHz HF                |
+|UART      | 19200bps               |
 |I2C Clock | 250kHz                 |
 
 
