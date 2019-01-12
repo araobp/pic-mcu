@@ -1,4 +1,4 @@
-# Software components of IoT/AI on Microchip PIC16F1 
+# Application components of IoT/AI on Microchip PIC16F1 
 
 <img src="./doc/motion_measurement_system.jpg" width="500">
 
