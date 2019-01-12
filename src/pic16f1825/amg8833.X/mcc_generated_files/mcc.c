@@ -65,10 +65,6 @@ void OSCILLATOR_Initialize(void)
     OSCTUNE = 0x00;
     // SBOREN disabled; 
     BORCON = 0x00;
-    // Wait for PLL to stabilize
-    while(PLLR == 0)
-    {
-    }
 }
 
 void WDT_Initialize(void)
