@@ -16,6 +16,7 @@
       </logicalFolder>
       <itemPath>i2c_util.h</itemPath>
       <itemPath>amg8833.h</itemPath>
+      <itemPath>twelite.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -37,6 +38,7 @@
       <itemPath>main.c</itemPath>
       <itemPath>i2c_util.c</itemPath>
       <itemPath>amg8833.c</itemPath>
+      <itemPath>twelite.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

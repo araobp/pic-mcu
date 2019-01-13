@@ -3,7 +3,7 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>amg8833</name>
+            <name>twelite_amg8833</name>
             <creation-uuid>9c03576a-fd4e-4eea-856c-0e8d48a323a2</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>

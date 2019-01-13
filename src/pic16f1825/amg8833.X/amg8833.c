@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "i2c_util.h"
 #include "amg8833.h"
+#include "twelite.h"
 
 //#define DEBUG
 
@@ -16,14 +17,14 @@ void set_moving_average(bool enable) {
     uint8_t reg_addr_sequence[5] = {AMG8833_1F_ADDR, AMG8833_1F_ADDR, AMG8833_1F_ADDR,
         AMG8833_AVE_ADDR, AMG8833_1F_ADDR};
 
-    const uint8_t enable_sequence[5][2] = {
+    uint8_t enable_sequence[5][2] = {
         {AMG8833_1F_ADDR, 0x50},
         {AMG8833_1F_ADDR, 0x45},
         {AMG8833_1F_ADDR, 0x57},
         {AMG8833_AVE_ADDR, 0x20},
         {AMG8833_1F_ADDR, 0x00}};
 
-    const uint8_t disable_sequence[5][2] = {
+    uint8_t disable_sequence[5][2] = {
         {AMG8833_1F_ADDR, 0x50},
         {AMG8833_1F_ADDR, 0x45},
         {AMG8833_1F_ADDR, 0x57},
@@ -40,32 +41,6 @@ void set_moving_average(bool enable) {
         }        
     }
 }
-
-void uart_twelite_transmit(char *pbuf, uint8_t len) {
-    static uint8_t seq = 0;
-    static uint8_t cs;
-    
-    cs = 0x00 ^ 0xA0 ^ seq++ ^ 0x01 ^ 0xff;
-    
-    //-- Header and data length
-    putchar(0xA5); // Binary transfer mode header
-    putchar(0x5A); // Binary transfer mode header
-    putchar(0x80); // Data length MSB
-    putchar((char)(len+5));  // Data length LSB
-    //--- Data ---
-    putchar(0x00);  // Destination is "parent node"
-    putchar(0xA0);  // Byte (fixed)
-    putchar((char)seq);  // Sequence number
-    putchar(0x01);  // ACK enabled
-    putchar(0xFF);  // Terminator
-    for(int i=0;i<len;i++) {  // Payload
-        putchar(pbuf[i]);
-        cs = cs ^ pbuf[i];
-    }
-    //--- Checksum
-    putchar((char)cs);  // Checksum
-}
-
 
 // Transmit data to UART TX
 void uart_transmit(char *pbuf, int len) {
@@ -86,7 +61,7 @@ void read_thermistor_temp(void) {
     buf[0] = (int)((float)(buf[1] * 256 + buf[0]) * AMG8833_THERMISTOR_RESOLUTION);
     uart_transmit((char *)buf, AMG8833_THERMISTOR_DATA_LENGTH);
 #else
-    uart_twelite_transmit((char *)buf, AMG8833_THERMISTOR_DATA_LENGTH);
+    twelite_uart_tx((char *)buf, AMG8833_THERMISTOR_DATA_LENGTH);
 #endif
 }
 
@@ -105,6 +80,6 @@ void read_64pixels_temp(void) {
     uart_transmit((char *)buf, AMG8833_PIXEL_DATA_LENGTH/2);
 #else
     }
-    uart_twelite_transmit((char *)buf, AMG8833_PIXEL_DATA_LENGTH/2);    
+    twelite_uart_tx((char *)buf, AMG8833_PIXEL_DATA_LENGTH/2);    
 #endif
 }
