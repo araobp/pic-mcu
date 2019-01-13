@@ -61,7 +61,11 @@ This command sequence (polling) is optimized for decreasing the power consumptio
 
 Note: The CPU clock frequency will be increased depending on the use case.
 
-## Test
+## Experimet on the UART App
+
+```
+[parent.py/PC]--UART-->[TWELITE Stick] - - wireless - - [TWELITE DIP]--UART-->[Teraterm/PC]
+```
 
 "parent.py" transmited commands to Child 1 in the UART app binary mode.
 
