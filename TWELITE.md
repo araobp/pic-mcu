@@ -61,4 +61,31 @@ This command sequence (polling) is optimized for decreasing the power consumptio
 
 Note: The CPU clock frequency will be increased depending on the use case.
 
+## Test
+
+"parent.py" transmited commands to Child 1 in the UART app binary mode.
+
+Child 1 (Teraterm on PC) in the ASCII mode recived the following messages:
+```
+:00A000810E8F4100000101840001700A
+:00A000810E8F4100000101840001700A
+:00A001810E8F41000001018400017009
+:00A002810E8F41000001018400017008
+:00A003810E8F41000001018D000170FE
+:00A004810E8F41000001018A00017000
+:00A005810E8F41000001018400017005
+:00A006810E8F41000001017B0001700D
+:00A007810E8F41000001017E00017009
+:00A008810E8F41000001018400017002
+:00A009810E8F41000001018400017001
+:00A00A810E8F41000001017200017012
+```
+
+The data reads as follows:
+```
+:  00       A0    0A    810E8F41 00000101  72  0001   70       12
+ parent         seq No.                   LQI  len  data 'p'
+```
+
+[Reference](https://mono-wireless.com/jp/products/TWE-APPS/App_Uart/mode_format.html)
 
