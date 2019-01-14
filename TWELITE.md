@@ -55,11 +55,11 @@ This command sequence (polling) is optimized for decreasing the power consumptio
 |----------|------------------------|
 |VDD       | 3.0V DC (AAA battery x 2)      |
 |Power consumption| a few mA        |
-|CPU Clock | 8MHz HF                |
-|UART      | 19200bps               |
+|CPU Clock | 16MHz HF               |
+|UART      | 115200bps               |
 |I2C Clock | 250kHz                 |
 
-Note: The CPU clock frequency will be increased depending on the use case.
+Note: I tried lower CPU clock frequencies, but UART did not work with TWELITE-DIP.
 
 ## Code
 
