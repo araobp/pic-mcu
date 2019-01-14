@@ -61,6 +61,11 @@ This command sequence (polling) is optimized for decreasing the power consumptio
 
 Note: The CPU clock frequency will be increased depending on the use case.
 
+## Code
 
-[Reference](https://mono-wireless.com/jp/products/TWE-APPS/App_Uart/mode_format.html)
+https://github.com/araobp/pic16f1-mcu/tree/master/src/pic16f1825/amg8833.X
+
+## Reference
+
+- https://mono-wireless.com/jp/products/TWE-APPS/App_Uart/mode_format.html
 
