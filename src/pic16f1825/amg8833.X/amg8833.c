@@ -61,7 +61,7 @@ void read_thermistor_temp(void) {
     buf[0] = (int)((float)(buf[1] * 256 + buf[0]) * AMG8833_THERMISTOR_RESOLUTION);
     uart_transmit((char *)buf, AMG8833_THERMISTOR_DATA_LENGTH);
 #else
-    twelite_uart_tx((char *)buf, AMG8833_THERMISTOR_DATA_LENGTH);
+    twelite_uart_tx(buf, AMG8833_THERMISTOR_DATA_LENGTH);
 #endif
 }
 
@@ -80,6 +80,6 @@ void read_64pixels_temp(void) {
     uart_transmit((char *)buf, AMG8833_PIXEL_DATA_LENGTH/2);
 #else
     }
-    twelite_uart_tx((char *)buf, AMG8833_PIXEL_DATA_LENGTH/2);    
+    twelite_uart_tx(buf, AMG8833_PIXEL_DATA_LENGTH/2);    
 #endif
 }

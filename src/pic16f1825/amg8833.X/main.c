@@ -14,7 +14,7 @@ void main(void) {
     INTERRUPT_PeripheralInterruptEnable();
 
     set_moving_average(true);
-
+    
     while (1) {
         if (EUSART_DataReady) {
             c = EUSART_Read();

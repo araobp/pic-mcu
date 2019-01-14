@@ -3,24 +3,25 @@
 #include <stdint.h>
 #include <stdio.h>
 
-void twelite_uart_tx(char *pbuf, uint8_t len) {
+void twelite_uart_tx(uint8_t *pbuf, uint8_t len) {
     static uint8_t seq = 0;
     static uint8_t cs;
     
     // Checksum
-    cs = 0x00 ^ 0xA0 ^ seq ^ 0x01 ^ 0xff;
+    cs = DST_NODE ^ BYTE ^ seq ^ RESPONSE_MSG_DISABLED ^ TERMINATOR;
     
     //--- Binary transfer mode header
     putchar(0xA5); // Binary transfer mode header
     putchar(0x5A); // Binary transfer mode header
     putchar(0x80); // Data length MSB
-    putchar((char)(len+4));  // Data length LSB
+    putchar(len+5);  // Data length LSB
     //--- Packet header
     putchar(DST_NODE);  // Destination is "parent node"
     putchar(BYTE);  // Byte (fixed)
-    putchar((char)seq);  // Sequence number
+    putchar(seq);  // Sequence number
     //--- Option
     //putchar(ACK_ENABLED);  // ACK enabled
+    putchar(RESPONSE_MSG_DISABLED);  // ACK enabled
     putchar(TERMINATOR);  // Terminator
     //--- Payload
     for(int i=0;i<len;i++) {  // Payload
@@ -28,7 +29,7 @@ void twelite_uart_tx(char *pbuf, uint8_t len) {
         cs = cs ^ pbuf[i];
     }
     //--- Checksum
-    putchar((char)cs);  // Checksum
+    putchar(cs);  // Checksum
     
     if (++seq > 0xFF) seq = 0;
 }
@@ -38,10 +39,10 @@ void twelite_uart_tx(char *pbuf, uint8_t len) {
  * @param c
  * @return true if the input character is payload.
  */
-bool twelite_uart_rx(char c) {
+bool twelite_uart_rx(uint8_t c) {
     static uint8_t pos = 0;
     bool is_payload = false;
-    switch (pos) {
+    switch (pos++) {
         case PAYLOAD_POS:
             is_payload = true;
             break;
@@ -50,7 +51,7 @@ bool twelite_uart_rx(char c) {
                 pos = 0;
             } else {  // Out-of-sync
                 // Software reset
-                __delay_ms(1000);
+                __delay_ms(500);
                 __asm__ volatile("reset");
             } 
             is_payload = false;
@@ -59,6 +60,5 @@ bool twelite_uart_rx(char c) {
             is_payload=false;
             break;
     }
-    pos++;
     return is_payload;
 }
