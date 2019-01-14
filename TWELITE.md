@@ -1,5 +1,7 @@
 # Wireless network of infrared array sensors with TWELITE
 
+![](./doc/twelite-dip.jpg)
+
 ## Hardware components
 
 ### TWELITE
@@ -63,7 +65,8 @@ Note: I tried lower CPU clock frequencies, but UART did not work with TWELITE-DI
 
 ## Code
 
-https://github.com/araobp/pic16f1-mcu/tree/master/src/pic16f1825/amg8833.X
+- [Master(Python) with TWELITE-STICK](./python/twelite)
+- [Slave(PIC16F1825) with TWELITE-DIP](./src/pic16f1825/amg8833.X)
 
 ## Reference
 
