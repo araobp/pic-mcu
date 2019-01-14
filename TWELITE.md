@@ -68,6 +68,24 @@ Note: I tried lower CPU clock frequencies, but UART did not work with TWELITE-DI
 - [Master(Python) with TWELITE-STICK](./python/twelite)
 - [Slave(PIC16F1825) with TWELITE-DIP](./src/pic16f1825/amg8833.X)
 
+Test:
+```
+--- SLAVE 1 ---
+ length: 2, seq number: 34, LQI: 144
+ room temperature: 19.125 degrees Celsius
+
+ length: 64, seq number: 35, LQI: 147
+ pixels: 16.25,16.5,16.75,16.5,16.25,16.25,16.25,16.5,16.25,16.5,16.25,16.75,16.75,15.75,16.0,16.25,16.25,16.0,16.5,16.5,16.0,15.75,16.0,16.5,16.0,16.25,16.0,16.5,16.0,15.5,15.75,17.0,16.0,16.75,16.0,15.75,16.25,15.25,15.5,16.25,16.75,16.75,16.5,16.0,16.5,16.0,16.25,16.0,15.75,16.75,16.0,15.5,15.75,16.25,16.25,15.5,16.0,16.0,15.0,15.25,15.5,15.5,15.25,15.25 degrees Celsius
+
+--- SLAVE 1 ---
+ length: 2, seq number: 36, LQI: 147
+ room temperature: 19.1875 degrees Celsius
+
+ length: 64, seq number: 37, LQI: 147
+ pixels: 16.25,16.5,17.0,16.75,16.25,16.25,16.25,16.25,16.0,16.25,16.25,16.5,16.5,16.25,15.75,16.25,16.25,16.25,16.75,16.75,16.25,15.75,16.0,16.75,16.25,16.25,16.0,16.25,16.0,15.0,15.5,16.5,16.0,16.75,16.25,16.0,16.5,15.5,15.75,16.5,16.5,16.75,16.5,16.0,16.25,16.25,16.25,16.25,15.5,16.75,15.75,15.5,16.25,16.0,15.25,15.75,15.5,15.5,14.75,14.75,15.75,15.5,15.75,15.5 degrees Celsius
+ 
+                            :
+```
 ## Reference
 
 - https://mono-wireless.com/jp/products/TWE-APPS/App_Uart/mode_format.html
