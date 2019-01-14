@@ -3,11 +3,12 @@
 #include "twelite.h"
 #include <stdbool.h>
 
-#define EOT 0x04
+uint8_t buf[AMG8833_PIXELS_LENGTH];
 
 void main(void) {
 
-    char c;
+    uint8_t c, cmd;
+    uint8_t seq;
 
     SYSTEM_Initialize();
     INTERRUPT_GlobalInterruptEnable();
@@ -18,13 +19,15 @@ void main(void) {
     while (1) {
         if (EUSART_DataReady) {
             c = EUSART_Read();
-            if (twelite_uart_rx(c)) {
-                switch (c) {
+            if (twelite_uart_rx(c, &cmd, &seq)) {
+                switch (cmd) {
                     case 't': // Thermistor
-                        read_thermistor_temp();
+                        read_thermistor(buf);
+                        twelite_uart_tx(buf, seq, AMG8833_THERMISTOR_LENGTH);
                         break;
                     case 'p': // 64 pixels
-                        read_64pixels_temp();
+                        read_pixels(buf);
+                        twelite_uart_tx(buf, seq, AMG8833_PIXELS_LENGTH/2);
                         break;
                     default:
                         break;

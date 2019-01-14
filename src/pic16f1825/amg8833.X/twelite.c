@@ -3,35 +3,34 @@
 #include <stdint.h>
 #include <stdio.h>
 
-void twelite_uart_tx(uint8_t *pbuf, uint8_t len) {
-    static uint8_t seq = 0;
+void twelite_uart_tx(uint8_t *pbuf, uint8_t seq, uint8_t len) {
     static uint8_t cs;
-    
-    // Checksum
-    cs = DST_NODE ^ BYTE ^ seq ^ RESPONSE_MSG_DISABLED ^ TERMINATOR;
     
     //--- Binary transfer mode header
     putchar(0xA5); // Binary transfer mode header
     putchar(0x5A); // Binary transfer mode header
     putchar(0x80); // Data length MSB
-    putchar(len+5);  // Data length LSB
+    putchar(len+8);  // Data length LSB
+    //putchar(len+5);  // Data length LSB
     //--- Packet header
     putchar(DST_NODE);  // Destination is "parent node"
     putchar(BYTE);  // Byte (fixed)
     putchar(seq);  // Sequence number
-    //--- Option
-    //putchar(ACK_ENABLED);  // ACK enabled
-    putchar(RESPONSE_MSG_DISABLED);  // ACK enabled
+    //--- Options
+    putchar(RESPONSE_MSG_DISABLED);
+    putchar(ACK_ENABLED);  // ACK enabled
+    putchar(RESEND);  // Resend
+    putchar(NUM_RETRY); // The number of retries
     putchar(TERMINATOR);  // Terminator
     //--- Payload
+    cs = DST_NODE ^ BYTE ^ seq ^ RESPONSE_MSG_DISABLED ^ ACK_ENABLED ^ RESEND ^ NUM_RETRY ^ TERMINATOR;
+    //cs = DST_NODE ^ BYTE ^ seq ^ RESPONSE_MSG_DISABLED ^ TERMINATOR;
     for(int i=0;i<len;i++) {  // Payload
         putchar(pbuf[i]);
         cs = cs ^ pbuf[i];
     }
     //--- Checksum
-    putchar(cs);  // Checksum
-    
-    if (++seq > 0xFF) seq = 0;
+    putchar(cs);  // Checksum    
 }
 
 /**
@@ -39,26 +38,38 @@ void twelite_uart_tx(uint8_t *pbuf, uint8_t len) {
  * @param c
  * @return true if the input character is payload.
  */
-bool twelite_uart_rx(uint8_t c) {
+bool twelite_uart_rx(uint8_t c, uint8_t *cmd, uint8_t *seq) {
     static uint8_t pos = 0;
-    bool is_payload = false;
+    static uint8_t seq_ = 0;
+    static uint8_t cmd_ = 0;
+    bool eot_reached;
+    
+    eot_reached = false;
     switch (pos++) {
+        case SEQ_NUMBER_POS:
+            seq_ = c;
+            break;
         case PAYLOAD_POS:
-            is_payload = true;
+            cmd_ = c;
             break;
         case EOT_POS:
             if (c == EOT) {
                 pos = 0;
+                eot_reached = true;
             } else {  // Out-of-sync
                 // Software reset
-                __delay_ms(500);
+                __delay_ms(RESET_DELAY);
                 __asm__ volatile("reset");
-            } 
-            is_payload = false;
+            }
             break;
         default:
-            is_payload=false;
             break;
     }
-    return is_payload;
+    if (eot_reached) {
+        *seq = seq_;
+        *cmd = cmd_;
+        return true;
+    } else {
+        return false;
+    }
 }

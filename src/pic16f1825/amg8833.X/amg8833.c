@@ -1,4 +1,3 @@
-
 #include <stdbool.h>
 #include <stdio.h>
 #include "i2c_util.h"
@@ -7,10 +6,8 @@
 
 //#define DEBUG
 
-uint8_t buf[AMG8833_PIXEL_DATA_LENGTH];
-
 /**
- * @brief Enable/disable moving average
+ * Enable/disable moving average
  * @param enable
  */
 void set_moving_average(bool enable) {
@@ -43,7 +40,7 @@ void set_moving_average(bool enable) {
 }
 
 // Transmit data to UART TX
-void uart_transmit(char *pbuf, int len) {
+void uart_transmit(uint8_t *pbuf, uint8_t len) {
     for (int i=0; i<len; i++) {
         printf("%d,", pbuf[i]);
     }
@@ -53,33 +50,31 @@ void uart_transmit(char *pbuf, int len) {
 /**
  * @brief Read the thermistor register on AMG8833
  */
-void read_thermistor_temp(void) {
+void read_thermistor(uint8_t *pbuf) {
     uint8_t err;
     float temp;
-    err = i2c_read(AMG8833_DEV_ADDR, AMG8833_TTHL_ADDR, buf, AMG8833_THERMISTOR_DATA_LENGTH);
+    err = i2c_read(AMG8833_DEV_ADDR, AMG8833_TTHL_ADDR, pbuf, AMG8833_THERMISTOR_LENGTH);
 #ifdef DEBUG
     buf[0] = (int)((float)(buf[1] * 256 + buf[0]) * AMG8833_THERMISTOR_RESOLUTION);
-    uart_transmit((char *)buf, AMG8833_THERMISTOR_DATA_LENGTH);
+    uart_transmit((char *)buf, AMG8833_THERMISTOR_LENGTH);
 #else
-    twelite_uart_tx(buf, AMG8833_THERMISTOR_DATA_LENGTH);
 #endif
 }
 
 /**
  * @brief Read the pixel registers on AMG8833
  */
-void read_64pixels_temp(void) {
+void read_pixels(uint8_t *pbuf) {
     uint8_t err;
     float temp;
-    err = i2c_read(AMG8833_DEV_ADDR, AMG8833_T01L_ADDR, buf, AMG8833_PIXEL_DATA_LENGTH);
-    for (int i=0; i<AMG8833_PIXEL_DATA_LENGTH/2; i++) {
-        buf[i] = buf[i*2];  // Ignore MSB of a pair of [LSB, MSB]
+    err = i2c_read(AMG8833_DEV_ADDR, AMG8833_T01L_ADDR, pbuf, AMG8833_PIXELS_LENGTH);
+    for (int i=0; i<AMG8833_PIXELS_LENGTH/2; i++) {
+        pbuf[i] = pbuf[i*2];  // Ignore MSB of a pair of [LSB, MSB]
 #ifdef DEBUG
-        buf[i] = (int)((float)buf[i] * AMG8833_PIXEL_RESOLUTION);
+        buf[i] = (int)((float)buf[i] * AMG8833_PIXELS_RESOLUTION);
     }
-    uart_transmit((char *)buf, AMG8833_PIXEL_DATA_LENGTH/2);
+    uart_transmit((char *)buf, AMG8833_PIXELS_LENGTH/2);
 #else
     }
-    twelite_uart_tx(buf, AMG8833_PIXEL_DATA_LENGTH/2);    
 #endif
 }
