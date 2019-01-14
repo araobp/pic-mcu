@@ -61,4 +61,24 @@ This command sequence (polling) is optimized for decreasing the power consumptio
 
 Note: The CPU clock frequency will be increased depending on the use case.
 
+## Experimet on the UART App
+
+```
+[master.py/PC]--UART-->[TWELITE Stick] - - wireless - - [TWELITE DIP]--UART-->[Teraterm/PC]
+```
+
+"master.py" transmited commands to Slave 1 in the UART app binary mode.
+
+Slave 1 (Realterm on PC) in the binary mode recived the following messages:
+```
+A5 5A 80 03 00 00 70 70 04 
+```
+
+The data reads as follows:
+```
+A5 5A 80           03          00       00    70       70      04 
+header           length   Src address   NA   data   Checksum   EOT
+```
+
+[Reference](https://mono-wireless.com/jp/products/TWE-APPS/App_Uart/mode_format.html)
 
