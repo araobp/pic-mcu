@@ -55,30 +55,17 @@ This command sequence (polling) is optimized for decreasing the power consumptio
 |----------|------------------------|
 |VDD       | 3.0V DC (AAA battery x 2)      |
 |Power consumption| a few mA        |
-|CPU Clock | 8MHz HF                |
-|UART      | 19200bps               |
+|CPU Clock | 16MHz HF               |
+|UART      | 115200bps               |
 |I2C Clock | 250kHz                 |
 
-Note: The CPU clock frequency will be increased depending on the use case.
+Note: I tried lower CPU clock frequencies, but UART did not work with TWELITE-DIP.
 
-## Experimet on the UART App
+## Code
 
-```
-[master.py/PC]--UART-->[TWELITE Stick] - - wireless - - [TWELITE DIP]--UART-->[Teraterm/PC]
-```
+https://github.com/araobp/pic16f1-mcu/tree/master/src/pic16f1825/amg8833.X
 
-"master.py" transmited commands to Slave 1 in the UART app binary mode.
+## Reference
 
-Slave 1 (Realterm on PC) in the binary mode recived the following messages:
-```
-A5 5A 80 03 00 00 70 70 04 
-```
-
-The data reads as follows:
-```
-A5 5A 80           03          00       00    70       70      04 
-header           length   Src address   NA   data   Checksum   EOT
-```
-
-[Reference](https://mono-wireless.com/jp/products/TWE-APPS/App_Uart/mode_format.html)
+- https://mono-wireless.com/jp/products/TWE-APPS/App_Uart/mode_format.html
 
