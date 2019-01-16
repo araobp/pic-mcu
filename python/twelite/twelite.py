@@ -31,23 +31,31 @@ NUM_RETRY = 10
 # Note: these commands have nothing to do with TWELITE itself.
 THERMISTOR = ord('t')  #0x74: fetch room temperature data
 PIXELS = ord('p')  #0x70: fetch pixels data as heatmap
+DIFF = ord('d')  #Diff
+SUM_DIFF = ord('D')
 
 ### AMG8833 data resolution
 THERMISTOR_RESOLUTION = 0.0625
 PIXELS_RESOLUTION = 0.25
 
 ### Byte to integer conversion (2's complement)
-b2i = lambda data, idx: int.from_bytes([data[idx]], byteorder='big', signed=False)
+b2ui = lambda data, idx: int.from_bytes([data[idx]], byteorder='big', signed=False)
+b2i = lambda data, idx: int.from_bytes([data[idx]], byteorder='big', signed=True)
 
 # [AMG8833-specific] Data conversion into degrees Celsius unit
 def _conv_data_amg8833(cmd, d):
     if cmd == THERMISTOR:
-        data = (b2i(d,1) * 256 + b2i(d, 0)) * THERMISTOR_RESOLUTION
+        data = (b2ui(d,1) * 256 + b2ui(d, 0)) * THERMISTOR_RESOLUTION
     elif cmd == PIXELS:
         len_ = len(d)
         data = np.zeros(len_)
         for i in range(len_):
-            data[i] = b2i(d,i)*PIXELS_RESOLUTION
+            data[i] = b2ui(d,i)*PIXELS_RESOLUTION
+    elif cmd == DIFF or cmd == SUM_DIFF:
+        len_ = len(d)
+        data = np.zeros(len_)
+        for i in range(len_):
+            data[i] = b2i(d,i)*PIXELS_RESOLUTION        
     return data
 
 # LQI to dBm conversion
@@ -112,13 +120,13 @@ class MasterNode:
     def _rx(self):
         d = self.ser.read(5)  # 0xA5 0x5A 0x80 <len> <dst>
         #print(d)
-        len_ =  b2i(d, 3)
-        dst = b2i(d, 4)
+        len_ =  b2ui(d, 3)
+        dst = b2ui(d, 4)
         d = self.ser.read(13)  # 0xA0 seq <4bytes> <4bytes> <LQI> 0x00 <len>
         #print(d)
-        seq = b2i(d, 1)
-        lqi = b2i(d, 10)
-        len_ = b2i(d, 12)
+        seq = b2ui(d, 1)
+        lqi = b2ui(d, 10)
+        len_ = b2ui(d, 12)
         #print('dst: {}, len: {}, lqi: {}'.format(str(dst), str(len_), str(lqi)))
 
         d = self.ser.read(len_)  # <data[]>

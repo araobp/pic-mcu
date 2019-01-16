@@ -8,6 +8,8 @@ SLAVE_1 = 1
 
 THERMISTOR = tw.THERMISTOR
 PIXELS = tw.PIXELS
+DIFF = tw.DIFF
+SUM_DIFF = tw.SUM_DIFF
 
 class Interface:
     

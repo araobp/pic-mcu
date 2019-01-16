@@ -39,7 +39,7 @@ class GUI:
 
         data = self.interface.read(cmd)
         
-        if cmd == interface.PIXELS:
+        if cmd == interface.PIXELS or cmd == interface.DIFF:
             if self.grid_data:
                 data = griddata(POINTS, data, (GRID_X, GRID_Y), method='cubic')
                 # image format

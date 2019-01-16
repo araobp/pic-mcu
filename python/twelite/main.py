@@ -16,8 +16,9 @@ SLAVE_3 = 0x03
 SLAVE_4 = 0x04
 
 # Test options
-MEASUREMENT = True  # Performance measurement.
-QUALITY = True  # Shows sequence number and LQI as well. 
+MEASUREMENT = False  # Performance measurement.
+QUALITY = True  # Shows sequence number and LQI as well.
+SUM_DIFF_ONLY = True
 LOOP_CNT = 100  # The number of looping
 
 ### Main
@@ -33,6 +34,15 @@ if __name__ == '__main__':
             try:
                 if MEASUREMENT:
                     data, seq, lqi  = mn.read(dst=SLAVE_1, cmd=tw.PIXELS, quality_data=True)
+                elif SUM_DIFF_ONLY:
+                    print('--- SLAVE {} ---'.format(SLAVE_1))
+                    data = mn.read(dst=SLAVE_1, cmd=tw.SUM_DIFF)
+                    print(' pixels sum diff: ', end='')
+                    for d in data[:-1]:
+                        print('{},'.format(str(d)), end='')
+                    print('{} degrees Celsius'.format(data[-1]))
+                    print('')
+                    time.sleep(0.2)
                 else:
                     print('--- SLAVE {} ---'.format(SLAVE_1))
 
@@ -57,6 +67,29 @@ if __name__ == '__main__':
                         print('{},'.format(str(d)), end='')
                     print('{} degrees Celsius'.format(data[-1]))
                     print('')
+                    ### Read 64 pixels diff
+                    if QUALITY:
+                        data, seq, lqi  = mn.read(dst=SLAVE_1, cmd=tw.DIFF, quality_data=True)
+                        print(info(seq, lqi))
+                    else:
+                        data = mn.read(dst=SLAVE_1, cmd=tw.DIFF)                        
+                    print(' pixels diff: ', end='')
+                    for d in data[:-1]:
+                        print('{},'.format(str(d)), end='')
+                    print('{} degrees Celsius'.format(data[-1]))
+                    print('')
+                    ### Read 64 pixels sum diff
+                    if QUALITY:
+                        data, seq, lqi = mn.read(dst=SLAVE_1, cmd=tw.SUM_DIFF, quality_data=True)
+                        print(info(seq, lqi))
+                    else:
+                        data = mn.read(dst=SLAVE_1, cmd=tw.SUM_DIFF)                        
+                    print(' pixels sum diff: ', end='')
+                    for d in data[:-1]:
+                        print('{},'.format(str(d)), end='')
+                    print('{} degrees Celsius'.format(data[-1]))
+                    print('')
+
             except Exception as e:
                 print(e)
                 time.sleep(1)

@@ -66,7 +66,8 @@ if __name__ == '__main__':
         global data, axes
         for ax in axes:
             ax.clear()
-        data = gui.plot(axes, interface.PIXELS, cmap='rainbow')
+        #data = gui.plot(axes, interface.PIXELS, cmap='rainbow')
+        data = gui.plot(axes, interface.DIFF, cmap='rainbow')
         fig.tight_layout()
         canvas.draw()
         thermistor()
@@ -75,7 +76,8 @@ if __name__ == '__main__':
         global data, axes
         for ax in axes:
             ax.clear()
-        data = gui.plot(axes, interface.PIXELS, cmap='rainbow')
+        #data = gui.plot(axes, interface.PIXELS, cmap='rainbow')
+        data = gui.plot(axes, interface.DIFF, cmap='rainbow')
         fig.tight_layout()
         canvas.draw()
         thermistor()
