@@ -40,7 +40,7 @@ Note: the sensor also outputs temperature data from a thermistor on the chip. I 
 In spite of 8bit quantization, the load on TWELITE is still heavy. It may require further processing to calculate features on PIC16F1 before transmitting the data to the master node.
 
 Features for example:
-- Diff between the previous value for each pixel.
+- Diff between the current value and the previous value for each pixel.
 - Diff average along each row.
 
 ## Command sequence
