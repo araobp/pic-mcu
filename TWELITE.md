@@ -50,14 +50,20 @@ This command sequence (polling) is optimized for decreasing the power consumptio
 ```
  PIC16F1825           
  (as server)          Client
-     |                  |
-     |<----- 'p' -------|
-     |---- pixels ----->|
+     |                  |     Time taken for the operation (approx.)
+     |<----- 'p' -------|        10msec
+     |---- pixels ----->|        50msec
      |        :         |
-     |<----- 't' -------|
-     |--- thermistor -->|
+     |<----- 't' -------|        10msec
+     |--- thermistor -->|        15msec
      |        :         |
 ```
+
+The bottle neck of data transfer is the following:
+- I2C (250kHz = 250kbps)
+- UART (115200bps)
+- IEEE802.15.4 PHY (250kbps)
+- And buffering at each interface
 
 ## Specification of the co-processor (PIC16F1825)
 
