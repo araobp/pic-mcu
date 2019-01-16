@@ -158,10 +158,6 @@ NoConn ~ 3050 4650
 NoConn ~ 3050 5150
 NoConn ~ 8400 4650
 NoConn ~ 8400 4750
-NoConn ~ 8400 4850
-NoConn ~ 8400 4950
-NoConn ~ 8400 5050
-NoConn ~ 8400 5150
 NoConn ~ 8400 5250
 NoConn ~ 8400 5350
 NoConn ~ 8400 5550
@@ -320,7 +316,7 @@ $EndComp
 Wire Wire Line
 	6400 4550 6400 5050
 Wire Wire Line
-	8700 4550 8700 4000
+	8700 4000 8700 5150
 Wire Wire Line
 	8400 4550 8700 4550
 Wire Wire Line
@@ -491,4 +487,24 @@ Wire Wire Line
 Wire Wire Line
 	4850 1850 4850 2300
 Connection ~ 4850 2300
+Text Notes 7950 5200 0    60   ~ 0
+AI1
+Text Notes 7950 5100 0    60   ~ 0
+AI2
+Text Notes 7950 5000 0    60   ~ 0
+AI3
+Text Notes 7950 4900 0    60   ~ 0
+AI4
+Wire Wire Line
+	8700 4850 8400 4850
+Connection ~ 8700 4550
+Wire Wire Line
+	8700 4950 8400 4950
+Connection ~ 8700 4850
+Wire Wire Line
+	8700 5050 8400 5050
+Connection ~ 8700 4950
+Wire Wire Line
+	8700 5150 8400 5150
+Connection ~ 8700 5050
 $EndSCHEMATC

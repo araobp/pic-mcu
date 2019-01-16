@@ -78,3 +78,15 @@ void read_pixels(uint8_t *pbuf) {
     }
 #endif
 }
+
+void read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff) {
+    uint8_t err;
+    float temp;
+    err = i2c_read(AMG8833_DEV_ADDR, AMG8833_T01L_ADDR, pbuf, AMG8833_PIXELS_LENGTH);
+    for (int i=0; i<AMG8833_PIXELS_LENGTH/2; i++) {
+        pbuf[i] = pbuf[i*2];  // Ignore MSB of a pair of [LSB, MSB]
+        pdiff[i] = (int8_t)pbuf[i] - (int8_t)pbuf_prev[i]; 
+        pbuf_prev[i] = pbuf[i];
+    }
+}
+

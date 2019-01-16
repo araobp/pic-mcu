@@ -31,6 +31,8 @@ void read_thermistor(uint8_t *pbuf);
 
 void read_pixels(uint8_t *pbuf);
 
+void read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff);
+
 #ifdef	__cplusplus
 }
 #endif

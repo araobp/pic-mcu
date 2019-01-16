@@ -14,6 +14,7 @@ Reference: https://mono-wireless.com/jp/products/TWE-APPS/App_Uart/mode_format.h
 '''
 
 import serial
+import numpy as np
 
 ### TWELITE packet structure
 BYTE = 0xA0
@@ -38,6 +39,18 @@ PIXELS_RESOLUTION = 0.25
 ### Byte to integer conversion (2's complement)
 b2i = lambda data, idx: int.from_bytes([data[idx]], byteorder='big', signed=False)
 
+# [AMG8833-specific] Data conversion into degrees Celsius unit
+def _conv_data_amg8833(cmd, d):
+    if cmd == THERMISTOR:
+        data = (b2i(d,1) * 256 + b2i(d, 0)) * THERMISTOR_RESOLUTION
+    elif cmd == PIXELS:
+        len_ = len(d)
+        data = np.zeros(len_)
+        for i in range(len_):
+            data[i] = b2i(d,i)*PIXELS_RESOLUTION
+    return data
+
+# LQI to dBm conversion
 def lqi2dbm(lqi):
     '''
     Convert LQI into dBm
@@ -69,19 +82,21 @@ class MasterNode:
         self.genSeq = GenSeq()
         self.seq = 0
         self.cmd = None
+        self.ser = serial.Serial(self.port, self.baudrate, timeout=0.3)
         
     def __enter__(self):
-        self.ser = serial.Serial(self.port, self.baudrate, timeout=0.3)
         return self
 
     def __exit__(self, *args):
         self.ser.close()
+
+    def close(self):
+        self.ser.close()
         
     # Transmit data        
-    def tx(self, dst, cmd, seq=None):
+    def _tx(self, dst, cmd):
         self.cmd = cmd
-        if seq is None:
-            seq = next(self.genSeq)
+        seq = next(self.genSeq)
         data = [dst, BYTE, seq, RESPONSE_MSG_DISABLED,
                 ACK_ENABLED, RESEND, NUM_RETRY, TERMINATOR, cmd]
         ck = data[0]
@@ -91,9 +106,10 @@ class MasterNode:
         cmd_twelite = bytes([0xA5, 0x5A, 0x80, len_, *data, ck])
         #print([0xA5, 0x5A, 0x80, len_, *data, ck])
         self.ser.write(cmd_twelite)
+        self.ser.flush()
 
     # Receive data
-    def rx(self):
+    def _rx(self):
         d = self.ser.read(5)  # 0xA5 0x5A 0x80 <len> <dst>
         #print(d)
         len_ =  b2i(d, 3)
@@ -105,25 +121,28 @@ class MasterNode:
         len_ = b2i(d, 12)
         #print('dst: {}, len: {}, lqi: {}'.format(str(dst), str(len_), str(lqi)))
 
-        data = []
         d = self.ser.read(len_)  # <data[]>
         #print(d)
-        if self.cmd == THERMISTOR:
-            temp = b2i(d,1) * 256 + b2i(d, 0)  # MSB LSB
-            temp = temp * THERMISTOR_RESOLUTION
-            data.append(temp)
-        elif self.cmd == PIXELS:
-            for i in range(len_):
-                temp = b2i(d,i)*PIXELS_RESOLUTION
-                data.append(temp)
-            
+        data = _conv_data_amg8833(self.cmd, d)
+                
         d = self.ser.read(2)  # Checksum, EOT
         #ck = b2i(d,0)
-        return (data, len_, seq, lqi)
+        #print(data)
+        return (data, seq, lqi)
 
-    # Fetch data: tx then rx
-    def fetch(self, dst, cmd, seq=None):
-        self.tx(dst, cmd, seq)
-        return self.rx()        
+    # Read data: tx then rx
+    def fetch(self, dst, cmd):
+        self._tx(dst, cmd)
+        return self._rx()        
+
+    # Read data: tx then rx
+    def read(self, dst, cmd, quality_data=False):
+        self._tx(dst, cmd)
+        resp = self._rx()
+        if quality_data:
+            return resp
+        else:
+            return resp[0]
+    
 
 

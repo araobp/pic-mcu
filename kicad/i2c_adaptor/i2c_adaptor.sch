@@ -229,7 +229,7 @@ F 3 "" H 4450 3100 50  0001 C CNN
 	1    4450 3100
 	1    0    0    -1  
 $EndComp
-Text Notes 7350 4350 0    60   ~ 0
+Text Notes 7350 4000 0    60   ~ 0
 TWELITE-DIP
 Text Notes 2700 2500 0    60   ~ 0
 I2C module\nAMG8833
@@ -341,9 +341,9 @@ Wire Wire Line
 Wire Wire Line
 	5200 2300 5200 5050
 Wire Wire Line
-	5350 4950 5350 2200
+	5350 2200 5350 4950
 Wire Wire Line
-	5350 2200 3850 2200
+	3850 2200 5350 2200
 Wire Wire Line
 	7400 1800 7400 2250
 Wire Wire Line
@@ -389,7 +389,7 @@ Wire Wire Line
 Wire Wire Line
 	5200 5050 4650 5050
 Wire Wire Line
-	4650 4950 5350 4950
+	5350 4950 4650 4950
 Wire Wire Line
 	8250 3150 7950 3150
 Connection ~ 8250 3150
@@ -507,4 +507,25 @@ Connection ~ 8700 4950
 Wire Wire Line
 	8700 5150 8400 5150
 Connection ~ 8700 5050
+$Comp
+L C_Small C2
+U 1 1 5C3E964D
+P 7650 4300
+F 0 "C2" H 7660 4370 50  0000 L CNN
+F 1 "0.1uF" H 7660 4220 50  0000 L CNN
+F 2 "pic16f1:Capacitor" H 7650 4300 50  0001 C CNN
+F 3 "" H 7650 4300 50  0001 C CNN
+	1    7650 4300
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	6900 4550 6900 4300
+Wire Wire Line
+	6900 4300 7550 4300
+Connection ~ 6900 4550
+Wire Wire Line
+	7750 4300 8450 4300
+Wire Wire Line
+	8450 4300 8450 4550
+Connection ~ 8450 4550
 $EndSCHEMATC
