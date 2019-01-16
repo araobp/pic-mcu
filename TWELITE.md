@@ -35,6 +35,14 @@ Temperature range: 0 - 63.5 degrees Celsius (63.5/0.25 = 0xfe)
 
 Note: the sensor also outputs temperature data from a thermistor on the chip. I transfer both MSB and LSB in this case.
 
+## Feature extraction on PIC16F1
+
+In spite of 8bit quantization, the load on TWELITE is still heavy. It may require further processing to calculate features on PIC16F1 before transmitting the data to the master node.
+
+Features for example:
+- Diff between the previous value for each pixel.
+- Diff average along each row.
+
 ## Command sequence
 
 This command sequence (polling) is optimized for decreasing the power consumption.
