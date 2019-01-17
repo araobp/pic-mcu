@@ -80,7 +80,7 @@ Note: I tried lower CPU clock frequencies, but UART did not work with TWELITE-DI
 ## Code
 
 - [Master(Python) with TWELITE-STICK](./python/twelite)
-- [Slave(PIC16F1825) with TWELITE-DIP](./src/pic16f1825/amg8833.X)
+- [Slave(PIC16F1825) with TWELITE-DIP](./src/pic16f18326/amg8833.X)
 
 Test:
 ```
