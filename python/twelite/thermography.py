@@ -23,6 +23,8 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("port", help="serial port identifier")
 parser.add_argument("-g", "--grid_data", help="Apply griddata filter", action='store_true')
+parser.add_argument("-d", "--diff", help="Show diff", action='store_true')
+parser.add_argument("-s", "--sum_diff", help="Show sum diff", action='store_true')
 args = parser.parse_args()
 
 if __name__ == '__main__':
@@ -37,7 +39,7 @@ if __name__ == '__main__':
     root = Tk.Tk()
     root.wm_title("Thermography for ML with Keras/TensorFlow")
 
-    if args.grid_data:
+    if args.grid_data or args.sum_diff:
         fig, axes = plt.subplots(1, 2, figsize=(6, 5), gridspec_kw = {'width_ratios':[20, 1]})
     else:
         fig, axes = plt.subplots(1, 2, figsize=(10, 5))
@@ -54,10 +56,6 @@ if __name__ == '__main__':
     class_label_ = ''
     filename = None
     data = None
-    if args.grid_data:
-        shape = (32, 32)
-    else:
-        shape = (8, 8)
 
     canvas = FigureCanvasTkAgg(fig, master=frame_row0)
     canvas.draw()
@@ -66,8 +64,12 @@ if __name__ == '__main__':
         global data, axes
         for ax in axes:
             ax.clear()
-        #data = gui.plot(axes, interface.PIXELS, cmap='rainbow')
-        data = gui.plot(axes, interface.DIFF, cmap='rainbow')
+        if args.sum_diff:
+            data = gui.plot(axes, interface.SUM_DIFF, cmap='seismic')
+        elif args.diff:
+            data = gui.plot(axes, interface.DIFF, cmap='seismic')
+        else:
+            data = gui.plot(axes, interface.PIXELS, cmap='rainbow')
         fig.tight_layout()
         canvas.draw()
         thermistor()
@@ -76,8 +78,12 @@ if __name__ == '__main__':
         global data, axes
         for ax in axes:
             ax.clear()
-        #data = gui.plot(axes, interface.PIXELS, cmap='rainbow')
-        data = gui.plot(axes, interface.DIFF, cmap='rainbow')
+        if args.sum_diff:
+            data = gui.plot(axes, interface.SUM_DIFF, cmap='seismic')        
+        elif args.diff:
+            data = gui.plot(axes, interface.DIFF, cmap='seismic')
+        else:
+            data = gui.plot(axes, interface.PIXELS, cmap='rainbow')
         fig.tight_layout()
         canvas.draw()
         thermistor()
@@ -85,7 +91,8 @@ if __name__ == '__main__':
 
     def thermistor():
         data = gui.plot(axes, interface.THERMISTOR)
-        label_thermistor.configure(text='Room temperature: {:.1f} degrees Celsius'.format(data))
+        if data:
+            label_thermistor.configure(text='Room temperature: {:.1f} degrees Celsius'.format(data))
 
     repeat_action = False
 

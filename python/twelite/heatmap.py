@@ -37,27 +37,40 @@ class GUI:
     # Use matplotlib to plot the output from the device
     def plot(self, axes, cmd, cmap=None, ssub=None):
 
-        data = self.interface.read(cmd)
-        
-        if cmd == interface.PIXELS or cmd == interface.DIFF:
-            if self.grid_data:
-                data = griddata(POINTS, data, (GRID_X, GRID_Y), method='cubic')
-                # image format
-                data_flip = np.flip(np.flip(data.reshape(32,32), axis=0), axis=1)
-            else:
-                # image format
-                data_flip = np.flip(np.flip(data.reshape(8,8), axis=0), axis=1)
-                
-            axes[0].set_title('Heat map')
-            if self.grid_data:
-                sns.heatmap(data_flip, cmap=cmap, ax=axes[0], annot=False, cbar_ax=axes[1])
-            else:
-                sns.heatmap(data_flip, cmap=cmap, ax=axes[0], annot=True, cbar=False)              
-                axes[1].set_title('DCT')
-            coef = dct_2d(data_flip)
-            coef[0,0] = 0  # Remove DC
-            max = np.abs(coef).max()
-            if not self.grid_data:
-                sns.heatmap(coef, cmap='bwr', vmin=-max, vmax=max, ax=axes[1], annot=True, cbar=False)
+        data = None
+        try:
+            data = self.interface.read(cmd)
+            if cmd == interface.PIXELS or cmd == interface.DIFF:
+                if self.grid_data:
+                    data = griddata(POINTS, data, (GRID_X, GRID_Y), method='cubic')
+                    # image format
+                    data_flip = np.flip(np.flip(data.reshape(32,32), axis=0), axis=1)
+                else:
+                    # image format
+                    data_flip = np.flip(np.flip(data.reshape(8,8), axis=0), axis=1)
+                    
+                axes[0].set_title('Heat map')
+                if cmd == interface.DIFF:
+                    vmin, vmax = -10.0, 10.0
+                else:
+                    vmin, vmax = None, None
+                if self.grid_data:
+                    sns.heatmap(data_flip, cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[0], annot=False, cbar_ax=axes[1])
+                else:
+                    sns.heatmap(data_flip, cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[0], annot=True, cbar=False)              
+                    axes[1].set_title('DCT')
+                coef = dct_2d(data_flip)
+                coef[0,0] = 0  # Remove DC
+                max = np.abs(coef).max()
+                if not self.grid_data:
+                    sns.heatmap(coef, cmap='bwr', vmin=-max, vmax=max, ax=axes[1], annot=True, cbar=False)
+
+            elif cmd == interface.SUM_DIFF:
+                data = data.reshape(8, 1)
+                axes[0].set_title('sum diff')
+                vmin, vmax = -10.0, 10.0
+                sns.heatmap(data, cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[0], annot=True, cbar_ax=axes[1])
+        except Exception as e:
+            print(e)
             
         return data
