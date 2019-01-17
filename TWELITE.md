@@ -103,6 +103,8 @@ Test:
 
 ## Power saving
 
+PIC16F1 controls FET for power control.
+
 ```
  PIC16F1825
  (as server)          Client
@@ -134,4 +136,3 @@ Test:
 ## Reference
 
 - https://mono-wireless.com/jp/products/TWE-APPS/App_Uart/mode_format.html
-
