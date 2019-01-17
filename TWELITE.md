@@ -71,7 +71,7 @@ The bottle neck of data transfer is the following:
 |----------|--------------------------|
 |VDD       | 3.0V DC (AAA battery x 2)|
 |Power consumption| a few mA          |
-|CPU Clock | 16MHz HF                 |
+|CPU Clock | 32MHz HF                 |
 |UART      | 115200bps                |
 |I2C Clock | 250kHz                   |
 
