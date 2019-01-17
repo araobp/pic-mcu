@@ -1,26 +1,26 @@
 /**
-  Generated Pin Manager File
+  Generated Interrupt Manager Source File
 
-  Company:
+  @Company:
     Microchip Technology Inc.
 
-  File Name:
-    pin_manager.c
+  @File Name:
+    interrupt_manager.c
 
-  Summary:
-    This is the Pin Manager file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
+  @Summary:
+    This is the Interrupt Manager file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
 
-  Description:
-    This header file provides implementations for pin APIs for all pins selected in the GUI.
+  @Description:
+    This header file provides implementations for global interrupt handling.
+    For individual peripheral handlers please see the peripheral driver for
+    all modules selected in the GUI.
     Generation Information :
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.65.2
-        Device            :  PIC16F1825
-        Driver Version    :  2.11
+        Device            :  PIC16F18326
+        Driver Version    :  2.03
     The generated drivers are tested against the following:
-        Compiler          :  XC8 1.45
-        MPLAB             :  MPLAB X 4.15
-
-    Copyright (c) 2013 - 2015 released Microchip Technology Inc.  All rights reserved.
+        Compiler          :  XC8 1.45 or later
+        MPLAB 	          :  MPLAB X 4.15
 */
 
 /*
@@ -46,60 +46,32 @@
     SOFTWARE.
 */
 
-#include <xc.h>
-#include "pin_manager.h"
-#include "stdbool.h"
+#include "interrupt_manager.h"
+#include "mcc.h"
 
-
-
-
-
-void PIN_MANAGER_Initialize(void)
+void __interrupt() INTERRUPT_InterruptManager (void)
 {
-    /**
-    LATx registers
-    */
-    LATA = 0x00;
-    LATC = 0x00;
-
-    /**
-    TRISx registers
-    */
-    TRISA = 0x3F;
-    TRISC = 0x3F;
-
-    /**
-    ANSELx registers
-    */
-    ANSELC = 0x0C;
-    ANSELA = 0x17;
-
-    /**
-    WPUx registers
-    */
-    WPUA = 0x00;
-    WPUC = 0x00;
-    OPTION_REGbits.nWPUEN = 1;
-
-
-
-    /**
-    APFCONx registers
-    */
-    APFCON0 = 0x00;
-    APFCON1 = 0x00;
-
-
-
-
-   
-    
+    // interrupt handler
+    if(INTCONbits.PEIE == 1)
+    {
+        if(PIE1bits.BCL1IE == 1 && PIR1bits.BCL1IF == 1)
+        {
+            I2C1_BusCollisionISR();
+        } 
+        else if(PIE1bits.SSP1IE == 1 && PIR1bits.SSP1IF == 1)
+        {
+            I2C1_ISR();
+        } 
+        else
+        {
+            //Unhandled Interrupt
+        }
+    }      
+    else
+    {
+        //Unhandled Interrupt
+    }
 }
-  
-void PIN_MANAGER_IOC(void)
-{   
-}
-
 /**
  End of File
 */

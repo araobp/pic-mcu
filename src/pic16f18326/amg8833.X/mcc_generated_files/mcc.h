@@ -1,26 +1,24 @@
 /**
-  Generated Interrupt Manager Source File
+  @Generated PIC10 / PIC12 / PIC16 / PIC18 MCUs Header File
 
   @Company:
     Microchip Technology Inc.
 
   @File Name:
-    interrupt_manager.c
+    mcc.h
 
   @Summary:
-    This is the Interrupt Manager file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
+    This is the mcc.h file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
 
   @Description:
-    This header file provides implementations for global interrupt handling.
-    For individual peripheral handlers please see the peripheral driver for
-    all modules selected in the GUI.
+    This header file provides implementations for driver APIs for all modules selected in the GUI.
     Generation Information :
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.65.2
-        Device            :  PIC16F1825
-        Driver Version    :  2.03
+        Device            :  PIC16F18326
+        Driver Version    :  2.00
     The generated drivers are tested against the following:
         Compiler          :  XC8 1.45 or later
-        MPLAB 	          :  MPLAB X 4.15
+        MPLAB             :  MPLAB X 4.15
 */
 
 /*
@@ -46,32 +44,70 @@
     SOFTWARE.
 */
 
+#ifndef MCC_H
+#define	MCC_H
+#include <xc.h>
+#include "device_config.h"
+#include "pin_manager.h"
+#include <stdint.h>
+#include <stdbool.h>
 #include "interrupt_manager.h"
-#include "mcc.h"
+#include "i2c1.h"
+#include "eusart.h"
 
-void __interrupt() INTERRUPT_InterruptManager (void)
-{
-    // interrupt handler
-    if(INTCONbits.PEIE == 1)
-    {
-        if(PIE2bits.BCL1IE == 1 && PIR2bits.BCL1IF == 1)
-        {
-            I2C_BusCollisionISR();
-        } 
-        else if(PIE1bits.SSP1IE == 1 && PIR1bits.SSP1IF == 1)
-        {
-            I2C_ISR();
-        } 
-        else
-        {
-            //Unhandled Interrupt
-        }
-    }      
-    else
-    {
-        //Unhandled Interrupt
-    }
-}
+
+
+/**
+ * @Param
+    none
+ * @Returns
+    none
+ * @Description
+    Initializes the device to the default states configured in the
+ *                  MCC GUI
+ * @Example
+    SYSTEM_Initialize(void);
+ */
+void SYSTEM_Initialize(void);
+
+/**
+ * @Param
+    none
+ * @Returns
+    none
+ * @Description
+    Initializes the oscillator to the default states configured in the
+ *                  MCC GUI
+ * @Example
+    OSCILLATOR_Initialize(void);
+ */
+void OSCILLATOR_Initialize(void);
+/**
+ * @Param
+    none
+ * @Returns
+    none
+ * @Description
+    Initializes the WDT module to the default states configured in the
+ *                  MCC GUI
+ * @Example
+    WDT_Initialize(void);
+ */
+void WDT_Initialize(void);
+/**
+ * @Param
+    none
+ * @Returns
+    none
+ * @Description
+    Initializes the PMD module to the default states configured in the
+ *                  MCC GUI
+ * @Example
+    PMD_Initialize(void);
+ */
+void PMD_Initialize(void);
+
+#endif	/* MCC_H */
 /**
  End of File
 */

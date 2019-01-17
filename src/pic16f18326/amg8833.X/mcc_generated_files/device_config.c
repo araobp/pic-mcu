@@ -14,7 +14,7 @@
     This header file provides implementations for driver APIs for all modules selected in the GUI.
     Generation Information :
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.65.2
-        Device            :  PIC16F1825
+        Device            :  PIC16F18326
         Driver Version    :  2.00
     The generated drivers are tested against the following:
         Compiler          :  XC8 1.45 or later
@@ -47,20 +47,27 @@
 // Configuration bits: selected in the GUI
 
 // CONFIG1
-#pragma config FOSC = INTOSC    // Oscillator Selection->INTOSC oscillator: I/O function on CLKIN pin
-#pragma config WDTE = OFF    // Watchdog Timer Enable->WDT disabled
-#pragma config PWRTE = OFF    // Power-up Timer Enable->PWRT disabled
-#pragma config MCLRE = ON    // MCLR Pin Function Select->MCLR/VPP pin function is MCLR
-#pragma config CP = OFF    // Flash Program Memory Code Protection->Program memory code protection is disabled
-#pragma config CPD = OFF    // Data Memory Code Protection->Data memory code protection is disabled
-#pragma config BOREN = ON    // Brown-out Reset Enable->Brown-out Reset enabled
-#pragma config CLKOUTEN = OFF    // Clock Out Enable->CLKOUT function is disabled. I/O or oscillator function on the CLKOUT pin
-#pragma config IESO = ON    // Internal/External Switchover->Internal/External Switchover mode is enabled
+#pragma config FEXTOSC = OFF    // FEXTOSC External Oscillator mode Selection bits->Oscillator not enabled
+#pragma config RSTOSC = HFINT1    // Power-up default value for COSC bits->HFINTOSC (1MHz)
+#pragma config CLKOUTEN = OFF    // Clock Out Enable bit->CLKOUT function is disabled; I/O or oscillator function on OSC2
+#pragma config CSWEN = ON    // Clock Switch Enable bit->Writing to NOSC and NDIV is allowed
 #pragma config FCMEN = ON    // Fail-Safe Clock Monitor Enable->Fail-Safe Clock Monitor is enabled
 
 // CONFIG2
-#pragma config WRT = OFF    // Flash Memory Self-Write Protection->Write protection off
-#pragma config PLLEN = OFF    // PLL Enable->4x PLL disabled
-#pragma config STVREN = ON    // Stack Overflow/Underflow Reset Enable->Stack Overflow or Underflow will cause a Reset
-#pragma config BORV = LO    // Brown-out Reset Voltage Selection->Brown-out Reset Voltage (Vbor), low trip point selected.
-#pragma config LVP = ON    // Low-Voltage Programming Enable->Low-voltage programming enabled
+#pragma config MCLRE = ON    // Master Clear Enable bit->MCLR/VPP pin function is MCLR; Weak pull-up enabled
+#pragma config PWRTE = OFF    // Power-up Timer Enable bit->PWRT disabled
+#pragma config WDTE = OFF    // Watchdog Timer Enable bits->WDT disabled; SWDTEN is ignored
+#pragma config LPBOREN = OFF    // Low-power BOR enable bit->ULPBOR disabled
+#pragma config BOREN = ON    // Brown-out Reset Enable bits->Brown-out Reset enabled, SBOREN bit ignored
+#pragma config BORV = LOW    // Brown-out Reset Voltage selection bit->Brown-out voltage (Vbor) set to 2.45V
+#pragma config PPS1WAY = ON    // PPSLOCK bit One-Way Set Enable bit->The PPSLOCK bit can be cleared and set only once; PPS registers remain locked after one clear/set cycle
+#pragma config STVREN = ON    // Stack Overflow/Underflow Reset Enable bit->Stack Overflow or Underflow will cause a Reset
+#pragma config DEBUG = OFF    // Debugger enable bit->Background debugger disabled
+
+// CONFIG3
+#pragma config WRT = OFF    // User NVM self-write protection bits->Write protection off
+#pragma config LVP = ON    // Low Voltage Programming Enable bit->Low Voltage programming enabled. MCLR/VPP pin function is MCLR. MCLRE configuration bit is ignored.
+
+// CONFIG4
+#pragma config CP = OFF    // User NVM Program Memory Code Protection bit->User NVM code protection disabled
+#pragma config CPD = OFF    // Data NVM Memory Code Protection bit->Data NVM code protection disabled

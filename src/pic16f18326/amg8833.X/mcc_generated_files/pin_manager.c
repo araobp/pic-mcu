@@ -1,24 +1,26 @@
 /**
-  @Generated PIC10 / PIC12 / PIC16 / PIC18 MCUs Header File
+  Generated Pin Manager File
 
-  @Company:
+  Company:
     Microchip Technology Inc.
 
-  @File Name:
-    mcc.c
+  File Name:
+    pin_manager.c
 
-  @Summary:
-    This is the device_config.h file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
+  Summary:
+    This is the Pin Manager file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
 
-  @Description:
-    This header file provides implementations for driver APIs for all modules selected in the GUI.
+  Description:
+    This header file provides implementations for pin APIs for all pins selected in the GUI.
     Generation Information :
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.65.2
-        Device            :  PIC16F1825
-        Driver Version    :  2.00
+        Device            :  PIC16F18326
+        Driver Version    :  2.11
     The generated drivers are tested against the following:
-        Compiler          :  XC8 1.45 or later
+        Compiler          :  XC8 1.45
         MPLAB             :  MPLAB X 4.15
+
+    Copyright (c) 2013 - 2015 released Microchip Technology Inc.  All rights reserved.
 */
 
 /*
@@ -44,12 +46,71 @@
     SOFTWARE.
 */
 
-#ifndef DEVICE_CONFIG_H
-#define	DEVICE_CONFIG_H
+#include <xc.h>
+#include "pin_manager.h"
+#include "stdbool.h"
 
-#define _XTAL_FREQ 16000000
 
-#endif	/* DEVICE_CONFIG_H */
+
+
+
+void PIN_MANAGER_Initialize(void)
+{
+    /**
+    LATx registers
+    */
+    LATA = 0x00;
+    LATC = 0x00;
+
+    /**
+    TRISx registers
+    */
+    TRISA = 0x37;
+    TRISC = 0x2F;
+
+    /**
+    ANSELx registers
+    */
+    ANSELC = 0x0C;
+    ANSELA = 0x27;
+
+    /**
+    WPUx registers
+    */
+    WPUA = 0x00;
+    WPUC = 0x00;
+
+    /**
+    ODx registers
+    */
+    ODCONA = 0x00;
+    ODCONC = 0x00;
+
+    /**
+    SLRCONx registers
+    */
+    SLRCONA = 0x37;
+    SLRCONC = 0x3F;
+
+
+
+
+
+   
+    
+	
+    RC0PPS = 0x18;   //RC0->MSSP1:SCL1;    
+    RXPPS = 0x15;   //RC5->EUSART:RX;    
+    SSP1CLKPPS = 0x10;   //RC0->MSSP1:SCL1;    
+    RC1PPS = 0x19;   //RC1->MSSP1:SDA1;    
+    RC4PPS = 0x14;   //RC4->EUSART:TX;    
+    SSP1DATPPS = 0x11;   //RC1->MSSP1:SDA1;    
+}
+  
+void PIN_MANAGER_IOC(void)
+{   
+}
+
 /**
  End of File
 */

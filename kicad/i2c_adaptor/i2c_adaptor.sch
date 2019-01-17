@@ -262,7 +262,6 @@ F 3 "" H 4700 6450 50  0001 C CNN
 	1    4700 6450
 	1    0    0    -1  
 $EndComp
-NoConn ~ 2500 4650
 Text Notes 2750 1850 0    60   ~ 0
 Conta connector
 NoConn ~ 4100 4550
@@ -271,25 +270,11 @@ NoConn ~ 4100 4750
 Wire Wire Line
 	7350 4450 7350 4750
 Wire Wire Line
-	9650 3900 9650 4450
-Wire Wire Line
-	9650 4450 9650 4750
-Wire Wire Line
-	9650 4750 9650 4850
-Wire Wire Line
-	9650 4850 9650 4950
-Wire Wire Line
-	9650 4950 9650 5050
+	9650 3900 9650 5050
 Wire Wire Line
 	9350 4450 9650 4450
 Wire Wire Line
-	1600 4450 2200 4450
-Wire Wire Line
-	2200 4450 2450 4450
-Wire Wire Line
-	2450 4450 2500 4450
-Wire Wire Line
-	2200 3750 2200 4450
+	1600 4450 2500 4450
 Wire Wire Line
 	7350 4450 7900 4450
 Wire Wire Line
@@ -298,25 +283,18 @@ Wire Wire Line
 	1800 4750 1600 4750
 Wire Wire Line
 	1600 4750 1600 4450
-Connection ~ 2200 4450
 Wire Wire Line
 	5050 2500 3300 2500
 Wire Wire Line
-	5050 1050 5050 1450
+	5050 1050 5050 2500
 Wire Wire Line
-	5050 1450 5050 2500
-Wire Wire Line
-	3300 2200 4300 2200
-Wire Wire Line
-	4300 2200 4650 2200
+	3300 2200 4650 2200
 Wire Wire Line
 	4650 2200 4650 4950
 Wire Wire Line
 	4800 2100 4800 4850
 Wire Wire Line
-	3300 2100 3950 2100
-Wire Wire Line
-	3950 2100 4800 2100
+	3300 2100 4800 2100
 Wire Wire Line
 	6850 1700 6850 2150
 Wire Wire Line
@@ -324,9 +302,7 @@ Wire Wire Line
 Wire Wire Line
 	6950 1850 7700 1850
 Wire Wire Line
-	7700 1850 7700 2650
-Wire Wire Line
-	7700 2650 7700 3400
+	7700 1850 7700 3400
 Wire Wire Line
 	3300 2400 3900 2400
 Wire Wire Line
@@ -334,9 +310,7 @@ Wire Wire Line
 Wire Wire Line
 	6750 2850 6750 3100
 Wire Wire Line
-	4350 4450 4350 6600
-Wire Wire Line
-	4350 6600 4350 6800
+	4350 4450 4350 6800
 Wire Wire Line
 	5300 1250 5300 1450
 Wire Wire Line
@@ -368,9 +342,7 @@ Wire Wire Line
 Wire Wire Line
 	4800 4850 4100 4850
 Wire Wire Line
-	4100 4450 4150 4450
-Wire Wire Line
-	4150 4450 4350 4450
+	4100 4450 4350 4450
 Wire Wire Line
 	6850 2450 6850 2450
 Wire Wire Line
@@ -528,4 +500,55 @@ Wire Wire Line
 	5400 5050 5400 4300
 Wire Wire Line
 	5400 4300 5650 4300
+Wire Wire Line
+	1700 4650 2500 4650
+$Comp
+L Conn_01x02 J1
+U 1 1 5C4060E8
+P 1400 5200
+F 0 "J1" H 1400 5300 50  0000 C CNN
+F 1 "Conn_01x02" H 1400 5000 50  0000 C CNN
+F 2 "mcu:Pin Header 2P" H 1400 5200 50  0001 C CNN
+F 3 "" H 1400 5200 50  0001 C CNN
+	1    1400 5200
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	1700 4550 1700 5100
+Wire Wire Line
+	1700 5100 1600 5100
+$Comp
+L GND #PWR011
+U 1 1 5C4061C0
+P 1700 5700
+F 0 "#PWR011" H 1700 5450 50  0001 C CNN
+F 1 "GND" H 1700 5550 50  0000 C CNN
+F 2 "" H 1700 5700 50  0001 C CNN
+F 3 "" H 1700 5700 50  0001 C CNN
+	1    1700 5700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1600 5200 1700 5200
+Wire Wire Line
+	1700 5200 1700 5700
+Wire Wire Line
+	2200 3750 2200 4550
+Connection ~ 2200 4450
+$Comp
+L R R4
+U 1 1 5C406D5E
+P 1950 4550
+F 0 "R4" V 2030 4550 50  0000 C CNN
+F 1 "51k" V 1950 4550 50  0000 C CNN
+F 2 "pic16f1:Register" V 1880 4550 50  0001 C CNN
+F 3 "" H 1950 4550 50  0001 C CNN
+	1    1950 4550
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2200 4550 2100 4550
+Wire Wire Line
+	1800 4550 1700 4550
+Connection ~ 1700 4650
 $EndSCHEMATC

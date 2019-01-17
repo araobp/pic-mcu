@@ -14,7 +14,7 @@
     This source file provides APIs for EUSART.
     Generation Information :
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.65.2
-        Device            :  PIC16F1825
+        Device            :  PIC16F18326
         Driver Version    :  2.01
     The generated drivers are tested against the following:
         Compiler          :  XC8 1.45
@@ -58,26 +58,26 @@ void EUSART_Initialize(void)
     // Set the EUSART module to the options selected in the user interface.
 
     // ABDOVF no_overflow; SCKP Non-Inverted; BRG16 16bit_generator; WUE disabled; ABDEN disabled; 
-    BAUDCON = 0x08;
+    BAUD1CON = 0x08;
 
     // SPEN enabled; RX9 8-bit; CREN enabled; ADDEN disabled; SREN disabled; 
-    RCSTA = 0x90;
+    RC1STA = 0x90;
 
     // TX9 8-bit; TX9D 0; SENDB sync_break_complete; TXEN enabled; SYNC asynchronous; BRGH hi_speed; CSRC slave; 
-    TXSTA = 0x24;
+    TX1STA = 0x24;
 
-    // SPBRGL 34; 
-    SPBRGL = 0x22;
+    // SP1BRGL 68; 
+    SP1BRGL = 0x44;
 
-    // SPBRGH 0; 
-    SPBRGH = 0x00;
+    // SP1BRGH 0; 
+    SP1BRGH = 0x00;
 
 
 }
 
 bool EUSART_is_tx_ready(void)
 {
-    return (bool)(PIR1bits.TXIF && TXSTAbits.TXEN);
+    return (bool)(PIR1bits.TXIF && TX1STAbits.TXEN);
 }
 
 bool EUSART_is_rx_ready(void)
@@ -87,7 +87,7 @@ bool EUSART_is_rx_ready(void)
 
 bool EUSART_is_tx_done(void)
 {
-    return TXSTAbits.TRMT;
+    return TX1STAbits.TRMT;
 }
 
 uint8_t EUSART_Read(void)
@@ -97,15 +97,15 @@ uint8_t EUSART_Read(void)
     }
 
     
-    if(1 == RCSTAbits.OERR)
+    if(1 == RC1STAbits.OERR)
     {
         // EUSART error - restart
 
-        RCSTAbits.CREN = 0; 
-        RCSTAbits.CREN = 1; 
+        RC1STAbits.CREN = 0; 
+        RC1STAbits.CREN = 1; 
     }
 
-    return RCREG;
+    return RC1REG;
 }
 
 void EUSART_Write(uint8_t txData)
@@ -114,7 +114,7 @@ void EUSART_Write(uint8_t txData)
     {
     }
 
-    TXREG = txData;    // Write the data byte to the USART.
+    TX1REG = txData;    // Write the data byte to the USART.
 }
 
 char getch(void)
