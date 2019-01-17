@@ -122,14 +122,14 @@ Test:
      |                  |     
 ```
 
-| Message | Description                            | Direction | Response        |
-|---------|----------------------------------------|-----------|-----------------|
-| h       | hello                                  | S -> C    | (start polling) |
-| t       | thermistor                             | S <- C    | data            |
-| p       | 64 pixels                              | S <- C    | data            |
-| d       | 64 pixels diff                         | S <- C    | data            |
-| D       | avarages of diff of each rows          | S <- C    | data            |
-| k       | keep on (disable power saving process) | S <- C    | (none)          |
+| Message | Description                            | Request | Response        |
+|---------|----------------------------------------|---------|-----------------|
+| h       | hello                                  | S -> C  | (start polling) |
+| t       | thermistor                             | S <- C  | data            |
+| p       | 64 pixels                              | S <- C  | data            |
+| d       | 64 pixels diff                         | S <- C  | data            |
+| D       | avarages of diff of each rows          | S <- C  | data            |
+| k       | keep on (disable power saving process) | S <- C  | (none)          |
 
 ## Reference
 
