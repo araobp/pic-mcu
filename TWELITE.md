@@ -65,15 +65,15 @@ The bottle neck of data transfer is the following:
 - IEEE802.15.4 PHY (250kbps)
 - And buffering at each interface
 
-## Specification of the co-processor (PIC16F1825)
+## Specification of the co-processor (PIC16F1825 or PIC16F18326)
 
-|          | Value                  |
-|----------|------------------------|
-|VDD       | 3.0V DC (AAA battery x 2)      |
-|Power consumption| a few mA        |
-|CPU Clock | 16MHz HF               |
-|UART      | 115200bps               |
-|I2C Clock | 250kHz                 |
+|          | Value                    |
+|----------|--------------------------|
+|VDD       | 3.0V DC (AAA battery x 2)|
+|Power consumption| a few mA          |
+|CPU Clock | 16MHz HF                 |
+|UART      | 115200bps                |
+|I2C Clock | 250kHz                   |
 
 Note: I tried lower CPU clock frequencies, but UART did not work with TWELITE-DIP.
 
@@ -100,6 +100,37 @@ Test:
  
                             :
 ```
+
+## Power saving
+
+```
+ PIC16F1825
+ (as server)          Client
+     |                  |
+     |---- 'h' -------->|  'h(ello)'
+     |<-----------------|  Start polling to read data or respond with 'k(eep on)' to disable the periodic process.
+     |        :         |
+     |                  |  Stop polling
+     |                  |  (after 3 minutes)
+ Stop power supply to TWELITE-DIP and AMG8833
+     |                  |  (every 10 minutes)
+ Start power supply to TWELITE-DIP and AMG8833
+     |                  |  (after 2 second)
+     |---- 'h' -------->|
+     |                  |  (after 3 second)
+ Stop power supply TWELITE-DIP and AMG8833
+     |                  |     
+```
+
+| Message | Description                            | Direction | Response        |
+|---------|----------------------------------------|-----------|-----------------|
+| h       | hello                                  | S -> C    | (start polling) |
+| t       | thermistor                             | S <- C    | data            |
+| p       | 64 pixels                              | S <- C    | data            |
+| d       | 64 pixels diff                         | S <- C    | data            |
+| D       | avarages of diff of each rows          | S <- C    | data            |
+| k       | keep on (disable power saving process) | S <- C    | (none)          |
+
 ## Reference
 
 - https://mono-wireless.com/jp/products/TWE-APPS/App_Uart/mode_format.html
