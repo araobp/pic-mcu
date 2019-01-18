@@ -55,6 +55,56 @@ Features for example:
 - Diff between the current value and the previous value for each pixel.
 - Diff average along each row.
 
+And another example: motion sensing
+```
+  Pattern matching
+  (sine-wave-like)
+
+ <pattern 1>
+    P..             P: Positive value, N: Negative value
+ 0        0..         0   ==> match
+                N..
+
+<pattern 2>
+                P... 
+ 0        0..         0   ==> match
+    N...
+```
+
+```
+    Moving objects
+                   ^
+                   |
+    ^             -o-
+    |
+   -o-
+                
+         Diff              Matching along columns   The number of peaks along rows         
+                              <pattern 1>
+ 0  0  0  0  0  0  1  0    0  0  0  0  0  0  0  0         0
+ 0  0  0  0  0  1  2  1    0  0  0  0  0  0  0  0         0
+ 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0
+ 0  1  1  0  0 -1 -2 -1    0  0  0  0  0  0  0  0         0
+ 1  2  3  1  0  0 -1  0    0  0  0  0  0  0  0  0         0
+ 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0
+-1 -2 -2 -1  0  0  0  0    0  0  0  0  0  0  0  0         0
+ 0 -1  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0
+                                                    Total: 0
+                              <pattern 2>
+ 0  0  0  0  0  0  1  0    0  0  0  0  0  0  0  0         0
+ 0  0  0  0  0  1  2  1    0  0  0  0  0  0  0  0         0
+ 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0
+ 0  1  1  0  0 -1 -2 -1    0  0  0  0  0  1  1  1         1
+ 1  2  3  1  0  0 -1  0    0  0  0  0  0  0  1  0         1
+ 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0
+-1 -2 -2 -1  0  0  0  0    1  1  1  0  0  0  0  0         1
+ 0 -1  0  0  0  0  0  0    0  1  0  0  0  0  0  0         1
+                                                     Total: +2
+                                                          |
+                                                          V
+                                                    The number of peaks along column
+                                                     Total: +2 (moving forward)
+```
 ## Command sequence
 
 This command sequence (polling) is optimized for decreasing the power consumption.
