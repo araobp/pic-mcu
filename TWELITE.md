@@ -60,15 +60,10 @@ And another example: motion sensing
   Pattern matching
   (sine-wave-like)
 
- <pattern 1>
     P..             P: Positive value, N: Negative value
  0        0..         0   ==> match
                 N..
 
-<pattern 2>
-                P... 
- 0        0..         0   ==> match
-    N...
 ```
 
 ```
@@ -79,32 +74,30 @@ And another example: motion sensing
     |
    -o-
                 
-         Diff              Matching along columns   The number of peaks along rows         
-                              <pattern 1>
- 0  0  0  0  0  0  1  0    0  0  0  0  0  0  0  0         0
- 0  0  0  0  0  1  2  1    0  0  0  0  0  0  0  0         0
- 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0
- 0  1  1  0  0 -1 -2 -1    0  0  0  0  0  0  0  0         0
- 1  2  3  1  0  0 -1  0    0  0  0  0  0  0  0  0         0
- 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0
--1 -2 -2 -1  0  0  0  0    0  0  0  0  0  0  0  0         0
- 0 -1  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0
+         Diff              Matching along columns   The number of peaks   Peak      
+                              <upward>              along rows            along column
+ 0  0  0  0  0  0  1  0    0  0  0  0  0  0  0  0         0                0  <== scanning point
+ 0  0  0  0  0  1  2  1    0  0  0  0  0  0  0  0         0                0      to count moving objects
+ 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
+ 0  1  1  0  0 -1 -2 -1    0  0  0  0  0  0  0  0         0                0
+ 1  2  3  1  0  0 -1  0    0  0  0  0  0  0  0  0         0                0
+ 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
+-1 -2 -2 -1  0  0  0  0    0  0  0  0  0  0  0  0         0                0
+ 0 -1  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
                                                     Total: 0
-                              <pattern 2>
- 0  0  0  0  0  0  1  0    0  0  0  0  0  0  0  0         0
- 0  0  0  0  0  1  2  1    0  0  0  0  0  0  0  0         0
- 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0
- 0  1  1  0  0 -1 -2 -1    0  0  0  0  0  1  1  1         1
- 1  2  3  1  0  0 -1  0    0  0  0  0  0  0  1  0         1
- 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0
--1 -2 -2 -1  0  0  0  0    1  1  1  0  0  0  0  0         1
- 0 -1  0  0  0  0  0  0    0  1  0  0  0  0  0  0         1
-                                                     Total: +2
-                                                          |
-                                                          V
-                                                    The number of peaks along column
-                                                     Total: +2 (moving forward)
+                              <downward>
+ 0  0  0  0  0  0  1  0    0  0  0  0  0  0  0  0         0                0
+ 0  0  0  0  0  1  2  1    0  0  0  0  0  0  0  0         0                0
+ 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
+ 0  1  1  0  0 -1 -2 -1    0  0  0  0  0  1  1  1         1                0
+ 1  2  3  1  0  0 -1  0    0  0  0  0  0  0  1  0         1                1
+ 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
+-1 -2 -2 -1  0  0  0  0    1  1  1  0  0  0  0  0         1                0
+ 0 -1  0  0  0  0  0  0    0  1  0  0  0  0  0  0         1                1  <== scanning point
+                                                                                  to count moving objects
+
 ```
+
 ## Command sequence
 
 This command sequence (polling) is optimized for decreasing the power consumption.
