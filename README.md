@@ -14,12 +14,7 @@ I developed my original PIC16F1 evaluation board in 2017, and I have used this b
 
 ## Application components
 
-### PIC16F1825 (14 pins DIP)
-
 - [Wireless network of infrared array sensors with TWELITE](TWELITE.md)
-
-### PIC16F18326 (14 pins DIP)
-
 - [Motion logger for sensing human body movement](MOTION_LOGGER.md)
 
 ## Tips

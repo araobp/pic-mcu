@@ -71,7 +71,7 @@ The bottle neck of data transfer is the following:
 |----------|--------------------------|
 |VDD       | 3.0V DC (AAA battery x 2)|
 |Power consumption| a few mA          |
-|CPU Clock | 16MHz HF                 |
+|CPU Clock | 32MHz HF                 |
 |UART      | 115200bps                |
 |I2C Clock | 250kHz                   |
 
@@ -80,7 +80,7 @@ Note: I tried lower CPU clock frequencies, but UART did not work with TWELITE-DI
 ## Code
 
 - [Master(Python) with TWELITE-STICK](./python/twelite)
-- [Slave(PIC16F1825) with TWELITE-DIP](./src/pic16f1825/amg8833.X)
+- [Slave(PIC16F18326) with TWELITE-DIP](./src/pic16f18326/amg8833.X)
 
 Test:
 ```
