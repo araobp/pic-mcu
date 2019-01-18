@@ -23,6 +23,18 @@ The SDK supports event-driven APIs to cope with such a problem, but I guess the 
 
 I use 8bit MCU as a co-processor of TWELITE just for receiving data from an infrared array sensor on I2C bus and transfer the data to TWELITE via UART.
 
+## Specification of the co-processor (PIC16F18326)
+
+|          | Value                    |
+|----------|--------------------------|
+|VDD       | 3.0V DC (AAA battery x 2)|
+|Power consumption| a few mA          |
+|CPU Clock | 32MHz HF                 |
+|UART      | 115200bps                |
+|I2C Clock | 250kHz                   |
+
+Note: I tried lower CPU clock frequencies, but UART did not work with TWELITE-DIP.
+
 ## 8bit quantization
 
 - Payload size of TWELITE's packet is 80, so I need to compress the image data.
@@ -65,17 +77,23 @@ The bottle neck of data transfer is the following:
 - IEEE802.15.4 PHY (250kbps)
 - And buffering at each interface
 
-## Specification of the co-processor (PIC16F18326)
+## Commands
 
-|          | Value                    |
-|----------|--------------------------|
-|VDD       | 3.0V DC (AAA battery x 2)|
-|Power consumption| a few mA          |
-|CPU Clock | 32MHz HF                 |
-|UART      | 115200bps                |
-|I2C Clock | 250kHz                   |
+| Command | Description                            | Request          | Response        |
+|---------|----------------------------------------|------------------|-----------------|
+| h       | hello                                  | Slave -> Master  | r(un)           |
+| r       | run                                    | Master -> Slave  |                 |
+| k       | keep on (reset the timer)              | Master -> Slave  | (none)          |
+| t       | thermistor                             | Master -> Slave  | data            |
+| p       | 64 pixels                              | Master -> Slave  | data            |
+| d       | 64 pixels diff                         | Master -> Slave  | data            |
+| D       | avarages of diff of each rows          | Master -> Slave  | data            |
 
-Note: I tried lower CPU clock frequencies, but UART did not work with TWELITE-DIP.
+## Power saving
+
+PIC16F1 controls FET for power control.
+
+![](https://docs.google.com/drawings/d/e/2PACX-1vRKkvEE8Qu8NDzdrnWKfsav20zUiKk-MrW7WBJTkuSbnBnBqELGJ9IAp9Ce6L4VIAO_fR5WHlkIdUWj/pub?w=480&h=360)
 
 ## Code
 
@@ -100,24 +118,6 @@ Test:
  
                             :
 ```
-
-## Power saving
-
-PIC16F1 controls FET for power control.
-
-![](https://docs.google.com/drawings/d/e/2PACX-1vRKkvEE8Qu8NDzdrnWKfsav20zUiKk-MrW7WBJTkuSbnBnBqELGJ9IAp9Ce6L4VIAO_fR5WHlkIdUWj/pub?w=480&h=360)
-
-## Messages
-
-| Message | Description                            | Request          | Response        |
-|---------|----------------------------------------|------------------|-----------------|
-| h       | hello                                  | Slave -> Master  | r(un)           |
-| r       | run                                    | Master -> Slave  |                 |
-| k       | keep on (reset the timer)              | Master -> Slave  | (none)          |
-| t       | thermistor                             | Master -> Slave  | data            |
-| p       | 64 pixels                              | Master -> Slave  | data            |
-| d       | 64 pixels diff                         | Master -> Slave  | data            |
-| D       | avarages of diff of each rows          | Master -> Slave  | data            |
 
 ## Reference
 
