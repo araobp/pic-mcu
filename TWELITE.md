@@ -109,15 +109,15 @@ PIC16F1 controls FET for power control.
 
 ## Messages
 
-| Message | Description                            | Request | Response        |
-|---------|----------------------------------------|---------|-----------------|
-| h       | hello                                  | S -> C  | r(un)           |
-| r       | run                                    | C -> S  |                 |
-| k       | keep on (reset the timer)              | S <- C  | (none)          |
-| t       | thermistor                             | S <- C  | data            |
-| p       | 64 pixels                              | S <- C  | data            |
-| d       | 64 pixels diff                         | S <- C  | data            |
-| D       | avarages of diff of each rows          | S <- C  | data            |
+| Message | Description                            | Request          | Response        |
+|---------|----------------------------------------|------------------|-----------------|
+| h       | hello                                  | Slave -> Master  | r(un)           |
+| r       | run                                    | Master -> Slave  |                 |
+| k       | keep on (reset the timer)              | Master -> Slave  | (none)          |
+| t       | thermistor                             | Master -> Slave  | data            |
+| p       | 64 pixels                              | Master -> Slave  | data            |
+| d       | 64 pixels diff                         | Master -> Slave  | data            |
+| D       | avarages of diff of each rows          | Master -> Slave  | data            |
 
 ## Reference
 
