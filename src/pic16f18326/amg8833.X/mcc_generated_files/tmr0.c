@@ -1,26 +1,24 @@
 /**
-  Generated Pin Manager File
+  TMR0 Generated Driver File
 
-  Company:
+  @Company
     Microchip Technology Inc.
 
-  File Name:
-    pin_manager.c
+  @File Name
+    tmr0.c
 
-  Summary:
-    This is the Pin Manager file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
+  @Summary
+    This is the generated driver implementation file for the TMR0 driver using PIC10 / PIC12 / PIC16 / PIC18 MCUs
 
-  Description:
-    This header file provides implementations for pin APIs for all pins selected in the GUI.
+  @Description
+    This source file provides APIs for TMR0.
     Generation Information :
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.65.2
         Device            :  PIC16F18326
-        Driver Version    :  2.11
+        Driver Version    :  3.10
     The generated drivers are tested against the following:
         Compiler          :  XC8 1.45
-        MPLAB             :  MPLAB X 4.15
-
-    Copyright (c) 2013 - 2015 released Microchip Technology Inc.  All rights reserved.
+        MPLAB 	          :  MPLAB X 4.15
 */
 
 /*
@@ -46,71 +44,78 @@
     SOFTWARE.
 */
 
+/**
+  Section: Included Files
+*/
+
 #include <xc.h>
-#include "pin_manager.h"
-#include "stdbool.h"
+#include "tmr0.h"
 
-
-
-
-
-void PIN_MANAGER_Initialize(void)
-{
-    /**
-    LATx registers
-    */
-    LATA = 0x00;
-    LATC = 0x00;
-
-    /**
-    TRISx registers
-    */
-    TRISA = 0x37;
-    TRISC = 0x2B;
-
-    /**
-    ANSELx registers
-    */
-    ANSELC = 0x08;
-    ANSELA = 0x27;
-
-    /**
-    WPUx registers
-    */
-    WPUA = 0x10;
-    WPUC = 0x00;
-
-    /**
-    ODx registers
-    */
-    ODCONA = 0x00;
-    ODCONC = 0x00;
-
-    /**
-    SLRCONx registers
-    */
-    SLRCONA = 0x37;
-    SLRCONC = 0x3F;
-
-
-
-
-
-   
-    
-	
-    RC0PPS = 0x18;   //RC0->MSSP1:SCL1;    
-    RXPPS = 0x15;   //RC5->EUSART:RX;    
-    SSP1CLKPPS = 0x10;   //RC0->MSSP1:SCL1;    
-    RC1PPS = 0x19;   //RC1->MSSP1:SDA1;    
-    RC4PPS = 0x14;   //RC4->EUSART:TX;    
-    SSP1DATPPS = 0x11;   //RC1->MSSP1:SDA1;    
-}
-  
-void PIN_MANAGER_IOC(void)
-{   
-}
 
 /**
- End of File
+  Section: TMR0 APIs
+*/
+
+
+void TMR0_Initialize(void)
+{
+    // Set TMR0 to the options selected in the User Interface
+
+    // T0CS FOSC/4; T0CKPS 1:512; T0ASYNC synchronised; 
+    T0CON1 = 0x49;
+
+    // TMR0H 243; 
+    TMR0H = 0xF3;
+
+    // TMR0L 0; 
+    TMR0L = 0x00;
+
+    // Clearing IF flag
+    PIR0bits.TMR0IF = 0;
+
+    // T0OUTPS 1:16; T0EN enabled; T016BIT 8-bit; 
+    T0CON0 = 0x8F;
+}
+
+void TMR0_StartTimer(void)
+{
+    // Start the Timer by writing to TMR0ON bit
+    T0CON0bits.T0EN = 1;
+}
+
+void TMR0_StopTimer(void)
+{
+    // Stop the Timer by writing to TMR0ON bit
+    T0CON0bits.T0EN = 0;
+}
+
+uint8_t TMR0_ReadTimer(void)
+{
+    uint8_t readVal;
+
+    // read Timer0, low register only
+    readVal = TMR0L;
+
+    return readVal;
+}
+
+void TMR0_WriteTimer(uint8_t timerVal)
+{
+    // Write to Timer0 registers, low register only
+    TMR0L = timerVal;
+ }
+
+void TMR0_Reload(uint8_t periodVal)
+{
+   // Write to Timer0 registers, high register only
+   TMR0H = periodVal;
+}
+
+bool TMR0_HasOverflowOccured(void)
+{
+    // check if  overflow has occurred by checking the TMRIF bit
+    return(PIR0bits.TMR0IF);
+}
+/**
+  End of File
 */

@@ -21,6 +21,7 @@ parser.add_argument("dst", help="Destination node identifier")
 parser.add_argument("-m", "--performance_measurement", help="Performance measurement on 64 pixels data transmission over TWELITE", action='store_true')
 parser.add_argument("-q", "--quality", help="Print out quality data (sequence number and LQI) as well", action='store_true')
 parser.add_argument("-s", "--sum_diff_only", help="Print out sum diff only", action='store_true')
+parser.add_argument("-r", "--return_run", help="Return 'r(un)' command in response to 'h(ello)'", action='store_true')
 args = parser.parse_args()
 
 info = lambda seq, lqi: ' seq number: {}, LQI: {} ({} dBm)'.format(seq, lqi, tw.lqi2dbm(lqi))
@@ -59,8 +60,11 @@ if __name__ == '__main__':
         for _ in range(int(args.loop)):
 
             try:
-
-                if args.performance_measurement and args.sum_diff_only:
+                if args.return_run:
+                    data = mn.read(dst=dst, cmd=None, quality_data=False)
+                    if data:
+                        mn.write(dst=dst, cmd=tw.RUN)      
+                elif args.performance_measurement and args.sum_diff_only:
                     data = mn.read(dst=dst, cmd=tw.SUM_DIFF, quality_data=False)
                 elif args.performance_measurement:
                     data = mn.read(dst=dst, cmd=tw.PIXELS, quality_data=False)

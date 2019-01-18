@@ -84,13 +84,13 @@ class MasterNode:
     This is a packet parser for transmitting/receiving data over TWELITE.
     '''
 
-    def __init__(self, port, baudrate):
+    def __init__(self, port, baudrate, timeout=0.3):
         self.port  = port
         self.baudrate = baudrate
         self.genSeq = GenSeq()
         self.seq = 0
         self.cmd = None
-        self.ser = serial.Serial(self.port, self.baudrate, timeout=0.3)
+        self.ser = serial.Serial(self.port, self.baudrate, timeout=timeout)
         
     def __enter__(self):
         return self
@@ -119,29 +119,32 @@ class MasterNode:
     # Receive data
     def _rx(self):
         d = self.ser.read(5)  # 0xA5 0x5A 0x80 <len> <dst>
-        #print(d)
-        len_ =  b2ui(d, 3)
-        dst = b2ui(d, 4)
-        d = self.ser.read(13)  # 0xA0 seq <4bytes> <4bytes> <LQI> 0x00 <len>
-        #print(d)
-        seq = b2ui(d, 1)
-        lqi = b2ui(d, 10)
-        len_ = b2ui(d, 12)
-        #print('dst: {}, len: {}, lqi: {}'.format(str(dst), str(len_), str(lqi)))
+        if (d == b'') {
+            data, seq, lqi = None, 0, 0
+        } else {
+            #print(d)
+            len_ =  b2ui(d, 3)
+            dst = b2ui(d, 4)
+            d = self.ser.read(13)  # 0xA0 seq <4bytes> <4bytes> <LQI> 0x00 <len>
+            #print(d)
+            seq = b2ui(d, 1)
+            lqi = b2ui(d, 10)
+            len_ = b2ui(d, 12)
+            #print('dst: {}, len: {}, lqi: {}'.format(str(dst), str(len_), str(lqi)))
 
-        d = self.ser.read(len_)  # <data[]>
-        #print(d)
-        data = _conv_data_amg8833(self.cmd, d)
-                
-        d = self.ser.read(2)  # Checksum, EOT
-        #ck = b2i(d,0)
-        #print(data)
+            d = self.ser.read(len_)  # <data[]>
+            #print(d)
+            data = _conv_data_amg8833(self.cmd, d)
+                    
+            d = self.ser.read(2)  # Checksum, EOT
+            #ck = b2i(d,0)
+            #print(data)
+        }
         return (data, seq, lqi)
 
-    # Read data: tx then rx
-    def fetch(self, dst, cmd):
+    # Write data
+    def write(self, dst, cmd):
         self._tx(dst, cmd)
-        return self._rx()        
 
     # Read data: tx then rx
     def read(self, dst, cmd, quality_data=False):
