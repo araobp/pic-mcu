@@ -2,6 +2,10 @@
 
 ![](./doc/twelite-dip.jpg)
 
+## Goal
+
+I develop an algorithm on PIC16F1 to infer motion of moving objects. The inference result is transferred to PC over TWELITE wireless sensor network.
+
 ## Hardware components
 
 ### TWELITE
