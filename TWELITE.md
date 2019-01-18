@@ -65,7 +65,7 @@ The bottle neck of data transfer is the following:
 - IEEE802.15.4 PHY (250kbps)
 - And buffering at each interface
 
-## Specification of the co-processor (PIC16F1825 or PIC16F18326)
+## Specification of the co-processor (PIC16F18326)
 
 |          | Value                    |
 |----------|--------------------------|
@@ -105,33 +105,19 @@ Test:
 
 PIC16F1 controls FET for power control.
 
-```
- PIC16F1825
- (as server)          Client
-     |                  |
-     |---- 'h' -------->|  'h(ello)'
-     |<-----------------|  Start polling to read data or respond with 'k(eep on)' to disable the periodic process.
-     |        :         |
-     |                  |  Stop polling
-     |                  |  (after 3 minutes)
- Stop power supply to TWELITE-DIP and AMG8833
-     |                  |  (every 10 minutes)
- Start power supply to TWELITE-DIP and AMG8833
-     |                  |  (after 2 second)
-     |---- 'h' -------->|
-     |                  |  (after 3 second)
- Stop power supply TWELITE-DIP and AMG8833
-     |                  |     
-```
+![](https://docs.google.com/drawings/d/e/2PACX-1vRKkvEE8Qu8NDzdrnWKfsav20zUiKk-MrW7WBJTkuSbnBnBqELGJ9IAp9Ce6L4VIAO_fR5WHlkIdUWj/pub?w=480&h=360)
+
+## Messages
 
 | Message | Description                            | Request | Response        |
 |---------|----------------------------------------|---------|-----------------|
-| h       | hello                                  | S -> C  | (start polling) |
+| h       | hello                                  | S -> C  | r(un)           |
+| r       | run                                    | C -> S  |                 |
+| k       | keep on (reset the timer)              | S <- C  | (none)          |
 | t       | thermistor                             | S <- C  | data            |
 | p       | 64 pixels                              | S <- C  | data            |
 | d       | 64 pixels diff                         | S <- C  | data            |
 | D       | avarages of diff of each rows          | S <- C  | data            |
-| k       | keep on (disable power saving process) | S <- C  | (none)          |
 
 ## Reference
 
