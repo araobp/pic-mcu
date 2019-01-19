@@ -145,7 +145,7 @@ Objects moving upward
 
 ```
 
-In this method, the slave node application on PIC16F1 sends only 1 byte info to the master node over TWELITE every 100msec.
+In this method, the slave node application on PIC16F1 sends only 1 byte info to the master node over TWELITE.
 
 ```
 
@@ -189,6 +189,7 @@ The bottle neck of data transfer is the following:
 | p       | 64 pixels                              | Master -> Slave  | data            |
 | d       | 64 pixels diff                         | Master -> Slave  | data            |
 | D       | avarages of diff of each rows          | Master -> Slave  | data            |
+| f       | output via the filter                  | Master -> Slave  | data            |
 
 ## Power saving
 
