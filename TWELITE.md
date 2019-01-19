@@ -180,16 +180,16 @@ The bottle neck of data transfer is the following:
 
 ## Commands
 
-| Command | Description                            | Request          | Response        |
-|---------|----------------------------------------|------------------|-----------------|
-| h       | hello                                  | Slave -> Master  | r(un)           |
-| r       | run                                    | Master -> Slave  |                 |
-| k       | keep on (reset the timer)              | Master -> Slave  | (none)          |
-| t       | thermistor                             | Master -> Slave  | data            |
-| p       | 64 pixels                              | Master -> Slave  | data            |
-| d       | 64 pixels diff                         | Master -> Slave  | data            |
-| D       | avarages of diff of each rows          | Master -> Slave  | data            |
-| f       | output via the filter                  | Master -> Slave  | data            |
+| Command | Description                            | Data size | Request          | Response        |
+|---------|----------------------------------------|-----------|------------------|-----------------|
+| h       | hello                                  |           | Slave -> Master  | r(un)           |
+| r       | run                                    |           | Master -> Slave  |                 |
+| k       | keep on (reset the timer)              |           | Master -> Slave  | (none)          |
+| t       | thermistor                             | 2 bytes   | Master -> Slave  | data            |
+| p       | 64 pixels                              | 64 bytes  | Master -> Slave  | data            |
+| d       | 64 pixels diff                         | 64 bytes  | Master -> Slave  | data            |
+| D       | avarages of diff of each rows          | 8 bytes   | Master -> Slave  | data            |
+| f       | output via the filter                  | 1 byte    | Master -> Slave  | data            |
 
 ## Power saving
 
