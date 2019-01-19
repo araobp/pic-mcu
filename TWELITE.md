@@ -55,11 +55,40 @@ Note: the sensor also outputs temperature data from a thermistor on the chip. I 
 
 In spite of 8bit quantization, the load on TWELITE is still heavy. It may require further processing to calculate features on PIC16F1 before transmitting the data to the master node.
 
-Features for example:
-- Diff between the current value and the previous value for each pixel.
-- Diff average along each row.
+### Features for example
 
-And another example: motion sensing
+#### A: Diff
+
+Diff between the current value and the previous value for each pixel.
+
+#### B: Sum of diff along each row
+
+Diff average along each row.
+
+#### C: Sensing motion of moving objects
+
+Diff output emphasizes edges of moving objects, and the diff value corresponds to their speed (vector).
+
+```
+Diff at each column
+^
+|                     _
+|                    /  \
+|                   /    \  ===> Direction of movement
+0   --       ------       ------
+|      \    /
+|       \__/
+|
++------------------------------------>
+                                    time
+```
+
+Here I assume that objects are moving along the column direction (upward or downward).
+
+It is possible to detect the motion in that condition by apply a filter, like the wave above, to output from A: Diff. 
+
+Such a filter:
+
 ```
   Pattern matching
   (sine-wave-like)
@@ -67,6 +96,16 @@ And another example: motion sensing
     P..             P: Positive value, N: Negative value
  0        0..         0   ==> match
                 N..
+
+
+P matched if the current value is positive (and larger than some threshold).
+
+N matches under the following conditions:
+- previous values (at least one) matched P:
+- the current diff value is negative and smaller than some threashold.
+
+If P and N mathced, it outputs 1. N matching is repeated multiple times.
+If only P matched, it outpus 0 (the output is discared).
 
 ```
 
@@ -80,7 +119,9 @@ And another example: motion sensing
                 
          Diff              Matching along columns   The number of peaks   Peak      
                               <upward>              along rows            along column
- 0  0  0  0  0  0  1  0    0  0  0  0  0  0  0  0         0                0  <== scanning point
+
+Objects moving downward
+ 0  0  0  0  0  0  1  0    0  0  0  0  0  0  0  0         0              [ 0 ]  <== scanning point
  0  0  0  0  0  1  2  1    0  0  0  0  0  0  0  0         0                0      to count moving objects
  0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
  0  1  1  0  0 -1 -2 -1    0  0  0  0  0  0  0  0         0                0
@@ -88,8 +129,10 @@ And another example: motion sensing
  0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
 -1 -2 -2 -1  0  0  0  0    0  0  0  0  0  0  0  0         0                0
  0 -1  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
-                                                    Total: 0
-                              <downward>
+
+         Diff              Matching along columns   The number of peaks   Peak      
+                              <downward>            along rows            along column
+Objects moving upward
  0  0  0  0  0  0  1  0    0  0  0  0  0  0  0  0         0                0
  0  0  0  0  0  1  2  1    0  0  0  0  0  0  0  0         0                0
  0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
@@ -97,8 +140,19 @@ And another example: motion sensing
  1  2  3  1  0  0 -1  0    0  0  0  0  0  0  1  0         1                1
  0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
 -1 -2 -2 -1  0  0  0  0    1  1  1  0  0  0  0  0         1                0
- 0 -1  0  0  0  0  0  0    0  1  0  0  0  0  0  0         1                1  <== scanning point
+ 0 -1  0  0  0  0  0  0    0  1  0  0  0  0  0  0         1              [ 1 ] <== scanning point
                                                                                   to count moving objects
+
+```
+
+In this method, the slave node application on PIC16F1 sends only 1 byte info to the master node over TWELITE every 100msec.
+
+```
+
+      bits
+| | | | | | | | |
+|S|NUM  |S|NUM  |    S: sign bit, NUM: 0 ~ 7
+Downward Upward
 
 ```
 
