@@ -110,7 +110,7 @@ void main(void) {
     
     __delay_ms(500);
     
-    //set_moving_average(true);
+    set_moving_average(true);
     
     while (1) {
         power_mgmt(CHECK);

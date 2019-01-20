@@ -119,9 +119,9 @@ class MasterNode:
     # Receive data
     def _rx(self):
         d = self.ser.read(5)  # 0xA5 0x5A 0x80 <len> <dst>
-        if (d == b'') {
+        if len(d) == 0:
             data, seq, lqi = None, 0, 0
-        } else {
+        else:
             #print(d)
             len_ =  b2ui(d, 3)
             dst = b2ui(d, 4)
@@ -139,7 +139,7 @@ class MasterNode:
             d = self.ser.read(2)  # Checksum, EOT
             #ck = b2i(d,0)
             #print(data)
-        }
+        
         return (data, seq, lqi)
 
     # Write data

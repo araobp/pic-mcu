@@ -308,8 +308,6 @@ Wire Wire Line
 Wire Wire Line
 	3900 2400 3900 3000
 Wire Wire Line
-	7300 2500 7300 3000
-Wire Wire Line
 	4350 4450 4350 6800
 Wire Wire Line
 	5300 1250 5300 1450
@@ -551,21 +549,6 @@ Wire Wire Line
 Wire Wire Line
 	1800 4550 1700 4550
 Connection ~ 1700 4650
-$Comp
-L D D1
-U 1 1 5C414E42
-P 7750 2800
-F 0 "D1" H 7750 2900 50  0000 C CNN
-F 1 "1A" H 7750 2700 50  0000 C CNN
-F 2 "pic16f1:diode" H 7750 2800 50  0001 C CNN
-F 3 "" H 7750 2800 50  0001 C CNN
-	1    7750 2800
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
-	7900 2800 8250 2800
-Connection ~ 8250 2800
-Wire Wire Line
-	7600 2800 7300 2800
-Connection ~ 7300 2800
+	7300 2500 7300 3000
 $EndSCHEMATC
