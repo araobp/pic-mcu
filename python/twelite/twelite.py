@@ -33,6 +33,9 @@ THERMISTOR = ord('t')  #0x74: fetch room temperature data
 PIXELS = ord('p')  #0x70: fetch pixels data as heatmap
 DIFF = ord('d')  #Diff
 SUM_DIFF = ord('D')
+RUN = ord('r')
+# h(ello) message from slave nodes
+HELLO = b'h'
 
 ### AMG8833 data resolution
 THERMISTOR_RESOLUTION = 0.0625
@@ -55,7 +58,9 @@ def _conv_data_amg8833(cmd, d):
         len_ = len(d)
         data = np.zeros(len_)
         for i in range(len_):
-            data[i] = b2i(d,i)*PIXELS_RESOLUTION        
+            data[i] = b2i(d,i)*PIXELS_RESOLUTION
+    elif cmd == HELLO:
+        data = d
     return data
 
 # LQI to dBm conversion
@@ -120,7 +125,7 @@ class MasterNode:
     def _rx(self):
         d = self.ser.read(5)  # 0xA5 0x5A 0x80 <len> <dst>
         if len(d) == 0:
-            data, seq, lqi = None, 0, 0
+            data, seq, lqi = d, 0, 0  # d is b'' in this case
         else:
             #print(d)
             len_ =  b2ui(d, 3)
@@ -142,6 +147,12 @@ class MasterNode:
         
         return (data, seq, lqi)
 
+    # Wait for 'h(ello)'
+    def wait(self, dst):
+        self.cmd = HELLO
+        data, seq, lqi = self._rx()
+        return data
+        
     # Write data
     def write(self, dst, cmd):
         self._tx(dst, cmd)

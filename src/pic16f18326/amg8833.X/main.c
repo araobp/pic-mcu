@@ -12,6 +12,8 @@
 #define T_2 3       // 3 sec
 #define T_3 180     // 180 sec (3 min)
 #define T_4 6000    // 6000 sec (10 min)
+//#define T_3 5
+//#define T_4 10
 
 // Power saving state machine
 typedef enum {

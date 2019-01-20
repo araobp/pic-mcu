@@ -9,6 +9,7 @@
 import twelite as tw
 import time
 import argparse
+import traceback
 
 ### Serial port setting
 BAUDRATE = 115200
@@ -51,6 +52,8 @@ def read_and_print_data(label, slave_id, cmd, quality_data=False):
 if __name__ == '__main__':
 
     dst = int(args.dst)
+
+    running = False
     
     with tw.MasterNode(args.port, BAUDRATE) as mn:
 
@@ -61,9 +64,17 @@ if __name__ == '__main__':
 
             try:
                 if args.return_run:
-                    data = mn.read(dst=dst, cmd=None, quality_data=False)
-                    if data:
-                        mn.write(dst=dst, cmd=tw.RUN)      
+                    if not running:
+                        data = mn.wait(dst=dst)
+                        if data == tw.HELLO:  # h(ello) 
+                            mn.write(dst=dst, cmd=tw.RUN)  # r(un)
+                            print('r(un) sent in response to h(ello)')
+                            running = True
+                        else:
+                            print('wait timeout')
+                    else:
+                        read_and_print_data('room temperature', dst, tw.THERMISTOR, quality_data=args.quality)
+                        time.sleep(3)
                 elif args.performance_measurement and args.sum_diff_only:
                     data = mn.read(dst=dst, cmd=tw.SUM_DIFF, quality_data=False)
                 elif args.performance_measurement:
@@ -85,6 +96,7 @@ if __name__ == '__main__':
 
             except Exception as e:
                 #print(e)
+                traceback.print_exc()
                 err_cnt += 1
                 print('transmission error: {}'.format(err_cnt))
             
