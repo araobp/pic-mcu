@@ -8,27 +8,25 @@
 #define FET_GATE LATCbits.LATC2
 
 // Timers
-#define T_1 2       // 2 sec
-#define T_2 3       // 3 sec
-#define T_3 180     // 180 sec (3 min)
-#define T_4 6000    // 6000 sec (10 min)
-//#define T_3 5
-//#define T_4 10
+#define T_1 5       // 5 sec
+#define T_2 180     // 180 sec (3 min)
+#define T_3 6000    // 6000 sec (10 min)
+//#define T_2 5
+//#define T_3 10
 
 // Power saving state machine
 typedef enum {
-    WAKING_UP, CONNECTING, RUNNING, SLEEPING
+    CONNECTING, RUNNING, SLEEPING
 } state_machine;
 
 typedef enum {
-    CHECK, RUN, KEEP_ON
+    CHECK, KEEP_ON
 } state_machine_command;
 
 // Convert timers into 250msec time period unit
 const int t1 = T_1 * 4;
 const int t2 = T_2 * 4;
 const int t3 = T_3 * 4;
-const int t4 = T_4 * 4;
 
 // Buffers
 uint8_t buf[AMG8833_PIXELS_LENGTH];
@@ -42,19 +40,15 @@ int8_t sum[8];
  */
 void power_mgmt(state_machine_command command) {
     static int timeout_cnt = 0;
-    static state_machine state = WAKING_UP;
-    uint8_t hello[1] = { 'h' };
+    static state_machine state = CONNECTING;
     
     //--- Power management disabled by jumper pin -----------------------------
     if (PORTAbits.RA4 == LOW) return;  // WPU is enabled and jumper pin is off
     
-    //--- command: RUN or KEEP_ON ---------------------------------------------
-    if (command == RUN && state == CONNECTING) {
+    //--- command: KEEP_ON ----------------------------------------------------
+    if (command == KEEP_ON && (state == CONNECTING || state == RUNNING)) {
         timeout_cnt = 0;
         state = RUNNING;
-        return;
-    } else if (command == KEEP_ON && state == RUNNING) {
-        timeout_cnt = 0;
         return;
     }
     
@@ -65,32 +59,25 @@ void power_mgmt(state_machine_command command) {
     }
     
     switch(state) {
-        case WAKING_UP:
-            if (timeout_cnt >= t1) {
-                twelite_uart_tx(hello, 0, 1);  // Send 'h(ello)'
-                timeout_cnt = 0;
-                state = CONNECTING;
-            }
-            break;
         case CONNECTING:
-            if (timeout_cnt >= t2) {
+            if (timeout_cnt >= t1) {
                 timeout_cnt = 0;
                 FET_GATE = LOW;
                 state = SLEEPING;
             }
             break;
         case RUNNING:
-            if (timeout_cnt >= t3) {
+            if (timeout_cnt >= t2) {
                 timeout_cnt = 0;
                 FET_GATE = LOW;
                 state = SLEEPING;
             }            
             break;
         case SLEEPING:
-            if (timeout_cnt >= t4) {
+            if (timeout_cnt >= t3) {
                 timeout_cnt = 0;
                 FET_GATE = HIGH;
-                state = WAKING_UP;
+                state = CONNECTING;
             }            
             break;
         default:
@@ -143,9 +130,6 @@ void main(void) {
                             sum[i] = (int8_t)(s/8);
                         }
                         twelite_uart_tx((uint8_t *)sum, seq, 8);
-                        break;
-                    case 'r':
-                        power_mgmt(RUN);
                         break;
                     default:
                         break;

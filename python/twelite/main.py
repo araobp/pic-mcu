@@ -22,7 +22,6 @@ parser.add_argument("dst", help="Destination node identifier")
 parser.add_argument("-m", "--performance_measurement", help="Performance measurement on 64 pixels data transmission over TWELITE", action='store_true')
 parser.add_argument("-q", "--quality", help="Print out quality data (sequence number and LQI) as well", action='store_true')
 parser.add_argument("-s", "--sum_diff_only", help="Print out sum diff only", action='store_true')
-parser.add_argument("-r", "--return_run", help="Return 'r(un)' command in response to 'h(ello)'", action='store_true')
 args = parser.parse_args()
 
 info = lambda seq, lqi: ' seq number: {}, LQI: {} ({} dBm)'.format(seq, lqi, tw.lqi2dbm(lqi))
@@ -63,25 +62,14 @@ if __name__ == '__main__':
         for _ in range(int(args.loop)):
 
             try:
-                if args.return_run:
-                    if not running:
-                        data = mn.wait(dst=dst)
-                        if data == tw.HELLO:  # h(ello) 
-                            mn.write(dst=dst, cmd=tw.RUN)  # r(un)
-                            print('r(un) sent in response to h(ello)')
-                            running = True
-                        else:
-                            print('wait timeout')
-                    else:
-                        read_and_print_data('room temperature', dst, tw.THERMISTOR, quality_data=args.quality)
-                        time.sleep(3)
-                elif args.performance_measurement and args.sum_diff_only:
+                if args.performance_measurement and args.sum_diff_only:
                     data = mn.read(dst=dst, cmd=tw.SUM_DIFF, quality_data=False)
                 elif args.performance_measurement:
                     data = mn.read(dst=dst, cmd=tw.PIXELS, quality_data=False)
                 elif args.sum_diff_only:
                     read_and_print_data('pixels sum diff', dst, tw.SUM_DIFF, quality_data=args.quality)
                 else:
+                    #time.sleep(0.5)
                     ### Read room temperature data from 8bit MCU
                     read_and_print_data('room temperature', dst, tw.THERMISTOR, quality_data=args.quality)
 
@@ -95,8 +83,8 @@ if __name__ == '__main__':
                     read_and_print_data('pixels sum diff', dst, tw.SUM_DIFF, quality_data=args.quality)
 
             except Exception as e:
-                #print(e)
-                traceback.print_exc()
+                print(e)
+                #traceback.print_exc()
                 err_cnt += 1
                 print('transmission error: {}'.format(err_cnt))
             

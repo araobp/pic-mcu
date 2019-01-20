@@ -25,7 +25,7 @@ ACK_ENABLED = 0x01
 RESEND = 0x02
 TERMINATOR = 0xFF
 # The number of resend in case of communication error
-NUM_RETRY = 10
+NUM_RETRY = 3
 
 ### One-byte command to fetch data from a remote node
 # Note: these commands have nothing to do with TWELITE itself.
@@ -33,9 +33,6 @@ THERMISTOR = ord('t')  #0x74: fetch room temperature data
 PIXELS = ord('p')  #0x70: fetch pixels data as heatmap
 DIFF = ord('d')  #Diff
 SUM_DIFF = ord('D')
-RUN = ord('r')
-# h(ello) message from slave nodes
-HELLO = b'h'
 
 ### AMG8833 data resolution
 THERMISTOR_RESOLUTION = 0.0625
@@ -59,8 +56,6 @@ def _conv_data_amg8833(cmd, d):
         data = np.zeros(len_)
         for i in range(len_):
             data[i] = b2i(d,i)*PIXELS_RESOLUTION
-    elif cmd == HELLO:
-        data = d
     return data
 
 # LQI to dBm conversion
@@ -89,7 +84,7 @@ class MasterNode:
     This is a packet parser for transmitting/receiving data over TWELITE.
     '''
 
-    def __init__(self, port, baudrate, timeout=0.3):
+    def __init__(self, port, baudrate, timeout=NUM_RETRY*0.2):
         self.port  = port
         self.baudrate = baudrate
         self.genSeq = GenSeq()
@@ -146,12 +141,6 @@ class MasterNode:
             #print(data)
         
         return (data, seq, lqi)
-
-    # Wait for 'h(ello)'
-    def wait(self, dst):
-        self.cmd = HELLO
-        data, seq, lqi = self._rx()
-        return data
         
     # Write data
     def write(self, dst, cmd):

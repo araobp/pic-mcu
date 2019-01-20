@@ -24,7 +24,7 @@ extern "C" {
 #define EOT 0x04
 
 // The number of retries
-#define NUM_RETRY 10U
+#define NUM_RETRY 3U
 
 // Data position in a packet
 #define SEQ_NUMBER_POS 6U
