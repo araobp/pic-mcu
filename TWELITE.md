@@ -2,6 +2,10 @@
 
 ![](./doc/twelite-dip.jpg)
 
+## Goal
+
+I develop an algorithm on PIC16F1 to infer motion of moving objects. The inference result is transferred to PC over TWELITE wireless sensor network.
+
 ## Hardware components
 
 ### TWELITE
@@ -23,6 +27,18 @@ The SDK supports event-driven APIs to cope with such a problem, but I guess the 
 
 I use 8bit MCU as a co-processor of TWELITE just for receiving data from an infrared array sensor on I2C bus and transfer the data to TWELITE via UART.
 
+## Specification of the co-processor (PIC16F18326)
+
+|          | Value                    |
+|----------|--------------------------|
+|VDD       | 3.0V DC (AAA battery x 2)|
+|Power consumption| a few mA          |
+|CPU Clock | 32MHz HF                 |
+|UART      | 115200bps                |
+|I2C Clock | 250kHz                   |
+
+Note: I tried lower CPU clock frequencies, but UART did not work with TWELITE-DIP.
+
 ## 8bit quantization
 
 - Payload size of TWELITE's packet is 80, so I need to compress the image data.
@@ -39,9 +55,106 @@ Note: the sensor also outputs temperature data from a thermistor on the chip. I 
 
 In spite of 8bit quantization, the load on TWELITE is still heavy. It may require further processing to calculate features on PIC16F1 before transmitting the data to the master node.
 
-Features for example:
-- Diff between the current value and the previous value for each pixel.
-- Diff average along each row.
+### Features for example
+
+#### A: Diff
+
+Diff between the current value and the previous value for each pixel.
+
+#### B: Sum of diff along each row
+
+Diff average along each row.
+
+#### C: Sensing motion of moving objects
+
+Diff output emphasizes edges of moving objects, and the diff value corresponds to their speed (vector).
+
+```
+Diff at each column
+^
+|                     _
+|                    /  \
+|                   /    \  ===> Direction of movement
+0   --       ------       ------
+|      \    /
+|       \__/
+|
++------------------------------------>
+                                    time
+```
+
+Here I assume that objects are moving along the column direction (upward or downward).
+
+It is possible to detect the motion in that condition by apply a filter, like the wave above, to output from A: Diff. 
+
+Such a filter:
+
+```
+  Pattern matching
+  (sine-wave-like)
+
+    P..             P: Positive value, N: Negative value
+ 0        0..         0   ==> match
+                N..
+
+
+P matched if the current value is positive (and larger than some threshold).
+
+N matches under the following conditions:
+- previous values (at least one) matched P:
+- the current diff value is negative and smaller than some threashold.
+
+If P and N mathced, it outputs 1. N matching is repeated multiple times.
+If only P matched, it outpus 0 (the output is discared).
+
+```
+
+```
+    Moving objects
+                   ^
+                   |
+    ^             -o-
+    |
+   -o-
+                
+         Diff              Matching along columns   The number of peaks   Peak      
+                              <upward>              along rows            along column
+
+Objects moving downward
+ 0  0  0  0  0  0  1  0    0  0  0  0  0  0  0  0         0              [ 0 ]  <== scanning point
+ 0  0  0  0  0  1  2  1    0  0  0  0  0  0  0  0         0                0      to count moving objects
+ 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
+ 0  1  1  0  0 -1 -2 -1    0  0  0  0  0  0  0  0         0                0
+ 1  2  3  1  0  0 -1  0    0  0  0  0  0  0  0  0         0                0
+ 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
+-1 -2 -2 -1  0  0  0  0    0  0  0  0  0  0  0  0         0                0
+ 0 -1  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
+
+         Diff              Matching along columns   The number of peaks   Peak      
+                              <downward>            along rows            along column
+Objects moving upward
+ 0  0  0  0  0  0  1  0    0  0  0  0  0  0  0  0         0                0
+ 0  0  0  0  0  1  2  1    0  0  0  0  0  0  0  0         0                0
+ 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
+ 0  1  1  0  0 -1 -2 -1    0  0  0  0  0  1  1  1         1                0
+ 1  2  3  1  0  0 -1  0    0  0  0  0  0  0  1  0         1                1
+ 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
+-1 -2 -2 -1  0  0  0  0    1  1  1  0  0  0  0  0         1                0
+ 0 -1  0  0  0  0  0  0    0  1  0  0  0  0  0  0         1              [ 1 ] <== scanning point
+                                                                                  to count moving objects
+
+```
+
+In this method, the slave node application on PIC16F1 sends only 1 byte info to the master node over TWELITE.
+
+```
+
+      bits
+| | | | | | | | |
+|S|NUM  |S|NUM  |    S: sign bit, NUM: 0 ~ 7
+Downward Upward
+
+```
 
 ## Command sequence
 
@@ -65,17 +178,24 @@ The bottle neck of data transfer is the following:
 - IEEE802.15.4 PHY (250kbps)
 - And buffering at each interface
 
-## Specification of the co-processor (PIC16F1825 or PIC16F18326)
+## Commands
 
-|          | Value                    |
-|----------|--------------------------|
-|VDD       | 3.0V DC (AAA battery x 2)|
-|Power consumption| a few mA          |
-|CPU Clock | 32MHz HF                 |
-|UART      | 115200bps                |
-|I2C Clock | 250kHz                   |
+| Command | Description                            | Data size | Request          | Response        |
+|---------|----------------------------------------|-----------|------------------|-----------------|
+| h       | hello                                  |           | Slave -> Master  | r(un)           |
+| r       | run                                    |           | Master -> Slave  |                 |
+| k       | keep on (reset the timer)              |           | Master -> Slave  | (none)          |
+| t       | thermistor                             | 2 bytes   | Master -> Slave  | data            |
+| p       | 64 pixels                              | 64 bytes  | Master -> Slave  | data            |
+| d       | 64 pixels diff                         | 64 bytes  | Master -> Slave  | data            |
+| D       | avarages of diff of each rows          | 8 bytes   | Master -> Slave  | data            |
+| f       | output via the filter                  | 1 byte    | Master -> Slave  | data            |
 
-Note: I tried lower CPU clock frequencies, but UART did not work with TWELITE-DIP.
+## Power saving
+
+PIC16F1 controls FET for power control.
+
+![](https://docs.google.com/drawings/d/e/2PACX-1vRKkvEE8Qu8NDzdrnWKfsav20zUiKk-MrW7WBJTkuSbnBnBqELGJ9IAp9Ce6L4VIAO_fR5WHlkIdUWj/pub?w=480&h=360)
 
 ## Code
 
@@ -100,38 +220,6 @@ Test:
  
                             :
 ```
-
-## Power saving
-
-PIC16F1 controls FET for power control.
-
-```
- PIC16F1825
- (as server)          Client
-     |                  |
-     |---- 'h' -------->|  'h(ello)'
-     |<-----------------|  Start polling to read data or respond with 'k(eep on)' to disable the periodic process.
-     |        :         |
-     |                  |  Stop polling
-     |                  |  (after 3 minutes)
- Stop power supply to TWELITE-DIP and AMG8833
-     |                  |  (every 10 minutes)
- Start power supply to TWELITE-DIP and AMG8833
-     |                  |  (after 2 second)
-     |---- 'h' -------->|
-     |                  |  (after 3 second)
- Stop power supply TWELITE-DIP and AMG8833
-     |                  |     
-```
-
-| Message | Description                            | Request | Response        |
-|---------|----------------------------------------|---------|-----------------|
-| h       | hello                                  | S -> C  | (start polling) |
-| t       | thermistor                             | S <- C  | data            |
-| p       | 64 pixels                              | S <- C  | data            |
-| d       | 64 pixels diff                         | S <- C  | data            |
-| D       | avarages of diff of each rows          | S <- C  | data            |
-| k       | keep on (disable power saving process) | S <- C  | (none)          |
 
 ## Reference
 
