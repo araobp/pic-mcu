@@ -10,9 +10,7 @@
 // Timers
 #define T_1 5       // 5 sec
 #define T_2 180     // 180 sec (3 min)
-#define T_3 6000    // 6000 sec (10 min)
-//#define T_2 5
-//#define T_3 10
+#define T_3 180     // 180 sec (3 min)
 
 // Power saving state machine
 typedef enum {

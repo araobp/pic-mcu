@@ -83,10 +83,9 @@ if __name__ == '__main__':
                     read_and_print_data('pixels sum diff', dst, tw.SUM_DIFF, quality_data=args.quality)
 
             except Exception as e:
-                print(e)
-                #traceback.print_exc()
                 err_cnt += 1
-                print('transmission error: {}'.format(err_cnt))
+                print('[{}] {}'.format(str(err_cnt), str(e)))
+                #traceback.print_exc()
             
         stop_time = time.time()
         print('--- STATS ---')       

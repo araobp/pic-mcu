@@ -79,6 +79,11 @@ class GenSeq:
             self.seq = 0
         return self.seq
 
+class TweliteException(Exception):
+
+    def __init__(self, message):
+        super().__init__(message)
+
 class MasterNode:
     '''
     This is a packet parser for transmitting/receiving data over TWELITE.
@@ -90,6 +95,7 @@ class MasterNode:
         self.genSeq = GenSeq()
         self.seq = 0
         self.cmd = None
+        self.timeout = timeout
         self.ser = serial.Serial(self.port, self.baudrate, timeout=timeout)
         
     def __enter__(self):
@@ -121,6 +127,7 @@ class MasterNode:
         d = self.ser.read(5)  # 0xA5 0x5A 0x80 <len> <dst>
         if len(d) == 0:
             data, seq, lqi = d, 0, 0  # d is b'' in this case
+            raise TweliteException('read timeout: {:.1f} sec passed'.format(self.timeout))
         else:
             #print(d)
             len_ =  b2ui(d, 3)
