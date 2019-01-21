@@ -117,43 +117,6 @@ If only P matched, it outpus 0 (the output is discared).
     |
    -o-
                 
-Objects moving upward      Filtering                 Peaks row-wise  Peak values  Peaks column-wise
- 0  1  0  0  0  0  1  0    0  0  0  0  0  0  0  0         0               0            0
- 2  2  2  1  0  1  2  1    0  0  0  0  0  0  0  0         0               0            0
- 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0               0            0
--1 -2 -2  0  0 -1 -2 -1    1  1  1  0  0  1  1  1         2               6            2
- 0 -1 -1  0  0  0 -1  0    0  1  1  0  0  0  1  0         2               3          [ 0 ] <== scanning point
- 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0               0            0
- 0  1  1  0  0  0  0  0    0  0  0  0  0  0  0  0         0               0            0
- 0  1  1  1  0  0  0  0    0  0  0  0  0  0  0  0         0               0            0
-
-                           0  0  0  0  0  0  0  0         0               0            0
-                           0  0  0  0  0  0  0  0         0               0            0
-                           0  0  0  0  0  0  0  0         0               0            0
-                           0  0  0  0  0  1  1  1         1               3            0
-                           1  1  1  0  0  0  1  0         2               4          [ 2 ] <== scanning point
-                           0  1  1  0  0  0  0  0         1               2            0
-                           0  0  0  0  0  0  0  0         0               0            0
-                           0  0  0  0  0  0  0  0         0               0            0
-
-                           0  0  0  0  0  0  0  0         0               0            0
-                           0  0  0  0  0  0  0  0         0               0            0
-                           0  0  0  0  0  1  1  1         1               3            0
-                           0  0  0  0  0  1  1  1         1               3            0
-                           0  1  1  1  0  0  0  0         1               3          [ 2 ] <== scanning point
-                           0  1  1  0  0  0  0  0         1               2            0
-                           0  0  1  0  0  0  0  0         1               1            0
-                           0  0  0  0  0  0  0  0         0               0            0
-```
-
-In this method, the slave node application on PIC16F1 sends only 1 byte info to the master node over TWELITE.
-
-```
-
-      bits
-| | | | | | | | |
-|S|NUM  |S|NUM  |    S: sign bit, NUM: 0 ~ 7
-Downward Upward
 
 ```
 
