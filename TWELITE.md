@@ -193,7 +193,7 @@ The bottle neck of data transfer is the following:
 
 ## Power saving
 
-PIC16F1 controls FET for power control.
+PIC16F1 controls FET (Fairchild BS170) for saving power.
 
 ![](https://docs.google.com/drawings/d/e/2PACX-1vRKkvEE8Qu8NDzdrnWKfsav20zUiKk-MrW7WBJTkuSbnBnBqELGJ9IAp9Ce6L4VIAO_fR5WHlkIdUWj/pub?w=480&h=360)
 
