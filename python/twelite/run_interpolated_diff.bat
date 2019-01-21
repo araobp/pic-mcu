@@ -1,1 +1,1 @@
-python thermography.py --diff --grid_data COM9
+python thermography.py --diff --grid_data COM9 2

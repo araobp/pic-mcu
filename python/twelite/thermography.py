@@ -22,6 +22,7 @@ import heatmap
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("port", help="serial port identifier")
+parser.add_argument("dst", help="Destination node identifier")
 parser.add_argument("-g", "--grid_data", help="Apply griddata filter", action='store_true')
 parser.add_argument("-d", "--diff", help="Show diff", action='store_true')
 parser.add_argument("-s", "--sum_diff", help="Show sum diff", action='store_true')
@@ -29,7 +30,7 @@ args = parser.parse_args()
 
 if __name__ == '__main__':
 
-    itfc = interface.Interface(port = args.port)
+    itfc = interface.Interface(port = args.port, dst = args.dst)
     gui = heatmap.GUI(interface=itfc, grid_data=args.grid_data)
 
     PADX = 6

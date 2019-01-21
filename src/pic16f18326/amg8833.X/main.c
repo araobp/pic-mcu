@@ -73,8 +73,10 @@ void power_mgmt(state_machine_command command) {
             break;
         case SLEEPING:
             if (timeout_cnt >= t3) {
-                timeout_cnt = 0;
                 FET_GATE = HIGH;
+                __delay_ms(500);    
+                set_moving_average(true);
+                timeout_cnt = 0;
                 state = CONNECTING;
             }            
             break;
@@ -94,9 +96,7 @@ void main(void) {
 
     // Start supplying power to TWELITE-DIP and AMG8833 
     FET_GATE = HIGH;
-    
-    __delay_ms(500);
-    
+    __delay_ms(500);    
     set_moving_average(true);
     
     while (1) {

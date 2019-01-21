@@ -13,12 +13,13 @@ SUM_DIFF = tw.SUM_DIFF
 
 class Interface:
     
-    def __init__(self, port):
+    def __init__(self, port, dst):
         self.port = port
+        self.dst = int(dst)
         self.ser = tw.MasterNode(port, BAUDRATE)
 
     def read(self, cmd, ssub=None):
-        return self.ser.read(dst=SLAVE_1, cmd=cmd)
+        return self.ser.read(dst=self.dst, cmd=cmd)
 
     def close(self):
         self.ser.close()
