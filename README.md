@@ -14,7 +14,7 @@ I developed my original PIC16F1 evaluation board in 2017, and I have used this b
 
 ### Wireless network of infrared array sensors wireless with TWELITE 
 
-![](./doc/twelite-dip.jpg)
+<img src="./doc/twelite-dip.jpg" width="500">
 
 => **[Code](TWELITE.md)**
 
