@@ -2,15 +2,11 @@
 
 <img src="./doc/pic16f18326.jpg" width="500">
 
-## Motivation
+## Background and motivation
+
+My hobby is IoT/AI prototyping. When a prototype is expected to be small and simple, I use Microchip PIC16F18326 MCU rather than a NUCLEO board (STM32). I do not use Arduino or RasPi these days, because they are large and cosume more power than PIC16F1 or STM32L4.
 
 => [A companion project (STM32) of this project](https://github.com/araobp/stm32-mcu).
-
-## Why PIC16F1?
-
-I developed my original PIC16F1 evaluation board in 2017, and I have used this board for a number of IoT demonstrations so far. When a demo is expected to be small and simple, the board is more useful than other commercial boards such as STM32 NUCLEO.
-
-![](https://docs.google.com/drawings/d/e/2PACX-1vTHoT0TZIyVhAgkDVHyuWkc1-_6oFHT2mF53g2q36bgH_qxplkvvRIkJ3PqJBNuTZauhhMmSiemMoZO/pub?w=680&h=400)
 
 ## Application components
 
