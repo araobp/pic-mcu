@@ -4,7 +4,7 @@
 
 ## Background and motivation
 
-My hobby is IoT/AI prototyping. When a prototype is expected to be small and simple, I use Microchip PIC16F18326 MCU rather than a NUCLEO board (STM32). I do not use Arduino or RasPi these days, because they are large and cosume more power than PIC16F1 or STM32L4.
+My hobby is IoT/AI prototyping. When a prototype is expected to be small and simple, I use Microchip PIC16F18326 MCU rather than a NUCLEO board (STM32). I do not use Arduino or RasPi these days, because they are large and cosume electric power a lot.
 
 => [A companion project (STM32) of this project](https://github.com/araobp/stm32-mcu).
 
