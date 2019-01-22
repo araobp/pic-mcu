@@ -14,8 +14,14 @@ I developed my original PIC16F1 evaluation board in 2017, and I have used this b
 
 ## Application components
 
-- [Wireless network of infrared array sensors with TWELITE](TWELITE.md)
-- [Motion logger for sensing human body movement](MOTION_LOGGER.md)
+### Wireless network of infrared array sensors wireless with TWELITE 
+
+![](./doc/twelite-dip.jpg)
+=> **[Code](TWELITE.md)**
+
+### Motion logger for sensing human body movement
+
+=> **[Code](MOTION_LOGGER.md)**
 
 ## Tips
 
