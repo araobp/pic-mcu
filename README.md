@@ -14,13 +14,13 @@ My hobby is IoT/AI prototyping. When a prototype is expected to be small and sim
 
 <img src="./doc/twelite-dip.jpg" width="500">
 
-=> **[Code](TWELITE.md)**
+=> **[Project page](TWELITE.md)**
 
 ### Motion logger for sensing human body movement
 
 <img src="./doc/motion_measurement_system.jpg" width="500">
 
-=> **[Code](MOTION_LOGGER.md)**
+=> **[Project page](MOTION_LOGGER.md)**
 
 ## Tips
 
