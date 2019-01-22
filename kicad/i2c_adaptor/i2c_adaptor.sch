@@ -611,4 +611,6 @@ Text Notes 5950 4200 0    60   ~ 0
 D
 Text Notes 5800 4300 0    60   ~ 0
 G
+Text Notes 3100 4700 0    60   ~ 0
+PIC16F18326
 $EndSCHEMATC
