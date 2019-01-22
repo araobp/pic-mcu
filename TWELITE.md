@@ -85,7 +85,7 @@ Diff at each column
 
 Here I assume that objects are moving along the column direction (upward or downward).
 
-It is possible to detect the motion in that condition by apply a filter, like the wave above, to output from A: Diff. 
+In general, it is possible to detect the motion in that condition by applying a filter, like the wave above, to output from A: Diff. 
 
 Such a filter:
 
@@ -117,42 +117,6 @@ If only P matched, it outpus 0 (the output is discared).
     |
    -o-
                 
-         Diff              Matching along columns   The number of peaks   Peak      
-                              <upward>              along rows            along column
-
-Objects moving downward
- 0  0  0  0  0  0  1  0    0  0  0  0  0  0  0  0         0              [ 0 ]  <== scanning point
- 0  0  0  0  0  1  2  1    0  0  0  0  0  0  0  0         0                0      to count moving objects
- 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
- 0  1  1  0  0 -1 -2 -1    0  0  0  0  0  0  0  0         0                0
- 1  2  3  1  0  0 -1  0    0  0  0  0  0  0  0  0         0                0
- 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
--1 -2 -2 -1  0  0  0  0    0  0  0  0  0  0  0  0         0                0
- 0 -1  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
-
-         Diff              Matching along columns   The number of peaks   Peak      
-                              <downward>            along rows            along column
-Objects moving upward
- 0  0  0  0  0  0  1  0    0  0  0  0  0  0  0  0         0                0
- 0  0  0  0  0  1  2  1    0  0  0  0  0  0  0  0         0                0
- 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
- 0  1  1  0  0 -1 -2 -1    0  0  0  0  0  1  1  1         1                0
- 1  2  3  1  0  0 -1  0    0  0  0  0  0  0  1  0         1                1
- 0  0  0  0  0  0  0  0    0  0  0  0  0  0  0  0         0                0
--1 -2 -2 -1  0  0  0  0    1  1  1  0  0  0  0  0         1                0
- 0 -1  0  0  0  0  0  0    0  1  0  0  0  0  0  0         1              [ 1 ] <== scanning point
-                                                                                  to count moving objects
-
-```
-
-In this method, the slave node application on PIC16F1 sends only 1 byte info to the master node over TWELITE.
-
-```
-
-      bits
-| | | | | | | | |
-|S|NUM  |S|NUM  |    S: sign bit, NUM: 0 ~ 7
-Downward Upward
 
 ```
 
