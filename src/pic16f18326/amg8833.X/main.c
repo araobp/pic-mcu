@@ -30,7 +30,6 @@ const int t3 = T_3 * 4;
 uint8_t buf[AMG8833_PIXELS_LENGTH];
 uint8_t buf_prev[AMG8833_PIXELS_LENGTH/2];
 int8_t diff[AMG8833_PIXELS_LENGTH/2];
-int8_t sum[8];
 
 /**
  * Power management
@@ -89,6 +88,8 @@ void main(void) {
 
     uint8_t c, cmd;
     uint8_t seq;
+    int8_t sum[8];
+    int8_t row[8];
 
     SYSTEM_Initialize();
     INTERRUPT_GlobalInterruptEnable();
@@ -111,11 +112,11 @@ void main(void) {
                         break;
                     case 'p': // 64 pixels
                         read_pixels(buf);
-                        twelite_uart_tx(buf, seq, AMG8833_PIXELS_LENGTH/2);
+                        twelite_uart_tx(buf, seq, AMG8833_PIXELS_LENGTH_HALF);
                         break;
                     case 'd': // 64 pixels diff
                         read_pixels_diff(buf, buf_prev, diff);
-                        twelite_uart_tx((uint8_t *)diff, seq, AMG8833_PIXELS_LENGTH/2);
+                        twelite_uart_tx((uint8_t *)diff, seq, AMG8833_PIXELS_LENGTH_HALF);
                         break;
                     case 'D': // Averages of 64 pixels diff
                         read_pixels_diff(buf, buf_prev, diff);
@@ -129,6 +130,14 @@ void main(void) {
                         }
                         twelite_uart_tx((uint8_t *)sum, seq, 8);
                         break;
+                    case 'm': // Column-wise motion detection
+                        read_pixels_motion(buf, buf_prev, diff);
+                        twelite_uart_tx((uint8_t *)diff, seq, AMG8833_PIXELS_LENGTH_HALF);
+                        break;
+                    case 'M': // Motion count on a specific row
+                        read_motion(buf, buf_prev, diff, row);
+                        twelite_uart_tx((uint8_t *)row, seq, 8);
+                        break;                        
                     default:
                         break;
                 }

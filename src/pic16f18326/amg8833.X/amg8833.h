@@ -22,9 +22,14 @@ extern "C" {
 #define AMG8833_AVE_ADDR 0x07
 #define AMG8833_THERMISTOR_LENGTH 2U    
 #define AMG8833_PIXELS_LENGTH 128U
+#define AMG8833_PIXELS_LENGTH_HALF 64U    
 #define AMG8833_THERMISTOR_RESOLUTION 0.0625
 #define AMG8833_PIXELS_RESOLUTION 0.25
+    
+#define PEAK_COUNT_THRESHOLD 1.0
 
+#define SCAN_ROW 5
+    
 void set_moving_average(bool enable);
 
 void read_thermistor(uint8_t *pbuf);
@@ -32,6 +37,10 @@ void read_thermistor(uint8_t *pbuf);
 void read_pixels(uint8_t *pbuf);
 
 void read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff);
+
+void read_pixels_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff);
+
+void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff, int8_t *row);
 
 #ifdef	__cplusplus
 }
