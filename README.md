@@ -1,4 +1,4 @@
-# Application components for Microchip PIC16F1 MCUs
+# Application components for Microchip PIC16F18326 MCU
 
 <img src="./doc/pic16f18326.jpg" width="500">
 
