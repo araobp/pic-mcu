@@ -33,6 +33,8 @@ THERMISTOR = ord('t')  #0x74: fetch room temperature data
 PIXELS = ord('p')  #0x70: fetch pixels data as heatmap
 DIFF = ord('d')  #Diff
 SUM_DIFF = ord('D')
+MOTION_DETECTION = ord('m')
+MOTION_COUNT = ord('M')
 
 ### AMG8833 data resolution
 THERMISTOR_RESOLUTION = 0.0625
@@ -56,6 +58,11 @@ def _conv_data_amg8833(cmd, d):
         data = np.zeros(len_)
         for i in range(len_):
             data[i] = b2i(d,i)*PIXELS_RESOLUTION
+    elif cmd == MOTION_DETECTION:
+        len_ = len(d)
+        data = np.zeros(len_)
+        for i in range(len_):
+            data[i] = b2i(d,i)        
     return data
 
 # LQI to dBm conversion

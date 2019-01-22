@@ -19,9 +19,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument("port", help="Serial port identifier")
 parser.add_argument("loop", help="The number of looping")
 parser.add_argument("dst", help="Destination node identifier")
-parser.add_argument("-m", "--performance_measurement", help="Performance measurement on 64 pixels data transmission over TWELITE", action='store_true')
+parser.add_argument("-p", "--performance_measurement", help="Performance measurement on 64 pixels data transmission over TWELITE", action='store_true')
 parser.add_argument("-q", "--quality", help="Print out quality data (sequence number and LQI) as well", action='store_true')
 parser.add_argument("-s", "--sum_diff_only", help="Print out sum diff only", action='store_true')
+parser.add_argument("-m", "--motion_detection", help="Column-wise motion detection", action='store_true')
+parser.add_argument("-M", "--motion_count", help="Motion count on a specific row", action='store_true')
 args = parser.parse_args()
 
 info = lambda seq, lqi: ' seq number: {}, LQI: {} ({} dBm)'.format(seq, lqi, tw.lqi2dbm(lqi))
@@ -81,6 +83,9 @@ if __name__ == '__main__':
 
                     ### Read 64 pixels sum diff from 8bit MCU
                     read_and_print_data('pixels sum diff', dst, tw.SUM_DIFF, quality_data=args.quality)
+                    
+                    ### Read 64 pixels sum diff from 8bit MCU
+                    read_and_print_data('motion detection', dst, tw.MOTION_DETECTION, quality_data=args.quality)
 
             except Exception as e:
                 err_cnt += 1

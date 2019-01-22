@@ -26,6 +26,8 @@ parser.add_argument("dst", help="Destination node identifier")
 parser.add_argument("-g", "--grid_data", help="Apply griddata filter", action='store_true')
 parser.add_argument("-d", "--diff", help="Show diff", action='store_true')
 parser.add_argument("-s", "--sum_diff", help="Show sum diff", action='store_true')
+parser.add_argument("-m", "--motion_detection", help="Column-wise motion detection", action='store_true')
+parser.add_argument("-M", "--motion_count", help="Motion count on a specific row", action='store_true')
 args = parser.parse_args()
 
 if __name__ == '__main__':
@@ -80,7 +82,9 @@ if __name__ == '__main__':
         for ax in axes:
             ax.clear()
         if args.sum_diff:
-            data = gui.plot(axes, interface.SUM_DIFF, cmap='seismic')        
+            data = gui.plot(axes, interface.SUM_DIFF, cmap='seismic')
+        elif args.motion_detection:
+            data = gui.plot(axes, interface.MOTION_DETECTION, cmap='seismic')                
         elif args.diff:
             data = gui.plot(axes, interface.DIFF, cmap='seismic')
         else:

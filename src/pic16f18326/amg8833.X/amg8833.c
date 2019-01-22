@@ -122,7 +122,7 @@ void filter(int i, int8_t *pdiff, int8_t *pcolumn, bool downward) {
             filter_on = true;
         } else if (filter_on && pdiff[idx] < -PEAK_COUNT_THRESHOLD) {
             filter_detecting = true;
-            pcolumn[j] = 1;
+            pcolumn[j] = (downward) ? 1: -1;
         } else if (filter_on && filter_detecting && pdiff[idx] >= -PEAK_COUNT_THRESHOLD) {
             filter_on = false;
             filter_detecting = false;
