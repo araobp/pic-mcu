@@ -1,5 +1,7 @@
 # Application components for Microchip PIC16F1 MCUs
 
+<img src="./doc/pic16f18326.jpg" width="500">
+
 ## Motivation
 
 => [A companion project (STM32) of this project](https://github.com/araobp/stm32-mcu).
