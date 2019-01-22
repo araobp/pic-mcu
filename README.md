@@ -1,7 +1,5 @@
 # Application components for Microchip PIC16F1 MCUs
 
-<img src="./doc/motion_measurement_system.jpg" width="500">
-
 ## Motivation
 
 => [A companion project (STM32) of this project](https://github.com/araobp/stm32-mcu).
@@ -17,9 +15,12 @@ I developed my original PIC16F1 evaluation board in 2017, and I have used this b
 ### Wireless network of infrared array sensors wireless with TWELITE 
 
 ![](./doc/twelite-dip.jpg)
+
 => **[Code](TWELITE.md)**
 
 ### Motion logger for sensing human body movement
+
+<img src="./doc/motion_measurement_system.jpg" width="500">
 
 => **[Code](MOTION_LOGGER.md)**
 
