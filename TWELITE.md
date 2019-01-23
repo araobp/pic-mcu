@@ -109,17 +109,6 @@ If only P matched, it outpus 0 (the output is discared).
 
 ```
 
-```
-    Moving objects
-                   ^
-                   |
-    ^             -o-
-    |
-   -o-
-                
-
-```
-
 ## Command sequence
 
 This command sequence (polling) is optimized for decreasing the power consumption.
@@ -149,7 +138,6 @@ The bottle neck of data transfer is the following:
 | t       | thermistor                             | 2 bytes   | Master -> Slave  | uint8_t   |
 | p       | 64 pixels                              | 64 bytes  | Master -> Slave  | uint8_t   |
 | d       | 64 pixels diff                         | 64 bytes  | Master -> Slave  | int8_t    |
-| D       | avarages of diff of each rows          | 8 bytes   | Master -> Slave  | int8_t    |
 | m       | column-wise motion detection           | 64 bytes  | Master -> Slave  | int8_t    |
 | M       | motion count on a specific row         | 8 bytes   | Master -> Slave  | int8_t    |
 
