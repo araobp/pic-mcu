@@ -25,10 +25,15 @@ extern "C" {
 #define AMG8833_PIXELS_LENGTH_HALF 64U    
 #define AMG8833_THERMISTOR_RESOLUTION 0.0625
 #define AMG8833_PIXELS_RESOLUTION 0.25
-    
-#define PEAK_COUNT_THRESHOLD 1.0
 
-#define SCAN_ROW 5
+// Absolute value of diff over this value is regarded as moving.
+#define PEAK_COUNT_THRESHOLD 2.5
+
+// Resolution to identify an object
+#define OBJECT_RESOLUTION 2
+    
+// Motion count on a specific row: this value is an index of the row. 
+#define SCAN_ROW 4
     
 void set_moving_average(bool enable);
 

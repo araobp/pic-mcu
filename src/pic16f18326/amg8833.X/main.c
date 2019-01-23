@@ -3,11 +3,12 @@
 #include "twelite.h"
 #include <stdbool.h>
 
+// FET control
 #define LOW 0
 #define HIGH 1
 #define FET_GATE LATCbits.LATC2
 
-// Timers
+// Timers for power management
 #define T_1 5       // 5 sec
 #define T_2 180     // 180 sec (3 min)
 #define T_3 180     // 180 sec (3 min)
@@ -88,8 +89,8 @@ void main(void) {
 
     uint8_t c, cmd;
     uint8_t seq;
-    int8_t sum[8];
-    int8_t row[8];
+    int8_t sum[8] = { 0 };
+    int8_t row[8] = { 0 };
 
     SYSTEM_Initialize();
     INTERRUPT_GlobalInterruptEnable();
@@ -117,18 +118,6 @@ void main(void) {
                     case 'd': // 64 pixels diff
                         read_pixels_diff(buf, buf_prev, diff);
                         twelite_uart_tx((uint8_t *)diff, seq, AMG8833_PIXELS_LENGTH_HALF);
-                        break;
-                    case 'D': // Averages of 64 pixels diff
-                        read_pixels_diff(buf, buf_prev, diff);
-                        int16_t s;
-                        for (int i=0; i<8; i++) {
-                            s = 0;
-                            for (int j=0; j < 8; j++) {
-                                s += diff[i*8+j];
-                            }
-                            sum[i] = (int8_t)(s/8);
-                        }
-                        twelite_uart_tx((uint8_t *)sum, seq, 8);
                         break;
                     case 'm': // Column-wise motion detection
                         read_pixels_motion(buf, buf_prev, diff);

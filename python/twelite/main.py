@@ -1,7 +1,6 @@
 '''
  "twelite" module test utility.
 
-
  Example usage:
  $ python main.py COM9 2 1 -q
 
@@ -11,7 +10,7 @@ import time
 import argparse
 import traceback
 
-### Serial port setting
+### Serial port setting in bps
 BAUDRATE = 115200
 
 ### Argument parser
@@ -21,9 +20,9 @@ parser.add_argument("loop", help="The number of looping")
 parser.add_argument("dst", help="Destination node identifier")
 parser.add_argument("-p", "--performance_measurement", help="Performance measurement on 64 pixels data transmission over TWELITE", action='store_true')
 parser.add_argument("-q", "--quality", help="Print out quality data (sequence number and LQI) as well", action='store_true')
-parser.add_argument("-s", "--sum_diff_only", help="Print out sum diff only", action='store_true')
 parser.add_argument("-m", "--motion_detection", help="Column-wise motion detection", action='store_true')
 parser.add_argument("-M", "--motion_count", help="Motion count on a specific row", action='store_true')
+parser.add_argument("-d", "--delay", help="Delay in a loop (in msec)", default="0")
 args = parser.parse_args()
 
 info = lambda seq, lqi: ' seq number: {}, LQI: {} ({} dBm)'.format(seq, lqi, tw.lqi2dbm(lqi))
@@ -40,14 +39,28 @@ def read_and_print_data(label, slave_id, cmd, quality_data=False):
     if quality_data:
         data, seq, lqi = data
         print(info(seq, lqi))
-    print(' {}: '.format(label), end='')
-    if type(data) == float:
+    print('<{}> '.format(label), end='')
+    if cmd == tw.THERMISTOR:
         print('{} degrees Celsius'.format(data))
-    else:
-        for elm in data[:-1]:
-            print('{},'.format(elm), end='')
-        print('{} degrees Celsius'.format(data[-1]))
-    print('')
+    elif cmd == tw.PIXELS or cmd == tw.DIFF:
+        print('')
+        data = data.reshape((8,8))
+        for row in data:
+            for d in row:           
+                print('{:4.1f} '.format(d), end='')
+            print('')
+    elif cmd == tw.MOTION_DETECTION:
+        print('')
+        data = data.reshape((8,8))
+        for row in data:
+            for d in row:           
+                print('{:4d} '.format(d), end='')
+            print('')
+    elif cmd == tw.MOTION_COUNT:
+        print('')
+        for d in data:
+            print('{:4d} '.format(d), end='')
+        print('')
 
 
 if __name__ == '__main__':
@@ -60,16 +73,20 @@ if __name__ == '__main__':
 
         start_time = time.time()
         err_cnt = 0
+
+        delay = float(args.delay)/1000.0  # msec -> sec
         
         for _ in range(int(args.loop)):
 
+            time.sleep(delay)                    
+
             try:
-                if args.performance_measurement and args.sum_diff_only:
-                    data = mn.read(dst=dst, cmd=tw.SUM_DIFF, quality_data=False)
-                elif args.performance_measurement:
+                if args.performance_measurement:
                     data = mn.read(dst=dst, cmd=tw.PIXELS, quality_data=False)
-                elif args.sum_diff_only:
-                    read_and_print_data('pixels sum diff', dst, tw.SUM_DIFF, quality_data=args.quality)
+                elif args.motion_detection:
+                    read_and_print_data('motion detection', dst, tw.MOTION_DETECTION, quality_data=args.quality)
+                elif args.motion_count:
+                    read_and_print_data('motion count', dst, tw.MOTION_COUNT, quality_data=args.quality)
                 else:
                     #time.sleep(0.5)
                     ### Read room temperature data from 8bit MCU
@@ -80,12 +97,12 @@ if __name__ == '__main__':
 
                     ### Read 64 pixels diff from 8bit MCU
                     read_and_print_data('64 pixels diff', dst, tw.DIFF, quality_data=args.quality)
-
-                    ### Read 64 pixels sum diff from 8bit MCU
-                    read_and_print_data('pixels sum diff', dst, tw.SUM_DIFF, quality_data=args.quality)
                     
-                    ### Read 64 pixels sum diff from 8bit MCU
+                    ### Read 64 pixels motion detection
                     read_and_print_data('motion detection', dst, tw.MOTION_DETECTION, quality_data=args.quality)
+
+                    ### Read motion count
+                    read_and_print_data('motion detection', dst, tw.MOTION_COUNT, quality_data=args.quality)
 
             except Exception as e:
                 err_cnt += 1

@@ -29,10 +29,9 @@ NUM_RETRY = 3
 
 ### One-byte command to fetch data from a remote node
 # Note: these commands have nothing to do with TWELITE itself.
-THERMISTOR = ord('t')  #0x74: fetch room temperature data
-PIXELS = ord('p')  #0x70: fetch pixels data as heatmap
-DIFF = ord('d')  #Diff
-SUM_DIFF = ord('D')
+THERMISTOR = ord('t')
+PIXELS = ord('p')
+DIFF = ord('d')
 MOTION_DETECTION = ord('m')
 MOTION_COUNT = ord('M')
 
@@ -53,16 +52,16 @@ def _conv_data_amg8833(cmd, d):
         data = np.zeros(len_)
         for i in range(len_):
             data[i] = b2ui(d,i)*PIXELS_RESOLUTION
-    elif cmd == DIFF or cmd == SUM_DIFF:
+    elif cmd == DIFF:
         len_ = len(d)
         data = np.zeros(len_)
         for i in range(len_):
             data[i] = b2i(d,i)*PIXELS_RESOLUTION
-    elif cmd == MOTION_DETECTION:
+    elif cmd == MOTION_DETECTION or cmd == MOTION_COUNT:
         len_ = len(d)
-        data = np.zeros(len_)
+        data = np.zeros(len_, dtype=int)
         for i in range(len_):
-            data[i] = b2i(d,i)        
+            data[i] = b2i(d,i)
     return data
 
 # LQI to dBm conversion
@@ -169,5 +168,3 @@ class MasterNode:
         else:
             return resp[0]
     
-
-

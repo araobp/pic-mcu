@@ -25,7 +25,6 @@ parser.add_argument("port", help="serial port identifier")
 parser.add_argument("dst", help="Destination node identifier")
 parser.add_argument("-g", "--grid_data", help="Apply griddata filter", action='store_true')
 parser.add_argument("-d", "--diff", help="Show diff", action='store_true')
-parser.add_argument("-s", "--sum_diff", help="Show sum diff", action='store_true')
 parser.add_argument("-m", "--motion_detection", help="Column-wise motion detection", action='store_true')
 parser.add_argument("-M", "--motion_count", help="Motion count on a specific row", action='store_true')
 args = parser.parse_args()
@@ -42,7 +41,7 @@ if __name__ == '__main__':
     root = Tk.Tk()
     root.wm_title("Thermography for ML with Keras/TensorFlow")
 
-    if args.grid_data or args.sum_diff:
+    if args.grid_data or args.motion_detection or args.motion_count:
         fig, axes = plt.subplots(1, 2, figsize=(6, 5), gridspec_kw = {'width_ratios':[20, 1]})
     else:
         fig, axes = plt.subplots(1, 2, figsize=(10, 5))
@@ -65,33 +64,25 @@ if __name__ == '__main__':
     
     def pixels():
         global data, axes
+        
         for ax in axes:
             ax.clear()
-        if args.sum_diff:
-            data = gui.plot(axes, interface.SUM_DIFF, cmap='seismic')
-        elif args.diff:
-            data = gui.plot(axes, interface.DIFF, cmap='seismic')
+
+        if args.diff:
+            data = gui.plot(axes, interface.DIFF, cmap='seismic')            
+        elif args.motion_detection:
+            data = gui.plot(axes, interface.MOTION_DETECTION, cmap='seismic')                
+        elif args.motion_count:
+            data = gui.plot(axes, interface.MOTION_COUNT, cmap='seismic')
         else:
             data = gui.plot(axes, interface.PIXELS, cmap='rainbow')
+
         fig.tight_layout()
         canvas.draw()
         thermistor()
 
     def pixels_continuous():
-        global data, axes
-        for ax in axes:
-            ax.clear()
-        if args.sum_diff:
-            data = gui.plot(axes, interface.SUM_DIFF, cmap='seismic')
-        elif args.motion_detection:
-            data = gui.plot(axes, interface.MOTION_DETECTION, cmap='seismic')                
-        elif args.diff:
-            data = gui.plot(axes, interface.DIFF, cmap='seismic')
-        else:
-            data = gui.plot(axes, interface.PIXELS, cmap='rainbow')
-        fig.tight_layout()
-        canvas.draw()
-        thermistor()
+        pixels()
         repeat(pixels_continuous)
 
     def thermistor():

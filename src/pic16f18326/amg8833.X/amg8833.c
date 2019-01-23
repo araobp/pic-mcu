@@ -8,18 +8,18 @@
 
 /* Macro for 2D matrix elemenet positions
  *     -- i -->
- *    +-----------
+ *    +-------------------------
  *  | |
- *  j | 2D matrix
+ *  j | 2D matrix of pixel data
  *  | |
  *  V |
  */
-#define IDX(i, j) (j * AMG8833_PIXELS_LENGTH_HALF + i)
-#define SCAN_ROW_IDX(i) (SCAN_ROW * AMG8833_PIXELS_LENGTH_HALF + i)
+#define IDX(i, j) (j * 8 + i)
+#define SCAN_ROW_IDX(i) (SCAN_ROW * 8 + i)
 
 /**
  * Enable/disable moving average
- * @param enable
+ * @param enable true for enabling this option, and false for disabling this option
  */
 void set_moving_average(bool enable) {
     uint8_t reg_addr_sequence[5] = {AMG8833_1F_ADDR, AMG8833_1F_ADDR, AMG8833_1F_ADDR,
@@ -50,7 +50,11 @@ void set_moving_average(bool enable) {
     }
 }
 
-// Transmit data to UART TX
+/**
+ * Transmit data to UART
+ * @param pbuf buffer for pixel data
+ * @param len buffer length
+ */
 void uart_transmit(uint8_t *pbuf, uint8_t len) {
     for (int i=0; i<len; i++) {
         printf("%d,", pbuf[i]);
@@ -59,21 +63,18 @@ void uart_transmit(uint8_t *pbuf, uint8_t len) {
 }
 
 /**
- * @brief Read the thermistor register on AMG8833
+ * Read the thermistor register on AMG8833
+ * @param pbuf buffer for pixel data
  */
 void read_thermistor(uint8_t *pbuf) {
     uint8_t err;
     float temp;
     err = i2c_read(AMG8833_DEV_ADDR, AMG8833_TTHL_ADDR, pbuf, AMG8833_THERMISTOR_LENGTH);
-#ifdef DEBUG
-    buf[0] = (int)((float)(buf[1] * 256 + buf[0]) * AMG8833_THERMISTOR_RESOLUTION);
-    uart_transmit((char *)buf, AMG8833_THERMISTOR_LENGTH);
-#else
-#endif
 }
 
 /**
- * @brief Read the pixel registers on AMG8833
+ *  Read pixel registers on AMG8833
+ * @param pbuf buffer for pixel data
  */
 void read_pixels(uint8_t *pbuf) {
     uint8_t err;
@@ -81,15 +82,15 @@ void read_pixels(uint8_t *pbuf) {
     err = i2c_read(AMG8833_DEV_ADDR, AMG8833_T01L_ADDR, pbuf, AMG8833_PIXELS_LENGTH);
     for (int i=0; i<AMG8833_PIXELS_LENGTH_HALF; i++) {
         pbuf[i] = pbuf[i*2];  // Ignore MSB of a pair of [LSB, MSB]
-#ifdef DEBUG
-        buf[i] = (int)((float)buf[i] * AMG8833_PIXELS_RESOLUTION);
     }
-    uart_transmit((char *)buf, AMG8833_PIXELS_LENGTH/2);
-#else
-    }
-#endif
 }
 
+/**
+ * Read pixel registers and calculate diff between the current and the previous data
+ * @param pbuf buffer for pixel data
+ * @param pbuf_prev buffer for previous pixel data 
+ * @param pdiff diff of each pixel
+ */
 void read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff) {
     uint8_t err;
     float temp;
@@ -103,10 +104,10 @@ void read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff) {
 
 /**
  * Colmun-wise motion detection filter
- * @param j
- * @param pdiff
- * @param pcolumn
- * @param downward
+ * @param j index on vertical axis of pixel data as 2D matrix
+ * @param pdiff diff of each pixel
+ * @param pcolumn filter output
+ * @param downward true for descending direction
  */
 void filter(int i, int8_t *pdiff, int8_t *pcolumn, bool downward) {
     bool filter_on, filter_detecting;
@@ -136,77 +137,90 @@ void filter(int i, int8_t *pdiff, int8_t *pcolumn, bool downward) {
 }
 
 /**
- * Column-wise motion detection
- * @param pbuf
- * @param pbuf_prev
- * @param pdiff
+ * Column-wise motion detection.
+ * 0: still, 1: forward, -1: backward
+ * @param pbuf buffer for pixel data
+ * @param pbuf_prev buffer for previous pixel data 
+ * @param pmotion motion detection result for each pixel (0, 1 or -1) 
  */
-void read_pixels_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff) {
+void read_pixels_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion) {
     int8_t column[8] = { 0 }; 
     bool filter_on, filter_flip, filter_detecting;
     int idx;
     
-    read_pixels_diff(pbuf, pbuf_prev, pdiff);
+    read_pixels_diff(pbuf, pbuf_prev, pmotion);
     for (int i=0; i<8; i++) {
-        filter(i, pdiff, column, true);  // column-wise scan downward
-        filter(i, pdiff, column, false); // column-wise scan upward
+        filter(i, pmotion, column, true);  // column-wise scan downward
+        filter(i, pmotion, column, false); // column-wise scan upward
         for (int j=0; j<8; j++) {  // Copy motion data
-            pdiff[IDX(i,j)] = column[i];
-            column[i] = 0;
+            pmotion[IDX(i,j)] = column[j];
+            column[j] = 0;
         }
     }
 }
 
 /**
  * Motion count on a specific row after column-wise motion detection
- * @param pbuf
- * @param pbuf_prev
- * @param pdiff
- * @param row
+ * 0: still, 1: forward, -1: backward
+ * @param pbuf buffer for pixel data
+ * @param pbuf_prev buffer for previous pixel data 
+ * @param pmotion motion detection result for each pixel (0, 1 or -1) 
+ * @param row motion count (with its direction) on a specific row
  */
-void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff, int8_t *row) {
+void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *row) {
     static int8_t prev_row[8] = { 0 };
+    int8_t temp_row[8] = { 0 };
     int idx;
-    int peak_on, peak;
+    bool peak_on;
+    int peak_on_idx, peak_idx;
 
-    read_pixels_motion(pbuf, pbuf_prev, pdiff);
+    read_pixels_motion(pbuf, pbuf_prev, pmotion);
 
     // Find peaks
+    peak_on = false;
     for (int i=0; i<8; i++) {
         idx = SCAN_ROW_IDX(i);
-        peak_on = 0;
-        if (peak_on == 0 && pdiff[idx] != 0) {
-            peak_on = i;
-        } else if (peak_on != 0 && (pdiff[idx] == 0 || i==7)) {
-            peak = (peak_on + i)/2;
-            row[peak] = pdiff[idx];
-            peak_on = 0;
+        if (!peak_on && pmotion[idx] != 0) {
+            peak_on = true;
+            peak_on_idx = i;
+        } else if (peak_on && (pmotion[idx] == 0 || i==7)) {
+            if ( (i - peak_on_idx) >= OBJECT_RESOLUTION ) {
+                peak_idx = (peak_on_idx + i)/2;
+                temp_row[peak_idx] = pmotion[SCAN_ROW_IDX(peak_idx)];        
+            }
+            peak_on = false;
         }
     }
     
     // Check if the peaks were already counted in the previous read.
     for (int i=0; i<8; i++) {
-        switch (i) {
-            case 0:
-                if (prev_row[i] != 0 && prev_row[i+1] != 0) {
-                    row[i] = 0;
-                }
-                break;
-            case 7:
-                if (prev_row[i-1] != 0 && prev_row[i] != 0) {
-                    row[i] = 0;
-                }
-                break;
-            default:
-                if (prev_row[i-1] != 0 && prev_row[i] != 0 && prev_row[i+1] != 0) {
-                    row[i] = 0;
-                }
-                break;
+        row[i] = temp_row[i];
+    }
+    for (int i=0; i<8; i++) {
+        if (row[i] != 0) {
+            switch (i) {
+                case 0:
+                    if (prev_row[0] != 0 || prev_row[1] != 0) {
+                        row[0] = 0;
+                    }
+                    break;
+                case 7:
+                    if (prev_row[6] != 0 || prev_row[7] != 0) {
+                        row[7] = 0;
+                    }
+                    break;
+                default:
+                    if (prev_row[i-1] != 0 || prev_row[i] != 0 || prev_row[i+1] != 0) {
+                        row[i] = 0;
+                    }
+                    break;
+            }
         }
     }
     
     // Save the current row
     for (int i=0; i<8; i++) {
-        prev_row[i] = pdiff[SCAN_ROW_IDX(i)];
+        prev_row[i] = temp_row[i];
     }
+    
 }
