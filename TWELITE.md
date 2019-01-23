@@ -144,16 +144,14 @@ The bottle neck of data transfer is the following:
 
 ## Commands
 
-| Command | Description                            | Data size | Request          | Response        |
-|---------|----------------------------------------|-----------|------------------|-----------------|
-| h       | hello                                  |           | Slave -> Master  | r(un)           |
-| r       | run                                    |           | Master -> Slave  |                 |
-| k       | keep on (reset the timer)              |           | Master -> Slave  | (none)          |
-| t       | thermistor                             | 2 bytes   | Master -> Slave  | data            |
-| p       | 64 pixels                              | 64 bytes  | Master -> Slave  | data            |
-| d       | 64 pixels diff                         | 64 bytes  | Master -> Slave  | data            |
-| D       | avarages of diff of each rows          | 8 bytes   | Master -> Slave  | data            |
-| f       | output via the filter                  | 1 byte    | Master -> Slave  | data            |
+| Command | Description                            | Data size | Request          | Type      |
+|---------|----------------------------------------|-----------|------------------|-----------|
+| t       | thermistor                             | 2 bytes   | Master -> Slave  | uint8_t   |
+| p       | 64 pixels                              | 64 bytes  | Master -> Slave  | uint8_t   |
+| d       | 64 pixels diff                         | 64 bytes  | Master -> Slave  | int8_t    |
+| D       | avarages of diff of each rows          | 8 bytes   | Master -> Slave  | int8_t    |
+| m       | column-wise motion detection           | 64 bytes  | Master -> Slave  | int8_t    |
+| M       | motion count on a specific row         | 8 bytes   | Master -> Slave  | int8_t    |
 
 ## Power saving
 
