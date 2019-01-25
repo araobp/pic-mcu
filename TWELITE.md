@@ -158,7 +158,7 @@ The following values are measured with my analog tester.
 |Paramter          |Measured Value                      |
 |------------------|------------------------------------|
 |Power supply      | 1.5V battery x 4 = 6V              |
-|Current           | 30mA (in active) or 5mA (in sleep) |
+|Current           | 30mA (active) or 5mA (sleep)       |
 |Power consumption | 6V x 30mA = 180mA                  |
 |VDD-GND voltage at PIC16F18326  | 3.4V                 |
 |VCC-GND voltage at TWELITE-DIP or AMG8833 | 3.3V       |
