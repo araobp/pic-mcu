@@ -89,13 +89,13 @@ if __name__ == '__main__':
                     read_and_print_data('motion count', dst, tw.MOTION_COUNT, quality_data=args.quality)
                 else:
                     #time.sleep(0.5)
-                    ### Read room temperature data from 8bit MCU
+                    ### Read room temperature data
                     read_and_print_data('room temperature', dst, tw.THERMISTOR, quality_data=args.quality)
 
-                    ### Read 64 pixels data from 8bit MCU
+                    ### Read 64 pixels data
                     read_and_print_data('64 pixels', dst, tw.PIXELS, quality_data=args.quality)
 
-                    ### Read 64 pixels diff from 8bit MCU
+                    ### Read 64 pixels diff
                     read_and_print_data('64 pixels diff', dst, tw.DIFF, quality_data=args.quality)
                     
                     ### Read 64 pixels motion detection

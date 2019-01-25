@@ -37,6 +37,10 @@ class GUI:
     # Use matplotlib to plot the output from the device
     def plot(self, axes, cmd, cmap=None, ssub=None):
 
+        for ax in axes:
+            ax.get_xaxis().set_ticks([])
+            ax.get_yaxis().set_ticks([])
+
         data = None
         try:
             data = self.interface.read(cmd)
@@ -54,13 +58,15 @@ class GUI:
                 
                 if cmd == interface.DIFF:
                     vmin, vmax = -10.0, 10.0
+                elif cmd == interface.MOTION_DETECTION:
+                    vmin, vmax = -1, 1
                 else:
                     vmin, vmax = None, None
 
                 if self.grid_data:
                     sns.heatmap(data_flip, cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[0], annot=False, cbar_ax=axes[1])
                 elif cmd == interface.MOTION_DETECTION:                  
-                    sns.heatmap(data_flip, cmap=cmap, ax=axes[0], annot=True, cbar=False)
+                    sns.heatmap(data_flip, cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[0], annot=True, cbar=False)
                 else:
                     sns.heatmap(data_flip, cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[0], annot=True, cbar=False)              
                     axes[1].set_title('DCT')
@@ -72,7 +78,8 @@ class GUI:
             elif cmd == interface.MOTION_COUNT:
                 data = data.reshape(1, 8)
                 axes[0].set_title('motion count')
-                sns.heatmap(data, cmap=cmap, ax=axes[0], annot=True, cbar=False)
+                vmin, vmax = -1, 1
+                sns.heatmap(data, cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[0], annot=True, cbar=False)
               
         except Exception as e:
             print(e)

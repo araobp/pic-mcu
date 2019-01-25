@@ -40,8 +40,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "I2C adaptor for TWELITE-DIP"
-Date "2019-01-11"
-Rev ""
+Date "2019-01-25"
+Rev "ver 1.0"
 Comp "https://github.com/araobp"
 Comment1 ""
 Comment2 ""
@@ -189,8 +189,8 @@ Text Notes 8450 4250 0    60   ~ 0
 TWELITE-DIP
 Text Notes 2250 2450 0    60   ~ 0
 I2C module\nAMG8833
-Text Notes 5700 900  0    60   ~ 0
-Battery case (4.5VDC) or 5VDC
+Text Notes 6050 900  0    60   ~ 0
+Battery case (6V DC)
 $Comp
 L SW_SPDT SW1
 U 1 1 5C38651E

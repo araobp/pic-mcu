@@ -41,12 +41,16 @@ if __name__ == '__main__':
     root = Tk.Tk()
     root.wm_title("Thermography for ML with Keras/TensorFlow")
 
-    if args.grid_data or args.motion_detection or args.motion_count:
+    if args.grid_data:
         fig, axes = plt.subplots(1, 2, figsize=(6, 5), gridspec_kw = {'width_ratios':[20, 1]})
+    elif args.motion_detection or args.motion_count:
+        fig, axes = plt.subplots(1, 2, figsize=(6, 6), gridspec_kw = {'width_ratios':[100, 1]})        
     else:
         fig, axes = plt.subplots(1, 2, figsize=(10, 5))
-    
-    fig.subplots_adjust(bottom=0.15)
+
+    for ax in axes:
+        ax.get_xaxis().set_ticks([])
+        ax.get_yaxis().set_ticks([])
 
     frame = Tk.Frame(master=root)
     frame_row0 = Tk.Frame(master=frame)
@@ -71,9 +75,9 @@ if __name__ == '__main__':
         if args.diff:
             data = gui.plot(axes, interface.DIFF, cmap='seismic')            
         elif args.motion_detection:
-            data = gui.plot(axes, interface.MOTION_DETECTION, cmap='seismic')                
+            data = gui.plot(axes, interface.MOTION_DETECTION, cmap='coolwarm')                
         elif args.motion_count:
-            data = gui.plot(axes, interface.MOTION_COUNT, cmap='seismic')
+            data = gui.plot(axes, interface.MOTION_COUNT, cmap='coolwarm')
         else:
             data = gui.plot(axes, interface.PIXELS, cmap='rainbow')
 
@@ -95,7 +99,8 @@ if __name__ == '__main__':
     # Repeat an operation
     def repeat(func):
         if repeat_action:
-            root.after(10, func)
+            #root.after(10, func)
+            root.after(5, func)
 
     def repeat_toggle():
         global repeat_action
