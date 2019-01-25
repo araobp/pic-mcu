@@ -1,6 +1,6 @@
 # Wireless network of infrared array sensors with TWELITE
 
-![](./doc/twelite-dip.jpg)
+![](./doc/motion_detection.jpg)
 
 ## Goal
 
