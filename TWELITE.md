@@ -150,8 +150,7 @@ PIC16F1 controls FET (Fairchild BS170) for saving power.
 
 ## Circuit and its schematic
 
-
-### Circuit paramters
+### Specification
 
 The following values are measured with my analog tester.
 
