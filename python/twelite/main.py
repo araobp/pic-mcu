@@ -102,7 +102,7 @@ if __name__ == '__main__':
                     read_and_print_data('motion detection', dst, tw.MOTION_DETECTION, quality_data=args.quality)
 
                     ### Read motion count
-                    read_and_print_data('motion detection', dst, tw.MOTION_COUNT, quality_data=args.quality)
+                    read_and_print_data('motion count', dst, tw.MOTION_COUNT, quality_data=args.quality)
 
             except Exception as e:
                 err_cnt += 1
