@@ -155,7 +155,7 @@ PIC16F1 controls FET (Fairchild BS170) for saving power.
 
 The following values are measured with my analog tester.
 
-|Paramter          |Measured Value                      |
+|Parameter         |Measured Value                      |
 |------------------|------------------------------------|
 |Power supply      | 1.5V battery x 4 = 6V              |
 |Current           | 30mA (active) or 5mA (sleep)       |
