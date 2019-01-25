@@ -174,8 +174,7 @@ The following values are measured with my analog tester.
 
 Test:
 ```
-PS C:\Users\shiny\Documents\GitHub\pic16f1-mcu\python\twelite> python .\main.py
- COM9 1 2
+> python .\main.py COM9 1 2
 --- SLAVE 2 ---
 <room temperature> 22.4375 degrees Celsius
 --- SLAVE 2 ---
