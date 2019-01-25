@@ -208,7 +208,7 @@ Test:
    0    0    0    0    0    0    0    0
    0    0    0    0    0    0    0    0
 --- SLAVE 2 ---
-<motion detection>
+<motion count>
    0    0    0    0    0    0    0    0
 --- STATS ---
 Elapsed time: 0.284 sec
