@@ -160,7 +160,7 @@ The following values are measured with my analog tester.
 |Power supply      | 1.5V battery x 4 = 6V              |
 |Current           | 30mA (active) or 5mA (sleep)       |
 |Power consumption | 6V x 30mA = 180mA                  |
-|Internal current (TWELITE and AMG8833) | 25mA between headers  to FET|
+|Internal current (TWELITE and AMG8833) | 25mA between headers adjacent to FET|
 |VDD-GND voltage at PIC16F18326  | 3.4V                 |
 |VCC-GND voltage at TWELITE-DIP or AMG8833 | 3.3V       |
 |Temperature at LDO w/o heatsink| 31 degrees Celsius (at ambient temperature 27 degrees Celsius) |
