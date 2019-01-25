@@ -148,8 +148,23 @@ PIC16F1 controls FET (Fairchild BS170) for saving power.
 ![](https://docs.google.com/drawings/d/e/2PACX-1vRKkvEE8Qu8NDzdrnWKfsav20zUiKk-MrW7WBJTkuSbnBnBqELGJ9IAp9Ce6L4VIAO_fR5WHlkIdUWj/pub?w=480&h=360)
 
 
-## Schematic
+## Circuit and its schematic
 
+
+### Circuit paramters
+
+The following values are measured with my analog tester.
+
+|Paramter          |Measured Value                      |
+|------------------|------------------------------------|
+|Power supply      | 1.5V battery x 4 = 6V              |
+|Current           | 30mA (in active) or 5mA (in sleep) |
+|Power consumption | 6V x 30mA = 180mA                  |
+|VDD-GND voltage at PIC16F18326  | 3.4V                 |
+|VCC-GND voltage at TWELITE-DIP or AMG8833 | 3.3V       |
+|Temperature at LDO w/o heatsink| 31 degrees Celsius (at ambient temperature 27 degrees Celsius) |
+
+### Schematic
 - [I2C adaptor for TWELITE-DIP](./kicad/i2c_adaptor/i2c_adaptor.pdf)
 
 ## Code
