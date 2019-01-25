@@ -148,8 +148,23 @@ PIC16F1 controls FET (Fairchild BS170) for saving power.
 ![](https://docs.google.com/drawings/d/e/2PACX-1vRKkvEE8Qu8NDzdrnWKfsav20zUiKk-MrW7WBJTkuSbnBnBqELGJ9IAp9Ce6L4VIAO_fR5WHlkIdUWj/pub?w=480&h=360)
 
 
-## Schematic
+## Circuit and its schematic
 
+### Specification
+
+The following values are measured with my analog tester.
+
+|Parameter         |Measured Value                      |
+|------------------|------------------------------------|
+|Power supply      | 1.5V battery x 4 = 6V              |
+|Current           | 30mA (active) or 5mA (sleep)       |
+|Power consumption | 6V x 30mA = 180mA                  |
+|Internal current (TWELITE and AMG8833) | 25mA between headers adjacent to FET|
+|VDD-GND voltage at PIC16F18326  | 3.4V                 |
+|VCC-GND voltage at TWELITE-DIP or AMG8833 | 3.3V       |
+|Temperature at LDO w/o heatsink| 31 degrees Celsius (at ambient temperature 27 degrees Celsius) |
+
+### Schematic
 - [I2C adaptor for TWELITE-DIP](./kicad/i2c_adaptor/i2c_adaptor.pdf)
 
 ## Code
@@ -159,21 +174,46 @@ PIC16F1 controls FET (Fairchild BS170) for saving power.
 
 Test:
 ```
---- SLAVE 1 ---
- length: 2, seq number: 34, LQI: 144
- room temperature: 19.125 degrees Celsius
-
- length: 64, seq number: 35, LQI: 147
- pixels: 16.25,16.5,16.75,16.5,16.25,16.25,16.25,16.5,16.25,16.5,16.25,16.75,16.75,15.75,16.0,16.25,16.25,16.0,16.5,16.5,16.0,15.75,16.0,16.5,16.0,16.25,16.0,16.5,16.0,15.5,15.75,17.0,16.0,16.75,16.0,15.75,16.25,15.25,15.5,16.25,16.75,16.75,16.5,16.0,16.5,16.0,16.25,16.0,15.75,16.75,16.0,15.5,15.75,16.25,16.25,15.5,16.0,16.0,15.0,15.25,15.5,15.5,15.25,15.25 degrees Celsius
-
---- SLAVE 1 ---
- length: 2, seq number: 36, LQI: 147
- room temperature: 19.1875 degrees Celsius
-
- length: 64, seq number: 37, LQI: 147
- pixels: 16.25,16.5,17.0,16.75,16.25,16.25,16.25,16.25,16.0,16.25,16.25,16.5,16.5,16.25,15.75,16.25,16.25,16.25,16.75,16.75,16.25,15.75,16.0,16.75,16.25,16.25,16.0,16.25,16.0,15.0,15.5,16.5,16.0,16.75,16.25,16.0,16.5,15.5,15.75,16.5,16.5,16.75,16.5,16.0,16.25,16.25,16.25,16.25,15.5,16.75,15.75,15.5,16.25,16.0,15.25,15.75,15.5,15.5,14.75,14.75,15.75,15.5,15.75,15.5 degrees Celsius
- 
-                            :
+> python .\main.py COM9 1 2
+--- SLAVE 2 ---
+<room temperature> 22.4375 degrees Celsius
+--- SLAVE 2 ---
+<64 pixels>
+19.2 19.2 20.2 20.2 20.0 20.5 20.8 20.5
+19.5 19.2 19.8 19.8 20.2 20.8 20.8 21.8
+19.8 19.2 20.2 20.2 20.0 20.5 20.8 22.5
+19.8 19.5 20.0 21.2 21.0 21.0 20.8 21.8
+19.5 20.5 20.5 23.0 24.0 20.8 20.5 21.2
+19.8 19.8 20.2 20.8 21.2 20.5 20.8 21.5
+19.5 19.2 20.2 20.0 20.0 20.5 21.0 23.2
+19.2 19.5 20.0 19.5 19.8 20.0 20.2 22.8
+--- SLAVE 2 ---
+<64 pixels diff>
+ 0.0  0.2  0.2  0.0 -0.2  0.0  0.0  0.0
+ 0.2 -0.2 -0.2  0.0 -0.5  0.2 -0.2  0.5
+ 0.0 -0.5  0.0  0.0 -0.2 -0.2 -0.2  0.0
+ 0.2 -0.2 -0.2  0.2  0.0  0.5 -0.2  0.5
+-0.2  0.5  0.0 -0.2  0.0 -0.2  0.0 -0.2
+-0.2  0.2  0.2 -0.2  0.2 -0.2  0.0 -0.2
+-0.2  0.2  0.2 -0.2  0.2 -0.5  0.0  0.2
+-0.2  0.5  0.0  0.2  0.0  0.0  0.2  0.5
+--- SLAVE 2 ---
+<motion detection>
+   0    0    0    0    0    0    0    0
+   0    0    0    0    0    0    0    0
+   0    0    0    0    0    0    0    0
+   0    0    0    0    0    0    0    0
+   0    0    0    0    0    0    0    0
+   0    0    0    0    0    0    0    0
+   0    0    0    0    0    0    0    0
+   0    0    0    0    0    0    0    0
+--- SLAVE 2 ---
+<motion count>
+   0    0    0    0    0    0    0    0
+--- STATS ---
+Elapsed time: 0.284 sec
+Average interval: 283.8 msec
+Tranmission error: 0 times
 ```
 
 ## Reference
