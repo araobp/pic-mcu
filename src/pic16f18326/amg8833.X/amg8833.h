@@ -27,7 +27,7 @@ extern "C" {
 #define AMG8833_PIXELS_RESOLUTION 0.25
 
 // Absolute value of diff larger than this value is regarded as moving.
-#define PEAK_COUNT_THRESHOLD 2.5
+#define PEAK_COUNT_THRESHOLD 2.0
 
 // Resolution to identify an object
 #define OBJECT_RESOLUTION 2
