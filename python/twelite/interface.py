@@ -1,4 +1,4 @@
-import twelite as tw
+import twelite_amg8833 as tw
 
 ### Constants #####
 
