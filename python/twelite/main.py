@@ -182,7 +182,7 @@ if __name__ == '__main__':
                         data = mn.read(dst=dst, cmd=tw.PIXELS, quality_data=False)
                     elif args.motion_detection:
                         ### Read 64 pixels motion detection only                        
-                        read_and_print_data(mn, 'motion detection', dst, tw.MOTION_DETECTION, quality_data=args.quality)
+                        read_and_print_data('motion detection', dst, mn, tw.MOTION_DETECTION, quality_data=args.quality)
                     elif args.motion_count:
                         ### Read motion count only
                         read_and_print_motion_count(mn, dst)
