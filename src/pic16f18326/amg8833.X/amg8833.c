@@ -17,6 +17,9 @@
 #define IDX(i, j) (j * 8 + i)
 #define SCAN_ROW_IDX(i) (SCAN_ROW * 8 + i)
 
+float peak_count_threshold = PEAK_COUNT_THRESHOLD;
+int object_resolution = OBJECT_RESOLUTION;
+
 /**
  * Enable/disable moving average
  * @param enable true for enabling this option, and false for disabling this option
@@ -119,12 +122,12 @@ void filter(int i, int8_t *pdiff, int8_t *pcolumn, bool downward) {
     while (true) {
         idx = IDX(i, j);
         // Column-wise scan downward
-        if (!filter_on && pdiff[idx] > PEAK_COUNT_THRESHOLD) {
+        if (!filter_on && pdiff[idx] > peak_count_threshold) {
             filter_on = true;
-        } else if (filter_on && pdiff[idx] < -PEAK_COUNT_THRESHOLD) {
+        } else if (filter_on && pdiff[idx] < -peak_count_threshold) {
             filter_detecting = true;
             pcolumn[j] = (downward) ? 1: -1;
-        } else if (filter_on && filter_detecting && pdiff[idx] >= -PEAK_COUNT_THRESHOLD) {
+        } else if (filter_on && filter_detecting && pdiff[idx] >= -peak_count_threshold) {
             filter_on = false;
             filter_detecting = false;
         }
@@ -184,7 +187,7 @@ void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *row
             peak_on = true;
             peak_on_idx = i;
         } else if (peak_on && (pmotion[idx] == 0 || i==7)) {
-            if ( (i - peak_on_idx) >= OBJECT_RESOLUTION ) {
+            if ( (i - peak_on_idx) >= object_resolution ) {
                 peak_idx = (peak_on_idx + i)/2;
                 temp_row[peak_idx] = pmotion[SCAN_ROW_IDX(peak_idx)];        
             }
@@ -223,4 +226,43 @@ void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *row
         prev_row[i] = temp_row[i];
     }
     
+}
+
+/**
+ * Calibrate motion detection parameters
+ * @param c
+ */
+void calibration(int c) {
+    switch(c) {
+        case 0:
+            peak_count_threshold = 0.5;
+            break;
+        case 1:
+            peak_count_threshold = 1.0;
+            break;
+        case 2:
+            peak_count_threshold = 1.5;
+            break;
+        case 3:
+            peak_count_threshold = 2.0;
+            break;
+        case 4:
+            peak_count_threshold = 2.5;
+            break;
+        case 5:
+            peak_count_threshold = 3.0;
+            break;
+        case 6:
+            object_resolution = 1;
+            break;
+        case 7:
+            object_resolution = 2;
+            break;
+        case 8:
+            object_resolution = 3;
+            break;
+        case 9:
+            object_resolution = 4;
+            break;
+    }
 }

@@ -34,6 +34,8 @@ PIXELS = ord('p')
 DIFF = ord('d')
 MOTION_DETECTION = ord('m')
 MOTION_COUNT = ord('M')
+ENABLE_NOTIFY = ord('n')
+DISABLE_NOTIFY = ord('N')
 
 ### AMG8833 data resolution
 THERMISTOR_RESOLUTION = 0.0625
@@ -57,7 +59,7 @@ def _conv_data_amg8833(cmd, d):
         data = np.zeros(len_)
         for i in range(len_):
             data[i] = b2i(d,i)*PIXELS_RESOLUTION
-    elif cmd == MOTION_DETECTION or cmd == MOTION_COUNT:
+    elif cmd == MOTION_DETECTION or cmd == MOTION_COUNT or cmd is None:
         len_ = len(d)
         data = np.zeros(len_, dtype=int)
         for i in range(len_):
@@ -130,20 +132,20 @@ class MasterNode:
 
     # Receive data
     def _rx(self):
-        d = self.ser.read(5)  # 0xA5 0x5A 0x80 <len> <dst>
+        d = self.ser.read(5)  # 0xA5 0x5A 0x80 <len> <src>
         if len(d) == 0:
             data, seq, lqi = d, 0, 0  # d is b'' in this case
             raise TweliteException('read timeout: {:.1f} sec passed'.format(self.timeout))
         else:
             #print(d)
             len_ =  b2ui(d, 3)
-            dst = b2ui(d, 4)
+            src = b2ui(d, 4)
             d = self.ser.read(13)  # 0xA0 seq <4bytes> <4bytes> <LQI> 0x00 <len>
             #print(d)
             seq = b2ui(d, 1)
             lqi = b2ui(d, 10)
             len_ = b2ui(d, 12)
-            #print('dst: {}, len: {}, lqi: {}'.format(str(dst), str(len_), str(lqi)))
+            #print('src: {}, len: {}, lqi: {}'.format(str(src), str(len_), str(lqi)))
 
             d = self.ser.read(len_)  # <data[]>
             #print(d)
@@ -153,18 +155,18 @@ class MasterNode:
             #ck = b2i(d,0)
             #print(data)
         
-        return (data, seq, lqi)
+        return (data, src, seq, lqi)
         
     # Write data
     def write(self, dst, cmd):
         self._tx(dst, cmd)
 
     # Read data: tx then rx
-    def read(self, dst, cmd, quality_data=False):
-        self._tx(dst, cmd)
+    def read(self, dst=None, cmd=None, quality_data=False):
+        if dst and cmd:
+            self._tx(dst, cmd)
         resp = self._rx()
         if quality_data:
             return resp
         else:
             return resp[0]
-    

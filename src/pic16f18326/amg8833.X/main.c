@@ -22,15 +22,22 @@ typedef enum {
     CHECK, KEEP_ON
 } state_machine_command;
 
-// Convert timers into 250msec time period unit
-const int t1 = T_1 * 4;
-const int t2 = T_2 * 4;
-const int t3 = T_3 * 4;
+typedef enum {
+    REACTIVE, PASSIVE
+} operation_mode;
+
+// Convert timers into 125msec time period unit
+const int t1 = T_1 * 8;
+const int t2 = T_2 * 8;
+const int t3 = T_3 * 8;
 
 // Buffers
 uint8_t buf[AMG8833_PIXELS_LENGTH];
 uint8_t buf_prev[AMG8833_PIXELS_LENGTH/2];
 int8_t diff[AMG8833_PIXELS_LENGTH/2];
+
+// Mode
+operation_mode mode = REACTIVE;
 
 /**
  * Power management
@@ -41,7 +48,8 @@ void power_mgmt(state_machine_command command) {
     static state_machine state = CONNECTING;
     
     //--- Power management disabled by jumper pin -----------------------------
-    if (PORTAbits.RA4 == LOW) return;  // WPU is enabled and jumper pin is off
+    // "Weak Pull Up (WPU) is enabled and jumper pin is off"
+    if (PORTAbits.RA4 == LOW) return; 
     
     //--- command: KEEP_ON ----------------------------------------------------
     if (command == KEEP_ON && (state == CONNECTING || state == RUNNING)) {
@@ -51,7 +59,7 @@ void power_mgmt(state_machine_command command) {
     }
     
     //--- command: CHECK ------------------------------------------------------
-    if (TMR0_HasOverflowOccured()) {  // every 250msec
+    if (TMR0_HasOverflowOccured()) {  // every 125msec
         timeout_cnt++;
         TMR0IF = 0;
     }
@@ -91,6 +99,7 @@ void main(void) {
     uint8_t seq;
     int8_t sum[8] = { 0 };
     int8_t row[8] = { 0 };
+    bool notify_flag;
 
     SYSTEM_Initialize();
     INTERRUPT_GlobalInterruptEnable();
@@ -102,11 +111,31 @@ void main(void) {
     set_moving_average(true);
     
     while (1) {
-        power_mgmt(CHECK);
+        
+        // Periodic task
+        if (mode == PASSIVE) {
+            if (TMR0_HasOverflowOccured()) {  // every 250msec
+                TMR0IF = 0;
+                read_motion(buf, buf_prev, diff, row);
+                notify_flag = false;
+                for (int i=0; i<8; i++) {
+                    if (row[i] != 0) notify_flag = true;
+                }
+                if (notify_flag) {
+                    twelite_uart_tx((uint8_t *)row, seq, 8);
+                    notify_flag = false;
+                }
+            }
+        } else if (mode == REACTIVE) {
+            power_mgmt(CHECK);
+        }
+        
+        // Command from master node
         if (EUSART_DataReady) {
             c = EUSART_Read();
             if (twelite_uart_rx(c, &cmd, &seq)) {
                 switch (cmd) {
+                    /*** Reactive mode */
                     case 't': // Thermistor
                         read_thermistor(buf);
                         twelite_uart_tx(buf, seq, AMG8833_THERMISTOR_LENGTH);
@@ -126,8 +155,18 @@ void main(void) {
                     case 'M': // Motion count on a specific row
                         read_motion(buf, buf_prev, diff, row);
                         twelite_uart_tx((uint8_t *)row, seq, 8);
-                        break;                        
-                    default:
+                        break;
+                    /*** Passive mode ***/
+                    case 'n':  // Notify motion count (reactive -> passive mode)
+                        mode = PASSIVE;
+                        break;
+                    case 'N':  // Disable notifications (passive -> reactive mode)
+                        mode = REACTIVE;
+                        break;
+                    default:  // Calibrate motion detection parameters
+                        if (cmd >= '0' && cmd <= '9') {
+                            calibration(cmd - 0x30);
+                        }
                         break;
                 }
                 power_mgmt(KEEP_ON);
