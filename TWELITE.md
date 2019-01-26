@@ -172,9 +172,12 @@ The following values are measured with my analog tester.
 - [Master(Python) with TWELITE-STICK](./python/twelite)
 - [Slave(PIC16F18326) with TWELITE-DIP](./src/pic16f18326/amg8833.X)
 
-Test:
+### Test
+
+#### Fetching all kinds of data
+
 ```
-> python .\main.py COM9 1 2
+> python .\main.py -d 2 -l 1 COM9
 --- SLAVE 2 ---
 <room temperature> 22.4375 degrees Celsius
 --- SLAVE 2 ---
@@ -215,7 +218,20 @@ Elapsed time: 0.284 sec
 Average interval: 283.8 msec
 Tranmission error: 0 times
 ```
+#### Receiving notifications of motion detection
 
+```
+> python .\main.py -d 2 -n COM9
+> python .\main.py -d 2 -C COM9
+[07:39:33] src: 2 |             B  |
+[07:39:36] src: 2 |           F    |
+[07:39:41] src: 2 |             B  |
+[07:39:42] src: 2 |           B    |
+[07:39:47] src: 2 |   B            |
+[07:40:02] src: 2 |             F  |
+[07:40:08] src: 2 |   F            |
+             :
+```
 ## Reference
 
 - https://mono-wireless.com/jp/products/TWE-APPS/App_Uart/mode_format.html
