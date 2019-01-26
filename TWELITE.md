@@ -174,7 +174,7 @@ The following values are measured with my analog tester.
 
 ### Test
 
-#### Fetching all kinds of data
+#### All kinds of data
 
 ```
 > python .\main.py -d 2 -l 1 COM9
@@ -217,6 +217,30 @@ The following values are measured with my analog tester.
 Elapsed time: 0.284 sec
 Average interval: 283.8 msec
 Tranmission error: 0 times
+```
+
+#### Motion detection
+
+```
+> python .\main.py -d 2 -m -l 1 COM9
+--- SLAVE 2 ---
+<motion detection>
+   0    0    0    0    0    0    0    0
+   0    0    0    0    0    0    0    0
+   0    0    0    0    0    0    0    0
+   0    0    0    1    1    1    1    0
+   0    0    0    1    1    1    1    0
+   0    0    0    0    0    0    0    0
+   0    0    0    0    0    0    0    0
+   0    0    0    0    0    0    0    0
+               :
+```
+
+```
+> python .\main.py -d 2 -l 10000 -M -D 50 COM9
+[07:49:55] src: 2 | 0  0  0  0  0 -1  0  0 |
+[07:49:58] src: 2 | 0  0  1  0  0  0  0  0 |
+               :
 ```
 #### Receiving notifications of motion detection
 
