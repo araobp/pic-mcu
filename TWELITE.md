@@ -23,7 +23,7 @@ I use [AMG8833](https://cdn-learn.adafruit.com/assets/assets/000/043/261/origina
 
 I need to transfer 64 pixel images (128 bytes data per frame, 10 FPS) over TWELITE.
 
-TWELITE provides SDK for developing an application, but a single core CPU cannot toralate a relatively longer blocking time of I/O processing.
+TWELITE provides SDK for developing an application, but a single core CPU cannot tolerate a relatively longer blocking time of I/O processing.
 
 The SDK supports event-driven APIs to cope with such a problem, but I guess the CPU still cannot satisfy the requirement.
 
