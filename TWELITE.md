@@ -12,6 +12,8 @@ I develop an algorithm on PIC16F1 to infer motion of moving objects. The inferen
 
 [TWELITE](https://mono-wireless.com/en/) is a low-power wireless communication module based on IEEE802.15.4. Its core is 32bit MCU ["JN5164"](https://www.nxp.com/jp/products/wireless/proprietary-ieee-802.15.4-based/zigbee-and-ieee802.15.4-wireless-microcontroller-with-160-kb-flash-32-kb-ram:JN5164) from NXP.
 
+Note: I have noticed that TWELITE is succeptible to radio interference.
+
 ### Infrared array sensor (Panasonic AMG8833)
 
 I use [AMG8833](https://cdn-learn.adafruit.com/assets/assets/000/043/261/original/Grid-EYE_SPECIFICATIONS%28Reference%29.pdf?1498680225
