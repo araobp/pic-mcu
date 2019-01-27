@@ -10,7 +10,7 @@ My hobby is IoT/AI prototyping. When a prototype is expected to be small and sim
 
 ## Application components
 
-### Wireless network of infrared array sensors wireless with TWELITE 
+### Wireless network of infrared array sensors with TWELITE 
 
 <img src="./doc/twelite-dip.jpg" width="500">
 
