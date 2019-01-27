@@ -25,13 +25,13 @@ TWELITE provides SDK for developing an application, but a single core CPU cannot
 
 The SDK supports event-driven APIs to cope with such a problem, but I guess the CPU still cannot satisfy the requirement.
 
-I use 8bit MCU as a co-processor of TWELITE just for receiving data from an infrared array sensor on I2C bus and transfer the data to TWELITE via UART.
+I use 8bit MCU as a co-processor of TWELITE for receiving data from an infrared array sensor on I2C bus, apply filters to extract features, and transfer the features to TWELITE via UART.
 
 ## Specification of the co-processor (PIC16F18326)
 
 |          | Value                    |
 |----------|--------------------------|
-|VDD       | 3.0V DC (AAA battery x 2)|
+|VDD       | 3.3V DC                  |
 |Power consumption| a few mA          |
 |CPU Clock | 32MHz HF                 |
 |UART      | 115200bps                |
@@ -51,23 +51,11 @@ Temperature range: 0 - 63.5 degrees Celsius (63.5/0.25 = 0xfe)
 
 Note: the sensor also outputs temperature data from a thermistor on the chip. I transfer both MSB and LSB in this case.
 
-## Feature extraction on PIC16F1
-
-In spite of 8bit quantization, the load on TWELITE is still heavy. It may require further processing to calculate features on PIC16F1 before transmitting the data to the master node.
+## Extracting features for motion detection
 
 ### Features for example
 
-#### A: Diff
-
-Diff between the current value and the previous value for each pixel.
-
-#### B: Sum of diff along each row
-
-Diff average along each row.
-
-#### C: Sensing motion of moving objects
-
-Diff output emphasizes edges of moving objects, and the diff value corresponds to their speed (vector).
+Diff output between frames emphasizes edges of moving objects, and the diff value corresponds to their speed (vector).
 
 ```
 Diff at each column
@@ -83,9 +71,9 @@ Diff at each column
                                     time
 ```
 
-Here I assume that objects are moving along the column direction (upward or downward).
+Here I assume that objects are moving along the column direction (column-wise: upward or downward).
 
-In general, it is possible to detect the motion in that condition by applying a filter, like the wave above, to output from A: Diff. 
+In general, it is possible to detect the motion in that condition by applying a filter, like the wave above, to diff between frames.
 
 Such a filter:
 
@@ -111,10 +99,10 @@ If only P matched, it outpus 0 (the output is discared).
 
 ## Command sequence
 
-This command sequence (polling) is optimized for decreasing the power consumption.
+### Reactive mode
 
 ```
- PIC16F1825           
+ PIC16F18326
  (as server)          Client
      |                  |     Time taken for the operation (approx.)
      |<----- 'p' -------|        10msec
@@ -130,6 +118,18 @@ The bottle neck of data transfer is the following:
 - UART (115200bps)
 - IEEE802.15.4 PHY (250kbps)
 - And buffering at each interface
+
+### Passive mode
+
+```
+ PIC16F18326
+ (as server)          Client
+     |                  |
+     |-- notify event ->|
+     |        :         |
+     |-- notify event ->|
+     |        :         |
+```
 
 ## Commands
 
@@ -174,7 +174,7 @@ The following values are measured with my analog tester.
 
 ### Test
 
-#### All kinds of data
+#### All kinds of data (in reactive mode)
 
 ```
 > python .\main.py -d 2 -l 1 COM9
@@ -219,7 +219,7 @@ Average interval: 283.8 msec
 Tranmission error: 0 times
 ```
 
-#### Motion detection
+#### Motion detection (in reactive mode)
 
 ```
 > python .\main.py -d 2 -m -l 1 COM9
@@ -242,7 +242,7 @@ Tranmission error: 0 times
 [07:49:58] src: 2 | 0  0  1  0  0  0  0  0 |
                :
 ```
-#### Receiving notifications of motion detection
+#### Receiving notifications of motion detection (in passive mode)
 
 ```
 > python .\main.py -d 2 -n COM9
