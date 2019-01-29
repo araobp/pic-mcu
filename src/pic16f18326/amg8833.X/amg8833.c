@@ -18,7 +18,6 @@
 #define SCAN_ROW_IDX(i) (SCAN_ROW * 8 + i)
 
 float peak_count_threshold = PEAK_COUNT_THRESHOLD;
-int object_resolution = OBJECT_RESOLUTION;
 
 /**
  * Enable/disable moving average
@@ -187,7 +186,7 @@ void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *row
             peak_on = true;
             peak_on_idx = i;
         } else if (peak_on && (pmotion[idx] == 0 || i==7)) {
-            if ( (i - peak_on_idx) >= object_resolution ) {
+            if ( (i - peak_on_idx) >= OBJECT_RESOLUTION ) {
                 peak_idx = (peak_on_idx + i)/2;
                 temp_row[peak_idx] = pmotion[SCAN_ROW_IDX(peak_idx)];        
             }
@@ -229,40 +228,34 @@ void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *row
 }
 
 /**
- * Calibrate motion detection parameters
+ * Calibrate motion detection threshold
  * @param c
  */
-void calibration(int c) {
-    switch(c) {
+void calibrate_threshold(int v) {
+    switch(v) {
         case 0:
-            peak_count_threshold = 0.5;
+            peak_count_threshold = PEAK_COUNT_THRESHOLD;;
             break;
         case 1:
-            peak_count_threshold = 1.0;
+            peak_count_threshold = 0.5;
             break;
         case 2:
-            peak_count_threshold = 1.5;
+            peak_count_threshold = 1.0;
             break;
         case 3:
-            peak_count_threshold = 2.0;
+            peak_count_threshold = 1.5;
             break;
         case 4:
-            peak_count_threshold = 2.5;
+            peak_count_threshold = 2.0;
             break;
         case 5:
-            peak_count_threshold = 3.0;
+            peak_count_threshold = 2.5;
             break;
         case 6:
-            object_resolution = 1;
+            peak_count_threshold = 3.0;
             break;
-        case 7:
-            object_resolution = 2;
-            break;
-        case 8:
-            object_resolution = 3;
-            break;
-        case 9:
-            object_resolution = 4;
+        default:
             break;
     }
 }
+

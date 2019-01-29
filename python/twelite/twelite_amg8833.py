@@ -36,10 +36,14 @@ MOTION_DETECTION = ord('m')
 MOTION_COUNT = ord('M')
 ENABLE_NOTIFY = ord('n')
 DISABLE_NOTIFY = ord('N')
+DUMP_SETTINGS = ord('s')
 
 ### AMG8833 data resolution
 THERMISTOR_RESOLUTION = 0.0625
 PIXELS_RESOLUTION = 0.25
+
+## Serial read timeout
+TIMEOUT = 0.3  # 300msec
 
 ### Byte to integer conversion (2's complement)
 b2ui = lambda data, idx: int.from_bytes([data[idx]], byteorder='big', signed=False)
@@ -47,23 +51,25 @@ b2i = lambda data, idx: int.from_bytes([data[idx]], byteorder='big', signed=True
 
 # [AMG8833-specific] Data conversion into degrees Celsius unit
 def _conv_data_amg8833(cmd, d):
+    len_ = len(d)
     if cmd == THERMISTOR:
         data = (b2ui(d,1) * 256 + b2ui(d, 0)) * THERMISTOR_RESOLUTION
     elif cmd == PIXELS:
-        len_ = len(d)
         data = np.zeros(len_)
         for i in range(len_):
             data[i] = b2ui(d,i)*PIXELS_RESOLUTION
     elif cmd == DIFF:
-        len_ = len(d)
         data = np.zeros(len_)
         for i in range(len_):
             data[i] = b2i(d,i)*PIXELS_RESOLUTION
     elif cmd == MOTION_DETECTION or cmd == MOTION_COUNT or cmd is None:
-        len_ = len(d)
         data = np.zeros(len_, dtype=int)
         for i in range(len_):
             data[i] = b2i(d,i)
+    elif cmd == DUMP_SETTINGS:
+        data = np.zeros(len_, dtype=int)
+        for i in range(len_):
+            data[i] = b2ui(d,i)
     return data
 
 # LQI to dBm conversion
@@ -97,7 +103,7 @@ class MasterNode:
     This is a packet parser for transmitting/receiving data over TWELITE.
     '''
 
-    def __init__(self, port, baudrate, timeout=NUM_RETRY*0.2):
+    def __init__(self, port, baudrate, timeout=TIMEOUT):
         self.port  = port
         self.baudrate = baudrate
         self.genSeq = GenSeq()

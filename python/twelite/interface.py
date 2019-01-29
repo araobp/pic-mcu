@@ -1,16 +1,14 @@
 import twelite_amg8833 as tw
 
-### Constants #####
-
 ### Serial port setting
 BAUDRATE = 115200
-SLAVE_1 = 1
 
 THERMISTOR = tw.THERMISTOR
 PIXELS = tw.PIXELS
 DIFF = tw.DIFF
 MOTION_DETECTION = tw.MOTION_DETECTION
 MOTION_COUNT = tw.MOTION_COUNT
+DUMP_SETTINGS = tw.DUMP_SETTINGS
 
 class Interface:
     

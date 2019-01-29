@@ -47,7 +47,7 @@ void read_pixels_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff);
 
 void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff, int8_t *row);
 
-void calibration(int c);
+void calibrate_threshold(int v);
 
 #ifdef	__cplusplus
 }

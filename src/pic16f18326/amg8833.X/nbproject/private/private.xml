@@ -5,7 +5,9 @@
         <group>
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/amg8833.X/amg8833.h</file>
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/amg8833.X/twelite.c</file>
+            <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/amg8833.X/mcc_generated_files/memory.c</file>
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/amg8833.X/mcc_generated_files/tmr0.c</file>
+            <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/amg8833.X/mcc_generated_files/eusart.c</file>
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/amg8833.X/amg8833.c</file>
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/amg8833.X/main.c</file>
         </group>

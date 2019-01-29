@@ -39,7 +39,7 @@ if __name__ == '__main__':
     PADY_GRID = 2
 
     root = Tk.Tk()
-    root.wm_title("Thermography for ML with Keras/TensorFlow")
+    root.wm_title("Thermography")
 
     if args.grid_data:
         fig, axes = plt.subplots(1, 2, figsize=(6, 5), gridspec_kw = {'width_ratios':[20, 1]})

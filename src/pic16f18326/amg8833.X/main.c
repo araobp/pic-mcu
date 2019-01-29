@@ -1,3 +1,9 @@
+/*
+ * Motion detection with AMG8833 and TWELITE
+ * 
+ * Ver 1.0      January 28, 2019
+ */
+
 #include "mcc_generated_files/mcc.h"
 #include "amg8833.h"
 #include "twelite.h"
@@ -12,6 +18,11 @@
 #define T_1 5       // 5 sec
 #define T_2 180     // 180 sec (3 min)
 #define T_3 180     // 180 sec (3 min)
+
+// Addresses on Built-in EEPROM
+#define EEPROM_HEAD_ADDR 0x7000
+#define MODE_ADDR 0
+#define THRES_ADDR 1
 
 // Power saving state machine
 typedef enum {
@@ -95,7 +106,7 @@ void power_mgmt(state_machine_command command) {
 
 void main(void) {
 
-    uint8_t c, cmd;
+    uint8_t c, cmd, thres, settings[2];
     uint8_t seq;
     int8_t sum[8] = { 0 };
     int8_t row[8] = { 0 };
@@ -105,6 +116,19 @@ void main(void) {
     INTERRUPT_GlobalInterruptEnable();
     INTERRUPT_PeripheralInterruptEnable();
 
+    // Initialization
+    mode = DATAEE_ReadByte(EEPROM_HEAD_ADDR + MODE_ADDR);
+    if (mode != REACTIVE && mode != PASSIVE) {
+        mode = REACTIVE;
+        DATAEE_WriteByte(EEPROM_HEAD_ADDR + MODE_ADDR, mode);
+    }
+    thres = DATAEE_ReadByte(EEPROM_HEAD_ADDR + THRES_ADDR);
+    if (thres > 6) {
+        thres = 0;
+        DATAEE_WriteByte(EEPROM_HEAD_ADDR + THRES_ADDR, thres);
+    }
+    calibrate_threshold(thres);
+    
     // Start supplying power to TWELITE-DIP and AMG8833 
     FET_GATE = HIGH;
     __delay_ms(500);    
@@ -154,18 +178,28 @@ void main(void) {
                         break;
                     case 'M': // Motion count on a specific row
                         read_motion(buf, buf_prev, diff, row);
-                        twelite_uart_tx((uint8_t *)row, seq, 8);
+                        twelite_uart_tx((uint8_t *)row, seq, sizeof(row));
                         break;
                     /*** Passive mode ***/
                     case 'n':  // Notify motion count (reactive -> passive mode)
                         mode = PASSIVE;
+                        DATAEE_WriteByte(EEPROM_HEAD_ADDR + MODE_ADDR, mode);
                         break;
                     case 'N':  // Disable notifications (passive -> reactive mode)
                         mode = REACTIVE;
+                        DATAEE_WriteByte(EEPROM_HEAD_ADDR + MODE_ADDR, mode);
+                        break;
+                    case 's':  // Dump setting parameters
+                        settings[MODE_ADDR] = DATAEE_ReadByte(EEPROM_HEAD_ADDR + MODE_ADDR);
+                        settings[THRES_ADDR] 
+                                = DATAEE_ReadByte(EEPROM_HEAD_ADDR + THRES_ADDR);
+                        twelite_uart_tx((uint8_t *)settings, seq, sizeof(settings));
                         break;
                     default:  // Calibrate motion detection parameters
                         if (cmd >= '0' && cmd <= '9') {
-                            calibration(cmd - 0x30);
+                            thres = cmd - 0x30;   // ASCII code - 0x30
+                            calibrate_threshold(thres);
+                            DATAEE_WriteByte(EEPROM_HEAD_ADDR + THRES_ADDR, thres);
                         }
                         break;
                 }

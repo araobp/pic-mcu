@@ -1,1 +1,1 @@
-python thermography.py COM9 2
+python thermography.py COM11 3

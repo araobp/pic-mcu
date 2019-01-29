@@ -4,23 +4,6 @@
  Example usage:
  $ python main.py COM9 2 1 -q
 
-
-Motion detection calibration:
-
-    Peak count threshold
-    0: 0.5
-    1: 1.0
-    2: 1.5
-    3: 2.0
-    4: 2.5
-    5: 3.0
-
-    Object resolution
-    6: 1
-    7: 2
-    8: 3
-    9: 4
-
 '''
 import twelite_amg8833 as tw
 import numpy as np
@@ -39,36 +22,35 @@ DESCRIPTION = '''
 '''
 parser = argparse.ArgumentParser(description=DESCRIPTION)
 parser.add_argument("port", help="Serial port identifier")
-parser.add_argument("-l", "--loop", help="The number of looping", default="10")
 parser.add_argument("-d", "--dst", help="Destination node identifier")
-parser.add_argument("-p", "--performance_measurement", help="Performance measurement on 64 pixels data transmission over TWELITE", action='store_true')
+parser.add_argument("-l", "--loop", help="The number of looping", default="10")
 parser.add_argument("-q", "--quality", help="Print out quality data (sequence number and LQI) as well", action='store_true')
+parser.add_argument("-p", "--performance_measurement", help="Performance measurement on 64 pixels data transmission over TWELITE", action='store_true')
 parser.add_argument("-m", "--motion_detection", help="Column-wise motion detection", action='store_true')
 parser.add_argument("-M", "--motion_count", help="Motion count on a specific row", action='store_true')
 parser.add_argument("-D", "--delay", help="Delay in a loop (in msec)", default="0")
-parser.add_argument("-c", "--calibrate", help="Calibrate motion detection parameters")
 parser.add_argument("-n", "--enable_notify", help="Enable notifications of motion count in passive mode", action='store_true')
 parser.add_argument("-N", "--disable_notify", help="Disable notifications of motion count", action='store_true')
-parser.add_argument("-P", "--calibration_parameter_description", help="Print calibration paramter description", action='store_true')
-parser.add_argument("-C", "--motion_count_notifications", help="Motion count notifications", action='store_true')
+parser.add_argument("-c", "--motion_count_notifications", help="Motion count notifications", action='store_true')
+parser.add_argument("-t", "--threshold", help="Calibrate motion detection threshold")
+parser.add_argument("-T", "--threshold_description", help='Print "threashold" option description', action='store_true')
+parser.add_argument("-s", "--dump_settings", help="Dump setting parameters", action='store_true')
 args = parser.parse_args()
 
-CALIBRATION_PARAM_DESC = '''
-Description for "-c" or "--calibrate option" command option:
+THRESHOLD_DESCRIPTION = '''
+Description for "-t" or "--threshold" command option:
 
-    Peak count threshold (diff larger than this value is ragarded as edge of a moving object)
-    0: 0.5
-    1: 1.0
-    2: 1.5
-    3: 2.0
-    4: 2.5
-    5: 3.0
+[Peak count threshold]
+Diff larger than this value is ragarded as edge of a moving object.
 
-    Object resolution (a peak with this width row-wise is ragarded as a moving object) 
-    6: 1
-    7: 2
-    8: 3
-    9: 4
+    0: PEAK_COUNT_THRESHOLD
+    1: 0.5
+    2: 1.0
+    3: 1.5
+    4: 2.0
+    5: 2.5
+    6: 3.0
+
 '''
 
 info = lambda seq, lqi: ' seq number: {}, LQI: {} ({} dBm)'.format(seq, lqi, tw.lqi2dbm(lqi))
@@ -133,8 +115,8 @@ def print_motion_count_notifications(data):
 if __name__ == '__main__':
 
     ### Description
-    if args.calibration_parameter_description:
-        print(CALIBRATION_PARAM_DESC)
+    if args.threshold_description:
+        print(THRESHOLD_DESCRIPTION)
         sys.exit(0)
 
     ### Passive mode
@@ -156,8 +138,13 @@ if __name__ == '__main__':
 
         with tw.MasterNode(args.port, BAUDRATE) as mn:
 
-            if args.calibrate:
-                mn.write(dst=dst, cmd=ord(args.calibrate))
+            if args.dump_settings:
+                data = mn.read(dst=dst, cmd=tw.DUMP_SETTINGS)
+                print(data)
+                sys.exit(0)
+
+            if args.threshold:
+                mn.write(dst=dst, cmd=ord(args.threshold))
                 sys.exit(0)
 
             if args.disable_notify:
@@ -170,6 +157,7 @@ if __name__ == '__main__':
 
             start_time = time.time()
             err_cnt = 0
+            cnt = 0
             delay = float(args.delay)/1000.0  # msec -> sec
             
             for _ in range(int(args.loop)):
@@ -180,6 +168,9 @@ if __name__ == '__main__':
                     if args.performance_measurement:
                         ### Read 64 pixels data only
                         data = mn.read(dst=dst, cmd=tw.PIXELS, quality_data=False)
+                        cnt += 1
+                        if (cnt % 100) == 0:
+                            print("({}) {:.0f}".format(cnt, time.time()))
                     elif args.motion_detection:
                         ### Read 64 pixels motion detection only                        
                         read_and_print_data('motion detection', dst, mn, tw.MOTION_DETECTION, quality_data=args.quality)
