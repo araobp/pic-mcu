@@ -1,7 +1,7 @@
 /*
  * Motion detection with AMG8833 and TWELITE
  * 
- * Ver 1.0      January 28, 2019
+ * Ver 1.0      January 30, 2019
  */
 
 #include "mcc_generated_files/mcc.h"
@@ -25,6 +25,7 @@
 #define THRES_ADDR 1
 
 // Power saving state machine
+
 typedef enum {
     CONNECTING, RUNNING, SLEEPING
 } state_machine;
@@ -44,8 +45,8 @@ const int t3 = T_3 * 8;
 
 // Buffers
 uint8_t buf[AMG8833_PIXELS_LENGTH];
-uint8_t buf_prev[AMG8833_PIXELS_LENGTH/2];
-int8_t diff[AMG8833_PIXELS_LENGTH/2];
+uint8_t buf_prev[AMG8833_PIXELS_LENGTH / 2];
+int8_t diff[AMG8833_PIXELS_LENGTH / 2];
 
 // Mode
 operation_mode mode = REACTIVE;
@@ -57,25 +58,25 @@ operation_mode mode = REACTIVE;
 void power_mgmt(state_machine_command command) {
     static int timeout_cnt = 0;
     static state_machine state = CONNECTING;
-    
+
     //--- Power management disabled by jumper pin -----------------------------
     // "Weak Pull Up (WPU) is enabled and jumper pin is off"
-    if (PORTAbits.RA4 == LOW) return; 
-    
+    if (PORTAbits.RA4 == LOW) return;
+
     //--- command: KEEP_ON ----------------------------------------------------
     if (command == KEEP_ON && (state == CONNECTING || state == RUNNING)) {
         timeout_cnt = 0;
         state = RUNNING;
         return;
     }
-    
+
     //--- command: CHECK ------------------------------------------------------
-    if (TMR0_HasOverflowOccured()) {  // every 125msec
+    if (TMR0_HasOverflowOccured()) { // every 125msec
         timeout_cnt++;
         TMR0IF = 0;
     }
-    
-    switch(state) {
+
+    switch (state) {
         case CONNECTING:
             if (timeout_cnt >= t1) {
                 timeout_cnt = 0;
@@ -88,16 +89,16 @@ void power_mgmt(state_machine_command command) {
                 timeout_cnt = 0;
                 FET_GATE = LOW;
                 state = SLEEPING;
-            }            
+            }
             break;
         case SLEEPING:
             if (timeout_cnt >= t3) {
                 FET_GATE = HIGH;
-                __delay_ms(500);    
+                __delay_ms(500);
                 set_moving_average(true);
                 timeout_cnt = 0;
                 state = CONNECTING;
-            }            
+            }
             break;
         default:
             break;
@@ -108,8 +109,8 @@ void main(void) {
 
     uint8_t c, cmd, thres, settings[2];
     uint8_t seq;
-    int8_t sum[8] = { 0 };
-    int8_t row[8] = { 0 };
+    int8_t sum[8] = {0};
+    int8_t row[8] = {0};
     bool notify_flag;
 
     SYSTEM_Initialize();
@@ -128,38 +129,38 @@ void main(void) {
         DATAEE_WriteByte(EEPROM_HEAD_ADDR + THRES_ADDR, thres);
     }
     calibrate_threshold(thres);
-    
+
     // Start supplying power to TWELITE-DIP and AMG8833 
     FET_GATE = HIGH;
-    __delay_ms(500);    
+    __delay_ms(500);
     set_moving_average(true);
-    
+
     while (1) {
-        
+
         // Periodic task
         if (mode == PASSIVE) {
-            if (TMR0_HasOverflowOccured()) {  // every 250msec
+            if (TMR0_HasOverflowOccured()) { // every 250msec
                 TMR0IF = 0;
                 read_motion(buf, buf_prev, diff, row);
                 notify_flag = false;
-                for (int i=0; i<8; i++) {
+                for (int i = 0; i < 8; i++) {
                     if (row[i] != 0) notify_flag = true;
                 }
                 if (notify_flag) {
-                    twelite_uart_tx((uint8_t *)row, seq, 8);
+                    twelite_uart_tx((uint8_t *) row, seq, 8);
                     notify_flag = false;
                 }
             }
         } else if (mode == REACTIVE) {
             power_mgmt(CHECK);
         }
-        
+
         // Command from master node
         if (EUSART_DataReady) {
             c = EUSART_Read();
             if (twelite_uart_rx(c, &cmd, &seq)) {
                 switch (cmd) {
-                    /*** Reactive mode */
+                        /*** Reactive mode */
                     case 't': // Thermistor
                         read_thermistor(buf);
                         twelite_uart_tx(buf, seq, AMG8833_THERMISTOR_LENGTH);
@@ -170,34 +171,34 @@ void main(void) {
                         break;
                     case 'd': // 64 pixels diff
                         read_pixels_diff(buf, buf_prev, diff);
-                        twelite_uart_tx((uint8_t *)diff, seq, AMG8833_PIXELS_LENGTH_HALF);
+                        twelite_uart_tx((uint8_t *) diff, seq, AMG8833_PIXELS_LENGTH_HALF);
                         break;
                     case 'm': // Column-wise motion detection
                         read_pixels_motion(buf, buf_prev, diff);
-                        twelite_uart_tx((uint8_t *)diff, seq, AMG8833_PIXELS_LENGTH_HALF);
+                        twelite_uart_tx((uint8_t *) diff, seq, AMG8833_PIXELS_LENGTH_HALF);
                         break;
                     case 'M': // Motion count on a specific row
                         read_motion(buf, buf_prev, diff, row);
-                        twelite_uart_tx((uint8_t *)row, seq, sizeof(row));
+                        twelite_uart_tx((uint8_t *) row, seq, sizeof (row));
                         break;
-                    /*** Passive mode ***/
-                    case 'n':  // Notify motion count (reactive -> passive mode)
+                        /*** Passive mode ***/
+                    case 'n': // Notify motion count (reactive -> passive mode)
                         mode = PASSIVE;
                         DATAEE_WriteByte(EEPROM_HEAD_ADDR + MODE_ADDR, mode);
                         break;
-                    case 'N':  // Disable notifications (passive -> reactive mode)
+                    case 'N': // Disable notifications (passive -> reactive mode)
                         mode = REACTIVE;
                         DATAEE_WriteByte(EEPROM_HEAD_ADDR + MODE_ADDR, mode);
                         break;
-                    case 's':  // Dump setting parameters
+                    case 's': // Dump setting parameters
                         settings[MODE_ADDR] = DATAEE_ReadByte(EEPROM_HEAD_ADDR + MODE_ADDR);
-                        settings[THRES_ADDR] 
+                        settings[THRES_ADDR]
                                 = DATAEE_ReadByte(EEPROM_HEAD_ADDR + THRES_ADDR);
-                        twelite_uart_tx((uint8_t *)settings, seq, sizeof(settings));
+                        twelite_uart_tx((uint8_t *) settings, seq, sizeof (settings));
                         break;
-                    default:  // Calibrate motion detection parameters
+                    default: // Calibrate motion detection parameters
                         if (cmd >= '0' && cmd <= '9') {
-                            thres = cmd - 0x30;   // ASCII code - 0x30
+                            thres = cmd - 0x30; // ASCII code - 0x30
                             calibrate_threshold(thres);
                             DATAEE_WriteByte(EEPROM_HEAD_ADDR + THRES_ADDR, thres);
                         }
