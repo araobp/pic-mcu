@@ -121,6 +121,20 @@ The bottle neck of data transfer is the following:
 - IEEE802.15.4 PHY (250kbps)
 - And buffering at each interface
 
+#### Commands
+
+| Command | Description                            | Response data length| Data type      |
+|---------|----------------------------------------|-----------|-----------|
+| t       | thermistor                             | 2 bytes   | uint8_t   |
+| p       | 64 pixels                              | 64 bytes  | uint8_t   |
+| d       | 64 pixels diff                         | 64 bytes  | int8_t    |
+| m       | column-wise motion detection           | 64 bytes  | int8_t    |
+| M       | motion count on a specific row         | 8 bytes   | int8_t    |
+| n       | enable notifications (passive mode)    | NA        | NA        |
+| N       | disable notifications (reactive mode)  | NA        | NA        |
+| s       | dump setting paramters                 | 2 bytes   | uint8_t   |
+| 0 - 6   | calibrate motion detection threshold   | NA        | NA        |
+
 ### Passive mode
 
 ```
@@ -133,15 +147,10 @@ The bottle neck of data transfer is the following:
      |        :         |
 ```
 
-## Commands
+#### Notifications
 
-| Command | Description                            | Data size | Request          | Type      |
-|---------|----------------------------------------|-----------|------------------|-----------|
-| t       | thermistor                             | 2 bytes   | Master -> Slave  | uint8_t   |
-| p       | 64 pixels                              | 64 bytes  | Master -> Slave  | uint8_t   |
-| d       | 64 pixels diff                         | 64 bytes  | Master -> Slave  | int8_t    |
-| m       | column-wise motion detection           | 64 bytes  | Master -> Slave  | int8_t    |
-| M       | motion count on a specific row         | 8 bytes   | Master -> Slave  | int8_t    |
+8 bytes (int8_t) data is sent from a slave node to a master node to notify that something/somebody is moving across the line.
+
 
 ## Power saving
 
