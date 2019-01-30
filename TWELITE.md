@@ -6,6 +6,8 @@
 
 I develop an algorithm on PIC16F1 to infer motion of moving objects. The inference result is transferred to PC over TWELITE wireless sensor network.
 
+In this project, I assume that the targe object is animals.
+
 ## Hardware components
 
 ### TWELITE
@@ -149,8 +151,22 @@ The bottle neck of data transfer is the following:
 
 #### Notifications
 
-8 bytes (int8_t) data is sent from a slave node to a master node to notify that something/somebody is moving across the line.
+8 bytes (int8_t) data is sent from a slave node to a master node to notify that animals are moving across a line.
 
+Example: detecting animals moving along a corridor
+
+```
+
+      Corrider
+   |             |
+   |             |
+   |  Animal ^   |
+   | - | - - | - | Line
+   |   V  Animal |
+   |             |
+   |             |
+
+```
 
 ## Power saving
 
@@ -257,7 +273,7 @@ Tranmission error: 0 times
 
 ```
 > python .\main.py -d 2 -n COM9
-> python .\main.py -d 2 -C COM9
+> python .\main.py -d 2 -c COM9
 [07:39:33] src: 2 |             B  |
 [07:39:36] src: 2 |           F    |
 [07:39:41] src: 2 |             B  |
