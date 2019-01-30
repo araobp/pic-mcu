@@ -127,7 +127,7 @@ The bottle neck of data transfer is the following:
 |---------|----------------------------------------|-----------|-----------|
 | t       | thermistor                             | 2 bytes   | uint8_t   |
 | p       | 64 pixels                              | 64 bytes  | uint8_t   |
-| d       | 64 pixels diff                         | 64 bytes  | int8_t    |
+| d       | 64 pixels diff between previous frame and current frame | 64 bytes  | int8_t    |
 | m       | column-wise motion detection           | 64 bytes  | int8_t    |
 | M       | motion count on a specific row         | 8 bytes   | int8_t    |
 | n       | enable notifications (passive mode)    | NA        | NA        |
