@@ -6,6 +6,8 @@
 
 I develop an algorithm on PIC16F1 to infer motion of moving objects. The inference result is transferred to PC over TWELITE wireless sensor network.
 
+I assume that the targe object is animals in this project.
+
 ## Hardware components
 
 ### TWELITE
@@ -121,6 +123,20 @@ The bottle neck of data transfer is the following:
 - IEEE802.15.4 PHY (250kbps)
 - And buffering at each interface
 
+#### Commands
+
+| Command | Description                            | Response data length| Data type      |
+|---------|----------------------------------------|-----------|-----------|
+| t       | thermistor                             | 2 bytes   | uint8_t   |
+| p       | 64 pixels                              | 64 bytes  | uint8_t   |
+| d       | 64 pixels diff between previous frame and current frame | 64 bytes  | int8_t    |
+| m       | column-wise motion detection           | 64 bytes  | int8_t    |
+| M       | motion count on a specific row         | 8 bytes   | int8_t    |
+| n       | enable notifications (passive mode)    | NA        | NA        |
+| N       | disable notifications (reactive mode)  | NA        | NA        |
+| s       | dump setting paramters                 | 2 bytes   | uint8_t   |
+| 0 - 6   | calibrate motion detection threshold   | NA        | NA        |
+
 ### Passive mode
 
 ```
@@ -133,15 +149,24 @@ The bottle neck of data transfer is the following:
      |        :         |
 ```
 
-## Commands
+#### Notifications
 
-| Command | Description                            | Data size | Request          | Type      |
-|---------|----------------------------------------|-----------|------------------|-----------|
-| t       | thermistor                             | 2 bytes   | Master -> Slave  | uint8_t   |
-| p       | 64 pixels                              | 64 bytes  | Master -> Slave  | uint8_t   |
-| d       | 64 pixels diff                         | 64 bytes  | Master -> Slave  | int8_t    |
-| m       | column-wise motion detection           | 64 bytes  | Master -> Slave  | int8_t    |
-| M       | motion count on a specific row         | 8 bytes   | Master -> Slave  | int8_t    |
+8 bytes (int8_t) data is sent from a slave node to a master node to notify that animals are moving across a line.
+
+Example: detecting animals moving along a corridor
+
+```
+
+      Corrider
+   |             |
+   |             |
+   |  Animal ^   |
+   | - | - - | - | Line
+   |   V  Animal |
+   |             |
+   |             |
+
+```
 
 ## Power saving
 
@@ -248,7 +273,7 @@ Tranmission error: 0 times
 
 ```
 > python .\main.py -d 2 -n COM9
-> python .\main.py -d 2 -C COM9
+> python .\main.py -d 2 -c COM9
 [07:39:33] src: 2 |             B  |
 [07:39:36] src: 2 |           F    |
 [07:39:41] src: 2 |             B  |

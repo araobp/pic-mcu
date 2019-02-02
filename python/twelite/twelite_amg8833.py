@@ -103,12 +103,13 @@ class MasterNode:
     This is a packet parser for transmitting/receiving data over TWELITE.
     '''
 
-    def __init__(self, port, baudrate, timeout=TIMEOUT):
+    def __init__(self, port, baudrate, retry=NUM_RETRY, timeout=TIMEOUT):
         self.port  = port
         self.baudrate = baudrate
         self.genSeq = GenSeq()
         self.seq = 0
         self.cmd = None
+        self.retry = retry 
         self.timeout = timeout
         self.ser = serial.Serial(self.port, self.baudrate, timeout=timeout)
         
@@ -126,7 +127,7 @@ class MasterNode:
         self.cmd = cmd
         seq = next(self.genSeq)
         data = [dst, BYTE, seq, RESPONSE_MSG_DISABLED,
-                ACK_ENABLED, RESEND, NUM_RETRY, TERMINATOR, cmd]
+                ACK_ENABLED, RESEND, self.retry, TERMINATOR, cmd]
         ck = data[0]
         for c in data[1:]:
             ck = ck ^ c  # XOR for calculating checksum

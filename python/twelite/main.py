@@ -122,7 +122,7 @@ if __name__ == '__main__':
     ### Passive mode
     if args.motion_count_notifications:
 
-        with tw.MasterNode(args.port, BAUDRATE, timeout=3.0) as mn:
+        with tw.MasterNode(args.port, BAUDRATE) as mn:
             while True:
                 try:
                     data, src, seq, lqi = mn.read(quality_data=True)
@@ -135,8 +135,9 @@ if __name__ == '__main__':
     else:
 
         dst = int(args.dst)
+        delay = float(args.delay)/1000.0  # msec -> sec
 
-        with tw.MasterNode(args.port, BAUDRATE) as mn:
+        with tw.MasterNode(args.port, BAUDRATE, retry=3, timeout=1) as mn:
 
             if args.dump_settings:
                 data = mn.read(dst=dst, cmd=tw.DUMP_SETTINGS)
@@ -158,7 +159,6 @@ if __name__ == '__main__':
             start_time = time.time()
             err_cnt = 0
             cnt = 0
-            delay = float(args.delay)/1000.0  # msec -> sec
             
             for _ in range(int(args.loop)):
 
@@ -186,7 +186,7 @@ if __name__ == '__main__':
 
                         ### Read 64 pixels diff
                         read_and_print_data('64 pixels diff', dst, mn, tw.DIFF, quality_data=args.quality)
-                        
+
                         ### Read 64 pixels motion detection
                         read_and_print_data('motion detection', dst, mn, tw.MOTION_DETECTION, quality_data=args.quality)
 
