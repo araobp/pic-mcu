@@ -22,7 +22,7 @@ extern "C" {
 #define AMG8833_AVE_ADDR 0x07
 #define AMG8833_THERMISTOR_LENGTH 2U    
 #define AMG8833_PIXELS_LENGTH 128U
-#define AMG8833_PIXELS_LENGTH_HALF 64U    
+#define AMG8833_PIXELS_LENGTH_HALF 64U
 #define AMG8833_THERMISTOR_RESOLUTION 0.0625
 #define AMG8833_PIXELS_RESOLUTION 0.25
 
@@ -43,9 +43,11 @@ void read_pixels(uint8_t *pbuf);
 
 void read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff);
 
-void read_pixels_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff);
+void read_pixels_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion);
 
-void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff, int8_t *row);
+void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *prow);
+
+void read_object(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *pmap);
 
 void calibrate_threshold(int v);
 

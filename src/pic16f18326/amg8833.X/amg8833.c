@@ -169,11 +169,11 @@ void read_pixels_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion) {
  * @param pbuf buffer for pixel data
  * @param pbuf_prev buffer for previous pixel data 
  * @param pmotion motion detection result for each pixel (0, 1 or -1) 
- * @param row motion count (with its direction) on a specific row
+ * @param prow motion count (with its direction) on a specific row
  */
-void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *row) {
+void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *prow) {
     static int8_t prev_row[8][8] = {
-        { 0}
+        { 0 }
     };
     int8_t temp_row[8] = {0};
     int idx;
@@ -209,29 +209,29 @@ void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *row
      *   current row   : 0  0  0  0  0  1  0  0  => This "1" is removed.
      */
     for (int i = 0; i < 8; i++) {
-        row[i] = temp_row[i];
+        prow[i] = temp_row[i];
     }
     for (int i = 0; i < 8; i++) {
-        if (row[i] != 0) {
+        if (prow[i] != 0) {
             switch (i) {
                 case 0:
                     for (int j = 0; j < OBJECT_RESOLUTION; j++) {
                         if (prev_row[j][0] != 0 || prev_row[j][1] != 0) {
-                            row[0] = 0;
+                            prow[0] = 0;
                         }
                     }
                     break;
                 case 7:
                     for (int j = 0; j < OBJECT_RESOLUTION; j++) {
                         if (prev_row[j][6] != 0 || prev_row[j][7] != 0) {
-                            row[7] = 0;
+                            prow[7] = 0;
                         }
                     }
                     break;
                 default:
                     for (int j = 0; j < OBJECT_RESOLUTION; j++) {
                         if (prev_row[j][i - 1] != 0 || prev_row[j][i] != 0 || prev_row[j][i + 1] != 0) {
-                            row[i] = 0;
+                            prow[i] = 0;
                         }
                     }
                     break;
@@ -247,6 +247,41 @@ void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *row
         prev_row[0][i] = temp_row[i];
     }
 
+}
+
+/**
+ * Object detection
+ * 0: still, 1: forward, -1: backward
+ * @param pbuf buffer for pixel data
+ * @param pbuf_prev buffer for previous pixel data 
+ * @param pmotion motion detection result for each pixel (0, 1 or -1) 
+ */
+void read_object(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *pmap) {
+    int8_t temp_row[8] = {0};
+    int idx;
+    bool peak_on;
+    int peak_on_idx, peak_idx;
+
+    read_pixels_motion(pbuf, pbuf_prev, pmotion);
+
+    // Find peaks
+    for (int j = 0; j < 8; j++) {
+        peak_on = false;
+        for (int i = 0; i < 8; i++) {
+            idx = IDX(i, j);
+            pmap[idx] = 0;
+            if (!peak_on && pmotion[idx] != 0) {
+                peak_on = true;
+                peak_on_idx = i;
+            } else if (peak_on && (pmotion[idx] == 0 || i == 7)) {
+                if ((i - peak_on_idx) >= OBJECT_RESOLUTION) {
+                    peak_idx = (peak_on_idx + i) / 2;
+                    pmap[IDX(peak_idx, j)] = pmotion[IDX(peak_idx, j)];
+                }
+                peak_on = false;
+            }
+        }
+    }
 }
 
 /**
