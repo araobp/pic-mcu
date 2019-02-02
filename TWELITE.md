@@ -192,7 +192,7 @@ The following values are measured with my analog tester.
 |Temperature at LDO w/o heatsink| 31 degrees Celsius (at ambient temperature 27 degrees Celsius) |
 
 ### Schematic
-- [I2C adaptor for TWELITE-DIP](./kicad/i2c_adaptor/i2c_adaptor.pdf)
+- [I2C adaptor for TWELITE-DIP](./kicad/i2c_adaptor2/i2c_adaptor.pdf)
 
 ## Code
 
