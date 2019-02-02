@@ -41,7 +41,7 @@ encoding utf-8
 Sheet 1 1
 Title "I2C adaptor for TWELITE-DIP"
 Date "2019-02-02"
-Rev "ver 1.0"
+Rev "ver 1.1"
 Comp "https://github.com/araobp"
 Comment1 ""
 Comment2 ""
