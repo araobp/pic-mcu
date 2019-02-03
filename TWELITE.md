@@ -41,7 +41,8 @@ I use 8bit MCU as a co-processor of TWELITE for receiving data from an infrared 
 |UART      | 115200bps                |
 |I2C Clock | 250kHz                   |
 
-Note: I tried lower CPU clock frequencies, but UART did not work with TWELITE-DIP.
+Note1: I tried lower CPU clock frequencies, but UART did not work with TWELITE-DIP.
+Note2: Measured temperature on AMS1117(LDO) at 30mA is under 40 degrees Celsius (ambient temeprature: 26 degrees Celsius).
 
 ## 8bit quantization
 
@@ -192,7 +193,12 @@ The following values are measured with my analog tester.
 |Temperature at LDO w/o heatsink| 31 degrees Celsius (at ambient temperature 27 degrees Celsius) |
 
 ### Schematic
-- [I2C adaptor for TWELITE-DIP](./kicad/i2c_adaptor/i2c_adaptor.pdf)
+
+- [I2C adaptor for TWELITE-DIP](./kicad/i2c_adaptor2/i2c_adaptor.pdf)
+
+Note: "J1" (Jumper 1) is a jumper pin as a power management flag:
+- Jumper pin is on: power management is disabled (= pulled down to GND).
+- Jumper pin is off: power management is enabled (= pulled up to 3.3V).
 
 ## Code
 
