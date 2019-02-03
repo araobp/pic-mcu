@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "i2c_util.h"
 #include "amg8833.h"
 #include "twelite.h"
@@ -95,15 +96,19 @@ void read_pixels(uint8_t *pbuf) {
  * @param pbuf_prev buffer for previous pixel data 
  * @param pdiff diff of each pixel
  */
-void read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff) {
+bool read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff) {
     uint8_t err;
     float temp;
+    bool detected = false;
+    
     err = i2c_read(AMG8833_DEV_ADDR, AMG8833_T01L_ADDR, pbuf, AMG8833_PIXELS_LENGTH);
     for (int i = 0; i < AMG8833_PIXELS_LENGTH_HALF; i++) {
         pbuf[i] = pbuf[i * 2]; // Ignore MSB of a pair of [LSB, MSB]
         pdiff[i] = (int8_t) pbuf[i] - (int8_t) pbuf_prev[i];
+        if (pdiff[i] > peak_count_threshold) detected = true;
         pbuf_prev[i] = pbuf[i];
     }
+    return detected;
 }
 
 /**
@@ -171,7 +176,7 @@ void read_pixels_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion) {
  * @param pmotion motion detection result for each pixel (0, 1 or -1) 
  * @param prow motion count (with its direction) on a specific row
  */
-void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *prow) {
+bool read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *prow) {
     static int8_t prev_row[8][8] = {
         { 0 }
     };
@@ -179,6 +184,7 @@ void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *pro
     int idx;
     bool peak_on;
     int peak_on_idx, peak_idx;
+    bool detected = false;
 
     read_pixels_motion(pbuf, pbuf_prev, pmotion);
 
@@ -193,6 +199,7 @@ void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *pro
             if ((i - peak_on_idx) >= OBJECT_RESOLUTION) {
                 peak_idx = (peak_on_idx + i) / 2;
                 temp_row[peak_idx] = pmotion[SCAN_ROW_IDX(peak_idx)];
+                detected = true;
             }
             peak_on = false;
         }
@@ -218,6 +225,7 @@ void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *pro
                     for (int j = 0; j < OBJECT_RESOLUTION; j++) {
                         if (prev_row[j][0] != 0 || prev_row[j][1] != 0) {
                             prow[0] = 0;
+                            detected = false;
                         }
                     }
                     break;
@@ -225,6 +233,7 @@ void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *pro
                     for (int j = 0; j < OBJECT_RESOLUTION; j++) {
                         if (prev_row[j][6] != 0 || prev_row[j][7] != 0) {
                             prow[7] = 0;
+                            detected = false;
                         }
                     }
                     break;
@@ -232,6 +241,7 @@ void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *pro
                     for (int j = 0; j < OBJECT_RESOLUTION; j++) {
                         if (prev_row[j][i - 1] != 0 || prev_row[j][i] != 0 || prev_row[j][i + 1] != 0) {
                             prow[i] = 0;
+                            detected = false;
                         }
                     }
                     break;
@@ -246,42 +256,9 @@ void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *pro
         }
         prev_row[0][i] = temp_row[i];
     }
+    
+    return detected;
 
-}
-
-/**
- * Object detection
- * 0: still, 1: forward, -1: backward
- * @param pbuf buffer for pixel data
- * @param pbuf_prev buffer for previous pixel data 
- * @param pmotion motion detection result for each pixel (0, 1 or -1) 
- */
-void read_object(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *pmap) {
-    int8_t temp_row[8] = {0};
-    int idx;
-    bool peak_on;
-    int peak_on_idx, peak_idx;
-
-    read_pixels_motion(pbuf, pbuf_prev, pmotion);
-
-    // Find peaks
-    for (int j = 0; j < 8; j++) {
-        peak_on = false;
-        for (int i = 0; i < 8; i++) {
-            idx = IDX(i, j);
-            pmap[idx] = 0;
-            if (!peak_on && pmotion[idx] != 0) {
-                peak_on = true;
-                peak_on_idx = i;
-            } else if (peak_on && (pmotion[idx] == 0 || i == 7)) {
-                if ((i - peak_on_idx) >= OBJECT_RESOLUTION) {
-                    peak_idx = (peak_on_idx + i) / 2;
-                    pmap[IDX(peak_idx, j)] = pmotion[IDX(peak_idx, j)];
-                }
-                peak_on = false;
-            }
-        }
-    }
 }
 
 /**
@@ -292,27 +269,9 @@ void calibrate_threshold(int v) {
     switch (v) {
         case 0:
             peak_count_threshold = PEAK_COUNT_THRESHOLD;
-            ;
-            break;
-        case 1:
-            peak_count_threshold = 0.5;
-            break;
-        case 2:
-            peak_count_threshold = 1.0;
-            break;
-        case 3:
-            peak_count_threshold = 1.5;
-            break;
-        case 4:
-            peak_count_threshold = 2.0;
-            break;
-        case 5:
-            peak_count_threshold = 2.5;
-            break;
-        case 6:
-            peak_count_threshold = 3.0;
             break;
         default:
+            peak_count_threshold = v;
             break;
     }
 }

@@ -29,7 +29,8 @@ parser.add_argument("-p", "--performance_measurement", help="Performance measure
 parser.add_argument("-m", "--motion_detection", help="Column-wise motion detection", action='store_true')
 parser.add_argument("-M", "--motion_count", help="Motion count on a specific row", action='store_true')
 parser.add_argument("-D", "--delay", help="Delay in a loop (in msec)", default="0")
-parser.add_argument("-n", "--enable_notify", help="Enable notifications of motion count in passive mode", action='store_true')
+parser.add_argument("-n", "--enable_notify_motion", help="Enable notifications of motion count in passive mode", action='store_true')
+parser.add_argument("-o", "--enable_notify_object", help="Enable notifications of object diff in passive mode", action='store_true')
 parser.add_argument("-N", "--disable_notify", help="Disable notifications of motion count", action='store_true')
 parser.add_argument("-c", "--motion_count_notifications", help="Motion count notifications", action='store_true')
 parser.add_argument("-t", "--threshold", help="Calibrate motion detection threshold")
@@ -101,16 +102,25 @@ def read_and_print_motion_count(master_node, dst):
 
 def print_motion_count_notifications(data):
     current = datetime.datetime.now()
-    print ('[{}] src:{:2d} |'.format(current.strftime("%H:%M:%S"), src), end='')
-    for d in data:
-        if d == 0:
-            print('  ', end='')
-        elif d == 1:
-            print(' F', end='')
-        elif d == -1:
-            print(' B', end='')
-        #print('{:2d} '.format(d), end='')
-    print('|')
+    len_ = len(data)
+    if (len(data) == 8):
+        print ('[{}] src:{:2d} |'.format(current.strftime("%H:%M:%S"), src), end='')
+        for d in data:
+            if d == 0:
+                print('  ', end='')
+            elif d == 1:
+                print(' F', end='')
+            elif d == -1:
+                print(' B', end='')
+            #print('{:2d} '.format(d), end='')
+        print('|')
+    elif (len(data) == 64):
+        data = data.reshape((8,8))
+        for row in data:
+            for d in row:           
+                print('{:4d} '.format(d), end='')
+            print('')
+        
 
 if __name__ == '__main__':
 
@@ -152,9 +162,13 @@ if __name__ == '__main__':
                 mn.write(dst=dst, cmd=tw.DISABLE_NOTIFY)
                 sys.exit(0)
 
-            if args.enable_notify:
-                mn.write(dst=dst, cmd=tw.ENABLE_NOTIFY)
-                sys.exit(0)            
+            if args.enable_notify_motion:
+                mn.write(dst=dst, cmd=tw.ENABLE_NOTIFY_MOTION)
+                sys.exit(0)
+
+            if args.enable_notify_object:
+                mn.write(dst=dst, cmd=tw.ENABLE_NOTIFY_OBJECT)
+                sys.exit(0)
 
             start_time = time.time()
             err_cnt = 0

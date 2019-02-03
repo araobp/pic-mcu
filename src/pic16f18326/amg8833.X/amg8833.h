@@ -27,7 +27,7 @@ extern "C" {
 #define AMG8833_PIXELS_RESOLUTION 0.25
 
 // Absolute value of diff larger than this value is regarded as moving.
-#define PEAK_COUNT_THRESHOLD 2.0
+#define PEAK_COUNT_THRESHOLD 2
 
 // Resolution to identify an object
 #define OBJECT_RESOLUTION 2
@@ -41,13 +41,11 @@ void read_thermistor(uint8_t *pbuf);
 
 void read_pixels(uint8_t *pbuf);
 
-void read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff);
+bool read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff);
 
 void read_pixels_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion);
 
-void read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *prow);
-
-void read_object(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *pmap);
+bool read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *prow);
 
 void calibrate_threshold(int v);
 

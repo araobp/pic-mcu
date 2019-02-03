@@ -1,7 +1,7 @@
 /*
  * Motion detection with AMG8833 and TWELITE
  * 
- * Ver 1.0      January 30, 2019
+ * Ver 1.1X      February XX, 2019
  */
 
 #include "mcc_generated_files/mcc.h"
@@ -10,23 +10,27 @@
 #include <stdbool.h>
 
 // FET control
-#define LOW 0
-#define HIGH 1
-#define FET1_GATE LATCbits.LATC2
-#define FET2_GATE LATAbits.LATA2
+#define LOW 0  // Tunr off
+#define HIGH 1 // Turn on
+#define FET1_GATE LATCbits.LATC2  // Power supply to TWELITE-DIP
+#define FET2_GATE LATAbits.LATA2  // Power supply to AMG8833
 
 // Timers for power management
 #define T_1 5       // 5 sec
 #define T_2 180     // 180 sec (3 min)
 #define T_3 180     // 180 sec (3 min)
+//#define T_4 60      // 60 sec (1 min)
+#define T_4 1
 
-// Addresses on Built-in EEPROM
+// Enabling/disabling power management by juper pin
+#define POWER_MGMT_FLAG PORTAbits.RA4
+
+// Addresses on PIC16F1's built-in EEPROM
 #define EEPROM_HEAD_ADDR 0x7000
 #define MODE_ADDR 0
 #define THRES_ADDR 1
 
 // Power saving state machine
-
 typedef enum {
     CONNECTING, RUNNING, SLEEPING
 } state_machine;
@@ -35,14 +39,16 @@ typedef enum {
     CHECK, KEEP_ON
 } state_machine_command;
 
+// Operation mode: reactive or passive
 typedef enum {
-    REACTIVE, PASSIVE
+    REACTIVE, PASSIVE_MOTION, PASSIVE_DIFF
 } operation_mode;
 
-// Convert timers into 125msec time period unit
+// Convert timers into 125msec time period unit for power management in reactive mode
 const int t1 = T_1 * 8;
 const int t2 = T_2 * 8;
 const int t3 = T_3 * 8;
+const int t4 = T_4 * 8;
 
 // Buffers
 uint8_t buf[AMG8833_PIXELS_LENGTH];
@@ -50,11 +56,11 @@ uint8_t buf_prev[AMG8833_PIXELS_LENGTH / 2];
 int8_t diff[AMG8833_PIXELS_LENGTH / 2];
 int8_t map[AMG8833_PIXELS_LENGTH / 2];
 
-// Mode
+// Operation mode
 operation_mode mode = REACTIVE;
 
 /**
- * Power management
+ * Power management in reactive mode
  * @param reset true to reset the timeout counter
  */
 void power_mgmt(state_machine_command command) {
@@ -62,8 +68,8 @@ void power_mgmt(state_machine_command command) {
     static state_machine state = CONNECTING;
 
     //--- Power management disabled by jumper pin -----------------------------
-    // "Weak Pull Up (WPU) is enabled and jumper pin is off"
-    if (PORTAbits.RA4 == LOW) return;
+    // "The digital-in pin is pulled up and the jumper pin is off"
+    if (!POWER_MGMT_FLAG) return;
 
     //--- command: KEEP_ON ----------------------------------------------------
     if (command == KEEP_ON && (state == CONNECTING || state == RUNNING)) {
@@ -113,7 +119,7 @@ void main(void) {
     uint8_t seq;
     int8_t sum[8] = {0};
     int8_t row[8] = {0};
-    bool notify_flag;
+    int notify_timer = 0;
 
     FET1_GATE = LOW;
     FET2_GATE = LOW;
@@ -124,7 +130,7 @@ void main(void) {
 
     // Initialization
     mode = DATAEE_ReadByte(EEPROM_HEAD_ADDR + MODE_ADDR);
-    if (mode != REACTIVE && mode != PASSIVE) {
+    if (mode != REACTIVE && mode != PASSIVE_MOTION && mode != PASSIVE_DIFF) {
         mode = REACTIVE;
         DATAEE_WriteByte(EEPROM_HEAD_ADDR + MODE_ADDR, mode);
     }
@@ -135,7 +141,7 @@ void main(void) {
     }
     calibrate_threshold(thres);
 
-    // Start supplying power to TWELITE-DIP and AMG8833 
+    // Start supplying power to TWELITE-DIP and AMG8833 and initialize them 
     FET1_GATE = HIGH;
     FET2_GATE = HIGH;
     __delay_ms(100);
@@ -144,21 +150,51 @@ void main(void) {
     while (1) {
 
         // Periodic task
-        if (mode == PASSIVE) {
-            if (TMR0_HasOverflowOccured()) { // every 250msec
-                TMR0IF = 0;
-                read_motion(buf, buf_prev, diff, row);
-                notify_flag = false;
-                for (int i = 0; i < 8; i++) {
-                    if (row[i] != 0) notify_flag = true;
+        switch (mode) {
+            case REACTIVE:
+                power_mgmt(CHECK);
+                break;
+            
+            case PASSIVE_MOTION:
+                if (TMR0_HasOverflowOccured()) { // every 125msec
+                    TMR0IF = 0;
+                    if (read_motion(buf, buf_prev, diff, row)) {
+                        if (POWER_MGMT_FLAG) {
+                            FET1_GATE = HIGH;
+                            __delay_ms(20);
+                        }
+                        twelite_uart_tx((uint8_t *) row, seq++, 8);
+                    }
                 }
-                if (notify_flag) {
-                    twelite_uart_tx((uint8_t *) row, seq, 8);
-                    notify_flag = false;
+                if (POWER_MGMT_FLAG) {
+                    FET1_GATE = LOW;
+                    __delay_ms(50);
                 }
-            }
-        } else if (mode == REACTIVE) {
-            power_mgmt(CHECK);
+                break;
+            
+            case PASSIVE_DIFF:
+                if (TMR0_HasOverflowOccured()) { // every 125msec
+                    TMR0IF = 0;
+                    if (++notify_timer >= t4) {
+                        if (POWER_MGMT_FLAG) {
+                            FET1_GATE = HIGH;
+                            FET2_GATE = HIGH;
+                            __delay_ms(20);
+                        }
+                        if (read_pixels_diff(buf, buf_prev, diff)) {
+                            twelite_uart_tx((uint8_t *) diff, seq++, AMG8833_PIXELS_LENGTH_HALF);
+                            __delay_ms(100);
+                        }
+                        if (POWER_MGMT_FLAG) {
+                            FET1_GATE = LOW;
+                            FET2_GATE = LOW;
+                        }                    
+                        notify_timer = 0;
+                    }
+                }            
+                break;
+            default:
+                break;
         }
 
         // Command from master node
@@ -187,14 +223,19 @@ void main(void) {
                         read_motion(buf, buf_prev, diff, row);
                         twelite_uart_tx((uint8_t *) row, seq, sizeof (row));
                         break;
-                    case 'o':  // Object map
-                        read_object(buf, buf_prev, diff, map);
-                        twelite_uart_tx((uint8_t *) map, seq, sizeof (map));
-                        break;                        
                     /*** Passive mode ***/
-                    case 'n': // Notify motion count (reactive -> passive mode)
-                        mode = PASSIVE;
+                    case 'n': // Notify motion count (passive mode)
+                        mode = PASSIVE_MOTION;
                         DATAEE_WriteByte(EEPROM_HEAD_ADDR + MODE_ADDR, mode);
+                        if (POWER_MGMT_FLAG) FET1_GATE = LOW;
+                        break;
+                    case 'o': // Notify object diff (passive mode)
+                        mode = PASSIVE_DIFF;
+                        DATAEE_WriteByte(EEPROM_HEAD_ADDR + MODE_ADDR, mode);
+                        if (POWER_MGMT_FLAG) {
+                            FET1_GATE = LOW;
+                            FET2_GATE = LOW;
+                        }
                         break;
                     case 'N': // Disable notifications (passive -> reactive mode)
                         mode = REACTIVE;
