@@ -20,7 +20,7 @@
 #define T_2 180     // 180 sec (3 min)
 #define T_3 180     // 180 sec (3 min)
 //#define T_4 60      // 60 sec (1 min)
-#define T_4 1
+#define T_4 5
 
 // Enabling/disabling power management by juper pin
 #define POWER_MGMT_FLAG PORTAbits.RA4
@@ -144,7 +144,7 @@ void main(void) {
     // Start supplying power to TWELITE-DIP and AMG8833 and initialize them 
     FET1_GATE = HIGH;
     FET2_GATE = HIGH;
-    __delay_ms(100);
+    __delay_ms(300);
     set_moving_average(true);
 
     while (1) {
@@ -161,14 +161,14 @@ void main(void) {
                     if (read_motion(buf, buf_prev, diff, row)) {
                         if (POWER_MGMT_FLAG) {
                             FET1_GATE = HIGH;
-                            __delay_ms(20);
+                            __delay_ms(10);
                         }
                         twelite_uart_tx((uint8_t *) row, seq++, 8);
+                        __delay_ms(40);
                     }
                 }
                 if (POWER_MGMT_FLAG) {
                     FET1_GATE = LOW;
-                    __delay_ms(50);
                 }
                 break;
             
@@ -177,17 +177,20 @@ void main(void) {
                     TMR0IF = 0;
                     if (++notify_timer >= t4) {
                         if (POWER_MGMT_FLAG) {
-                            FET1_GATE = HIGH;
                             FET2_GATE = HIGH;
-                            __delay_ms(20);
+                            __delay_ms(200);  // AMG8833 is slow to start up
                         }
                         if (read_pixels_diff(buf, buf_prev, diff)) {
+                            if (POWER_MGMT_FLAG) {
+                                FET1_GATE = HIGH;
+                                __delay_ms(10);
+                            }
                             twelite_uart_tx((uint8_t *) diff, seq++, AMG8833_PIXELS_LENGTH_HALF);
-                            __delay_ms(100);
+                            __delay_ms(40);
                         }
                         if (POWER_MGMT_FLAG) {
-                            FET1_GATE = LOW;
                             FET2_GATE = LOW;
+                            FET1_GATE = LOW;
                         }                    
                         notify_timer = 0;
                     }

@@ -105,7 +105,7 @@ bool read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff) {
     for (int i = 0; i < AMG8833_PIXELS_LENGTH_HALF; i++) {
         pbuf[i] = pbuf[i * 2]; // Ignore MSB of a pair of [LSB, MSB]
         pdiff[i] = (int8_t) pbuf[i] - (int8_t) pbuf_prev[i];
-        if (pdiff[i] > peak_count_threshold) detected = true;
+        if (abs(pdiff[i]) > peak_count_threshold) detected = true;
         pbuf_prev[i] = pbuf[i];
     }
     return detected;
