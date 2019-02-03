@@ -41,7 +41,8 @@ I use 8bit MCU as a co-processor of TWELITE for receiving data from an infrared 
 |UART      | 115200bps                |
 |I2C Clock | 250kHz                   |
 
-Note: I tried lower CPU clock frequencies, but UART did not work with TWELITE-DIP.
+Note1: I tried lower CPU clock frequencies, but UART did not work with TWELITE-DIP.
+Note2: Measured temperature on AMS1117(LDO) at 30mA is under 40 degrees Celsius (ambient temeprature: 26 degrees Celsius).
 
 ## 8bit quantization
 
