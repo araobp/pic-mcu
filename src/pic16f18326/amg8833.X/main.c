@@ -9,7 +9,7 @@
 #include "twelite.h"
 #include <stdbool.h>
 
-// FET control
+// FET control for power management
 #define LOW 0  // Tunr off
 #define HIGH 1 // Turn on
 #define FET1_GATE LATCbits.LATC2  // Power supply to TWELITE-DIP
@@ -19,8 +19,10 @@
 #define T_1 5       // 5 sec
 #define T_2 180     // 180 sec (3 min)
 #define T_3 180     // 180 sec (3 min)
-//#define T_4 60      // 60 sec (1 min)
-#define T_4 5
+#define T_4 5       // 5 sec
+#define TWELITE_STARTUP_TIME 10       // 10 msec
+#define TWELITE_TRANSMISSION_TIME 40  // 40 msec
+#define AMG8833_STARTUP_TIME 200      // 200 msec
 
 // Enabling/disabling power management by juper pin
 #define POWER_MGMT_FLAG PORTAbits.RA4
@@ -54,7 +56,6 @@ const int t4 = T_4 * 8;
 uint8_t buf[AMG8833_PIXELS_LENGTH];
 uint8_t buf_prev[AMG8833_PIXELS_LENGTH / 2];
 int8_t diff[AMG8833_PIXELS_LENGTH / 2];
-int8_t map[AMG8833_PIXELS_LENGTH / 2];
 
 // Operation mode
 operation_mode mode = REACTIVE;
@@ -102,7 +103,7 @@ void power_mgmt(state_machine_command command) {
         case SLEEPING:
             if (timeout_cnt >= t3) {
                 FET1_GATE = HIGH;
-                __delay_ms(500);
+                __delay_ms(AMG8833_STARTUP_TIME);
                 set_moving_average(true);
                 timeout_cnt = 0;
                 state = CONNECTING;
@@ -144,7 +145,7 @@ void main(void) {
     // Start supplying power to TWELITE-DIP and AMG8833 and initialize them 
     FET1_GATE = HIGH;
     FET2_GATE = HIGH;
-    __delay_ms(300);
+    __delay_ms(AMG8833_STARTUP_TIME);  // AMG8833 takes time to start up
     set_moving_average(true);
 
     while (1) {
@@ -161,10 +162,10 @@ void main(void) {
                     if (read_motion(buf, buf_prev, diff, row)) {
                         if (POWER_MGMT_FLAG) {
                             FET1_GATE = HIGH;
-                            __delay_ms(10);
+                            __delay_ms(TWELITE_STARTUP_TIME);
                         }
                         twelite_uart_tx((uint8_t *) row, seq++, 8);
-                        __delay_ms(40);
+                        __delay_ms(TWELITE_TRANSMISSION_TIME);
                     }
                 }
                 if (POWER_MGMT_FLAG) {
@@ -178,15 +179,15 @@ void main(void) {
                     if (++notify_timer >= t4) {
                         if (POWER_MGMT_FLAG) {
                             FET2_GATE = HIGH;
-                            __delay_ms(200);  // AMG8833 is slow to start up
+                            __delay_ms(AMG8833_STARTUP_TIME);  // AMG8833 is slow to start up
                         }
-                        if (read_pixels_diff(buf, buf_prev, diff)) {
+                        if (read_pixels_diff(buf, buf_prev, diff, true)) {
                             if (POWER_MGMT_FLAG) {
                                 FET1_GATE = HIGH;
-                                __delay_ms(10);
+                                __delay_ms(TWELITE_STARTUP_TIME);
                             }
                             twelite_uart_tx((uint8_t *) diff, seq++, AMG8833_PIXELS_LENGTH_HALF);
-                            __delay_ms(40);
+                            __delay_ms(TWELITE_TRANSMISSION_TIME);
                         }
                         if (POWER_MGMT_FLAG) {
                             FET2_GATE = LOW;
@@ -215,7 +216,7 @@ void main(void) {
                         twelite_uart_tx(buf, seq, AMG8833_PIXELS_LENGTH_HALF);
                         break;
                     case 'd': // 64 pixels diff
-                        read_pixels_diff(buf, buf_prev, diff);
+                        read_pixels_diff(buf, buf_prev, diff, false);
                         twelite_uart_tx((uint8_t *) diff, seq, AMG8833_PIXELS_LENGTH_HALF);
                         break;
                     case 'm': // Column-wise motion detection

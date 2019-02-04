@@ -23,8 +23,6 @@ extern "C" {
 #define AMG8833_THERMISTOR_LENGTH 2U    
 #define AMG8833_PIXELS_LENGTH 128U
 #define AMG8833_PIXELS_LENGTH_HALF 64U
-#define AMG8833_THERMISTOR_RESOLUTION 0.0625
-#define AMG8833_PIXELS_RESOLUTION 0.25
 
 // Absolute value of diff larger than this value is regarded as moving.
 #define PEAK_COUNT_THRESHOLD 4
@@ -41,7 +39,7 @@ void read_thermistor(uint8_t *pbuf);
 
 void read_pixels(uint8_t *pbuf);
 
-bool read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff);
+bool read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff, bool flag);
 
 void read_pixels_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion);
 

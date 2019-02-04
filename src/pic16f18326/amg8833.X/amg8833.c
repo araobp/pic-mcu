@@ -91,12 +91,14 @@ void read_pixels(uint8_t *pbuf) {
 }
 
 /**
- * Read pixel registers and calculate diff between the current and the previous data
- * @param pbuf buffer for pixel data
- * @param pbuf_prev buffer for previous pixel data 
+ * Read pixel registers and calculate diff between the current and the previous data 
+ * @param pbuf pbuf buffer for pixel data
+ * @param pbuf_prev buffer for previous pixel data
  * @param pdiff diff of each pixel
+ * @param flag true for zero-clearing pixel data under the threshold
+ * @return true if at least one diff data is over the threshold
  */
-bool read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff) {
+bool read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff, bool flag) {
     uint8_t err;
     float temp;
     bool detected = false;
@@ -105,7 +107,11 @@ bool read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff) {
     for (int i = 0; i < AMG8833_PIXELS_LENGTH_HALF; i++) {
         pbuf[i] = pbuf[i * 2]; // Ignore MSB of a pair of [LSB, MSB]
         pdiff[i] = (int8_t) pbuf[i] - (int8_t) pbuf_prev[i];
-        if (abs(pdiff[i]) > peak_count_threshold) detected = true;
+        if (abs(pdiff[i]) > peak_count_threshold) {
+            detected = true;
+        } else if (flag) {
+            pdiff[i] = 0;
+        }
         pbuf_prev[i] = pbuf[i];
     }
     return detected;
@@ -157,7 +163,7 @@ void read_pixels_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion) {
     bool filter_on, filter_flip, filter_detecting;
     int idx;
 
-    read_pixels_diff(pbuf, pbuf_prev, pmotion);
+    read_pixels_diff(pbuf, pbuf_prev, pmotion, false);
     for (int i = 0; i < 8; i++) {
         filter(i, pmotion, column, true); // column-wise scan downward
         filter(i, pmotion, column, false); // column-wise scan upward
@@ -175,6 +181,7 @@ void read_pixels_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion) {
  * @param pbuf_prev buffer for previous pixel data 
  * @param pmotion motion detection result for each pixel (0, 1 or -1) 
  * @param prow motion count (with its direction) on a specific row
+ * @return true if motion count is not all-zero
  */
 bool read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *prow) {
     static int8_t prev_row[8][8] = {
@@ -263,7 +270,7 @@ bool read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *pro
 
 /**
  * Calibrate motion detection threshold
- * @param c
+ * @param v
  */
 void calibrate_threshold(int v) {
     switch (v) {

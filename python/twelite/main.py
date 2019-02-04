@@ -42,15 +42,18 @@ THRESHOLD_DESCRIPTION = '''
 Description for "-t" or "--threshold" command option:
 
 [Peak count threshold]
-Diff larger than this value is ragarded as edge of a moving object.
+Diff larger than this value is ragarded as a moving object.
 
     0: PEAK_COUNT_THRESHOLD
-    1: 0.5
-    2: 1.0
-    3: 1.5
-    4: 2.0
-    5: 2.5
-    6: 3.0
+    1: 0.25
+    2: 0.5
+    3: 0.75
+    4: 1.0
+    5: 1.25
+    6: 1.5
+    7: 1.75
+    8: 2.0
+    9: 2.25
 
 '''
 
@@ -116,6 +119,7 @@ def print_motion_count_notifications(data):
         print('|')
     elif (len(data) == 64):
         data = data.reshape((8,8))
+        print ('[{}] src:{:2d}'.format(current.strftime("%H:%M:%S"), src))
         for row in data:
             for d in row:           
                 print('{:4d} '.format(d), end='')
