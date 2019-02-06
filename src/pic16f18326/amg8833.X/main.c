@@ -41,6 +41,10 @@ typedef enum {
     CHECK, KEEP_ON
 } state_machine_command;
 
+typedef enum {
+    JUST_STARTED, NORMAL
+} system_state;
+
 // Operation mode: reactive or passive
 typedef enum {
     REACTIVE, PASSIVE_MOTION, PASSIVE_DIFF
@@ -53,12 +57,19 @@ const int t3 = T_3 * 8;
 const int t4 = T_4 * 8;
 
 // Buffers
+/*
 uint8_t buf[AMG8833_PIXELS_LENGTH];
 uint8_t buf_prev[AMG8833_PIXELS_LENGTH / 2];
 int8_t diff[AMG8833_PIXELS_LENGTH / 2];
+*/
+
+amg8833_instance A;
 
 // Operation mode
 operation_mode mode = REACTIVE;
+
+// System state
+system_state state = JUST_STARTED;
 
 /**
  * Power management in reactive mode
@@ -104,7 +115,7 @@ void power_mgmt(state_machine_command command) {
             if (timeout_cnt >= t3) {
                 FET1_GATE = HIGH;
                 __delay_ms(AMG8833_STARTUP_TIME);
-                set_moving_average(true);
+                set_moving_average(&A, true);
                 timeout_cnt = 0;
                 state = CONNECTING;
             }
@@ -115,13 +126,18 @@ void power_mgmt(state_machine_command command) {
 }
 
 void main(void) {
-
+    
     uint8_t c, cmd, thres, settings[2];
     uint8_t seq;
     int8_t sum[8] = {0};
-    int8_t row[8] = {0};
     int notify_timer = 0;
+    
+    uint8_t *pbuf;
+    int8_t *pdiff;
+    int8_t *prow;
 
+    state = JUST_STARTED;
+    
     FET1_GATE = LOW;
     FET2_GATE = LOW;
 
@@ -146,7 +162,8 @@ void main(void) {
     FET1_GATE = HIGH;
     FET2_GATE = HIGH;
     __delay_ms(AMG8833_STARTUP_TIME);  // AMG8833 takes time to start up
-    set_moving_average(true);
+    init_amg8833_instance(&A, I2C1);
+    set_moving_average(&A, true);
 
     while (1) {
 
@@ -159,12 +176,16 @@ void main(void) {
             case PASSIVE_MOTION:
                 if (TMR0_HasOverflowOccured()) { // every 125msec
                     TMR0IF = 0;
-                    if (read_motion(buf, buf_prev, diff, row)) {
+                    if (update_line(&A)) {
                         if (POWER_MGMT_FLAG) {
                             FET1_GATE = HIGH;
                             __delay_ms(TWELITE_STARTUP_TIME);
                         }
-                        twelite_uart_tx((uint8_t *) row, seq++, 8);
+                        if (state == JUST_STARTED) {
+                            state = NORMAL;
+                        } else {
+                            twelite_uart_tx((uint8_t *) A.line, seq++, 8);
+                        }
                         __delay_ms(TWELITE_TRANSMISSION_TIME);
                     }
                 }
@@ -181,12 +202,16 @@ void main(void) {
                             FET2_GATE = HIGH;
                             __delay_ms(AMG8833_STARTUP_TIME);  // AMG8833 is slow to start up
                         }
-                        if (read_pixels_diff(buf, buf_prev, diff, true)) {
+                        if (update_diff(&A, true)) {
                             if (POWER_MGMT_FLAG) {
                                 FET1_GATE = HIGH;
                                 __delay_ms(TWELITE_STARTUP_TIME);
                             }
-                            twelite_uart_tx((uint8_t *) diff, seq++, AMG8833_PIXELS_LENGTH_HALF);
+                            if (state == JUST_STARTED) {
+                                state = NORMAL;
+                            } else {
+                                twelite_uart_tx((uint8_t *) A.diff, seq++, AMG8833_PIXELS_LENGTH_HALF);
+                            }
                             __delay_ms(TWELITE_TRANSMISSION_TIME);
                         }
                         if (POWER_MGMT_FLAG) {
@@ -208,24 +233,24 @@ void main(void) {
                 switch (cmd) {
                     /*** Reactive mode */
                     case 't': // Thermistor
-                        read_thermistor(buf);
-                        twelite_uart_tx(buf, seq, AMG8833_THERMISTOR_LENGTH);
+                        update_thermistor(&A);
+                        twelite_uart_tx(A.thermistor, seq, AMG8833_THERMISTOR_LENGTH);
                         break;
                     case 'p': // 64 pixels
-                        read_pixels(buf);
-                        twelite_uart_tx(buf, seq, AMG8833_PIXELS_LENGTH_HALF);
+                        update_pixels(&A);
+                        twelite_uart_tx(A.pixels, seq, AMG8833_PIXELS_LENGTH_HALF);
                         break;
                     case 'd': // 64 pixels diff
-                        read_pixels_diff(buf, buf_prev, diff, false);
-                        twelite_uart_tx((uint8_t *) diff, seq, AMG8833_PIXELS_LENGTH_HALF);
+                        update_diff(&A, false);
+                        twelite_uart_tx((uint8_t *) A.diff, seq, AMG8833_PIXELS_LENGTH_HALF);
                         break;
                     case 'm': // Column-wise motion detection
-                        read_pixels_motion(buf, buf_prev, diff);
-                        twelite_uart_tx((uint8_t *) diff, seq, AMG8833_PIXELS_LENGTH_HALF);
+                        update_diff_motion(&A);
+                        twelite_uart_tx((uint8_t *) A.diff, seq, AMG8833_PIXELS_LENGTH_HALF);
                         break;
                     case 'M': // Motion count on a specific row
-                        read_motion(buf, buf_prev, diff, row);
-                        twelite_uart_tx((uint8_t *) row, seq, sizeof (row));
+                        update_line(&A);
+                        twelite_uart_tx((uint8_t *) A.line, seq, sizeof (prow));
                         break;
                     /*** Passive mode ***/
                     case 'n': // Notify motion count (passive mode)

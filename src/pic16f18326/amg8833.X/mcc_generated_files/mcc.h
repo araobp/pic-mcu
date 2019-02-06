@@ -52,6 +52,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "interrupt_manager.h"
+#include "i2c2.h"
 #include "i2c1.h"
 #include "memory.h"
 #include "tmr0.h"

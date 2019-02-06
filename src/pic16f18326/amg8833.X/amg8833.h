@@ -11,8 +11,9 @@
 extern "C" {
 #endif
 
-#include "stdbool.h"
-#include "stdint.h"
+#include <stdbool.h>
+#include <stdint.h>
+#include "i2c_util.h"
 
 // Infrared array sensor "Panasonic AMG8833"
 #define AMG8833_DEV_ADDR 0x68
@@ -33,17 +34,28 @@ extern "C" {
 // Motion count on a specific row: this value is an index of the row. 
 #define SCAN_ROW 4
     
-void set_moving_average(bool enable);
+typedef struct {
+    i2c_handle i2c_h;
+    uint8_t thermistor[2];
+    uint8_t pixels[AMG8833_PIXELS_LENGTH];
+    uint8_t pixels_prev[AMG8833_PIXELS_LENGTH / 2];
+    int8_t diff[AMG8833_PIXELS_LENGTH / 2];
+    int8_t line[8];
+} amg8833_instance;
 
-void read_thermistor(uint8_t *pbuf);
+void init_amg8833_instance(amg8833_instance *A, i2c_handle i2c_h);
 
-void read_pixels(uint8_t *pbuf);
+void set_moving_average(amg8833_instance *A, bool enable);
 
-bool read_pixels_diff(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pdiff, bool flag);
+void update_thermistor(amg8833_instance *A);
 
-void read_pixels_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion);
+void update_pixels(amg8833_instance *A);
 
-bool read_motion(uint8_t *pbuf, uint8_t *pbuf_prev, int8_t *pmotion, int8_t *prow);
+bool update_diff(amg8833_instance *A, bool flag);
+
+void update_diff_motion(amg8833_instance *A);
+
+bool update_line(amg8833_instance *A);
 
 void calibrate_threshold(int v);
 

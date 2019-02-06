@@ -62,6 +62,14 @@ void __interrupt() INTERRUPT_InterruptManager (void)
         {
             I2C1_ISR();
         } 
+        else if(PIE2bits.BCL2IE == 1 && PIR2bits.BCL2IF == 1)
+        {
+            I2C2_BusCollisionISR();
+        } 
+        else if(PIE2bits.SSP2IE == 1 && PIR2bits.SSP2IF == 1)
+        {
+            I2C2_ISR();
+        } 
         else
         {
             //Unhandled Interrupt
