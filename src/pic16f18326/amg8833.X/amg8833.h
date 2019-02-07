@@ -34,13 +34,18 @@ extern "C" {
 // Motion count on a specific row: this value is an index of the row. 
 #define SCAN_ROW 4
     
+// AMG8833 instance
 typedef struct {
     i2c_handle i2c_h;
+    // The members below are updated by update_* methods defined in this file.
     uint8_t thermistor[2];
     uint8_t pixels[AMG8833_PIXELS_LENGTH];
-    uint8_t pixels_prev[AMG8833_PIXELS_LENGTH / 2];
     int8_t diff[AMG8833_PIXELS_LENGTH / 2];
+    int8_t motion[AMG8833_PIXELS_LENGTH / 2];
     int8_t line[8];
+    // The members below are buffers for internal use to calculate diff.
+    int8_t prev_line[8][8];
+    uint8_t pixels_prev[AMG8833_PIXELS_LENGTH / 2];
 } amg8833_instance;
 
 void init_amg8833_instance(amg8833_instance *A, i2c_handle i2c_h);
@@ -53,9 +58,13 @@ void update_pixels(amg8833_instance *A);
 
 bool update_diff(amg8833_instance *A, bool flag);
 
-void update_diff_motion(amg8833_instance *A);
+void update_motion(amg8833_instance *A);
 
 bool update_line(amg8833_instance *A);
+
+void merge_pixels(amg8833_instance *A1, amg8833_instance *A2, uint8_t *buf);
+
+void merge_diff(amg8833_instance *A1, amg8833_instance *A2, uint8_t *buf);
 
 void calibrate_threshold(int v);
 

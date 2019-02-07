@@ -1,4 +1,4 @@
-update=02/02/2019 20:42:49
+update=07/02/2019 07:21:08
 version=1
 last_client=kicad
 [pcbnew]
@@ -25,6 +25,16 @@ version=1
 NetIExt=net
 [general]
 version=1
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=Pcbnew
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60
 [eeschema]
 version=1
 LibDir=../../kicad
@@ -63,13 +73,3 @@ LibName31=atmel
 LibName32=contrib
 LibName33=valves
 LibName34=C:/Users/shiny/Documents/GitHub/pic16f1-mcu/kicad/pic16f1-mcu
-[schematic_editor]
-version=1
-PageLayoutDescrFile=
-PlotDirectoryName=
-SubpartIdSeparator=0
-SubpartFirstId=65
-NetFmtName=Pcbnew
-SpiceForceRefPrefix=0
-SpiceUseNetNumbers=0
-LabSize=60

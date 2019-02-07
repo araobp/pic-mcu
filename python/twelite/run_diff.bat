@@ -1,1 +1,1 @@
-python thermography.py --diff COM9 2
+python thermography.py --diff COM11 3

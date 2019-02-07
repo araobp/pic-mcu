@@ -76,7 +76,10 @@ def read_and_print_data(label, dst, master_node, cmd, quality_data=False):
         print('{} degrees Celsius'.format(data))
     elif cmd == tw.PIXELS or cmd == tw.DIFF:
         print('')
-        data = data.reshape((8,8))
+        if len(data) == 64:
+            data = data.reshape((8,8))
+        elif len(data) == 128:
+            data = data.reshape((16,8))
         for row in data:
             for d in row:           
                 print('{:4.1f} '.format(d), end='')

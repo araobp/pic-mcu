@@ -9,6 +9,9 @@
 #include "twelite.h"
 #include <stdbool.h>
 
+// Comment out the following to use twin infrared array sensors
+#define TWIN
+
 // FET control for power management
 #define LOW 0  // Tunr off
 #define HIGH 1 // Turn on
@@ -62,8 +65,10 @@ uint8_t buf[AMG8833_PIXELS_LENGTH];
 uint8_t buf_prev[AMG8833_PIXELS_LENGTH / 2];
 int8_t diff[AMG8833_PIXELS_LENGTH / 2];
 */
+uint8_t twin_buf[AMG8833_PIXELS_LENGTH];
 
-amg8833_instance A;
+amg8833_instance A1;
+amg8833_instance A2;
 
 // Operation mode
 operation_mode mode = REACTIVE;
@@ -115,7 +120,7 @@ void power_mgmt(state_machine_command command) {
             if (timeout_cnt >= t3) {
                 FET1_GATE = HIGH;
                 __delay_ms(AMG8833_STARTUP_TIME);
-                set_moving_average(&A, true);
+                set_moving_average(&A1, true);
                 timeout_cnt = 0;
                 state = CONNECTING;
             }
@@ -162,8 +167,10 @@ void main(void) {
     FET1_GATE = HIGH;
     FET2_GATE = HIGH;
     __delay_ms(AMG8833_STARTUP_TIME);  // AMG8833 takes time to start up
-    init_amg8833_instance(&A, I2C1);
-    set_moving_average(&A, true);
+    init_amg8833_instance(&A1, I2C1);
+    init_amg8833_instance(&A2, I2C2);    
+    set_moving_average(&A1, true);
+    set_moving_average(&A2, true);    
 
     while (1) {
 
@@ -176,7 +183,7 @@ void main(void) {
             case PASSIVE_MOTION:
                 if (TMR0_HasOverflowOccured()) { // every 125msec
                     TMR0IF = 0;
-                    if (update_line(&A)) {
+                    if (update_line(&A1)) {
                         if (POWER_MGMT_FLAG) {
                             FET1_GATE = HIGH;
                             __delay_ms(TWELITE_STARTUP_TIME);
@@ -184,7 +191,7 @@ void main(void) {
                         if (state == JUST_STARTED) {
                             state = NORMAL;
                         } else {
-                            twelite_uart_tx((uint8_t *) A.line, seq++, 8);
+                            twelite_uart_tx((uint8_t *) A1.line, seq++, 8);
                         }
                         __delay_ms(TWELITE_TRANSMISSION_TIME);
                     }
@@ -202,7 +209,7 @@ void main(void) {
                             FET2_GATE = HIGH;
                             __delay_ms(AMG8833_STARTUP_TIME);  // AMG8833 is slow to start up
                         }
-                        if (update_diff(&A, true)) {
+                        if (update_diff(&A1, true)) {
                             if (POWER_MGMT_FLAG) {
                                 FET1_GATE = HIGH;
                                 __delay_ms(TWELITE_STARTUP_TIME);
@@ -210,7 +217,7 @@ void main(void) {
                             if (state == JUST_STARTED) {
                                 state = NORMAL;
                             } else {
-                                twelite_uart_tx((uint8_t *) A.diff, seq++, AMG8833_PIXELS_LENGTH_HALF);
+                                twelite_uart_tx((uint8_t *) A1.diff, seq++, AMG8833_PIXELS_LENGTH_HALF);
                             }
                             __delay_ms(TWELITE_TRANSMISSION_TIME);
                         }
@@ -233,24 +240,36 @@ void main(void) {
                 switch (cmd) {
                     /*** Reactive mode */
                     case 't': // Thermistor
-                        update_thermistor(&A);
-                        twelite_uart_tx(A.thermistor, seq, AMG8833_THERMISTOR_LENGTH);
+                        update_thermistor(&A1);
+                        twelite_uart_tx(A1.thermistor, seq, AMG8833_THERMISTOR_LENGTH);
                         break;
                     case 'p': // 64 pixels
-                        update_pixels(&A);
-                        twelite_uart_tx(A.pixels, seq, AMG8833_PIXELS_LENGTH_HALF);
+                        update_pixels(&A1);
+#ifdef TWIN
+                        update_pixels(&A2);
+                        merge_pixels(&A1, &A2, twin_buf);
+                        twelite_uart_tx(twin_buf, seq, AMG8833_PIXELS_LENGTH);                       
+#else
+                        twelite_uart_tx(A1.pixels, seq, AMG8833_PIXELS_LENGTH_HALF);
+#endif
                         break;
                     case 'd': // 64 pixels diff
-                        update_diff(&A, false);
-                        twelite_uart_tx((uint8_t *) A.diff, seq, AMG8833_PIXELS_LENGTH_HALF);
+                        update_diff(&A1, false);
+#ifdef TWIN
+                        update_diff(&A2, false);
+                        merge_diff(&A1, &A2, twin_buf);
+                        twelite_uart_tx(twin_buf, seq, AMG8833_PIXELS_LENGTH);                       
+#else
+                        twelite_uart_tx((uint8_t *) A1.diff, seq, AMG8833_PIXELS_LENGTH_HALF);
+#endif
                         break;
                     case 'm': // Column-wise motion detection
-                        update_diff_motion(&A);
-                        twelite_uart_tx((uint8_t *) A.diff, seq, AMG8833_PIXELS_LENGTH_HALF);
+                        update_motion(&A1);
+                        twelite_uart_tx((uint8_t *) A1.motion, seq, AMG8833_PIXELS_LENGTH_HALF);
                         break;
                     case 'M': // Motion count on a specific row
-                        update_line(&A);
-                        twelite_uart_tx((uint8_t *) A.line, seq, sizeof (prow));
+                        update_line(&A1);
+                        twelite_uart_tx((uint8_t *) A1.line, seq, sizeof (prow));
                         break;
                     /*** Passive mode ***/
                     case 'n': // Notify motion count (passive mode)

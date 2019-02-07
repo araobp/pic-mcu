@@ -52,8 +52,11 @@ class GUI:
                     data_flip = np.flip(np.flip(data.reshape(32,32), axis=0), axis=1)
                 else:
                     # image format
-                    data_flip = np.flip(np.flip(data.reshape(8,8), axis=0), axis=1)
-
+                    if len(data) == 64:
+                        data_flip = np.flip(np.flip(data.reshape(8,8), axis=0), axis=1)
+                    elif len(data) == 128:
+                        data_flip = np.flip(np.flip(data.reshape(8,16), axis=0), axis=1)
+                      
                 axes[0].set_title('Heat map')
                 
                 if cmd == interface.DIFF:
