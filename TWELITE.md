@@ -19,7 +19,7 @@ Note: I have noticed that TWELITE is succeptible to radio interference.
 ### Infrared array sensor (Panasonic AMG8833)
 
 I use [AMG8833](https://cdn-learn.adafruit.com/assets/assets/000/043/261/original/Grid-EYE_SPECIFICATIONS%28Reference%29.pdf?1498680225
-) from Panasonic.
+) from Panasonic. This project supports up to two AMG8833 modules to cover a wider angle of view (120 degrees).
 
 <img src="./doc/twin-sensors.jpg" width="400">
 
