@@ -22,8 +22,9 @@ extern "C" {
 #define AMG8833_1F_ADDR 0x1F
 #define AMG8833_AVE_ADDR 0x07
 #define AMG8833_THERMISTOR_LENGTH 2U    
-#define AMG8833_PIXELS_LENGTH 128U
+#define AMG8833_PIXELS_LENGTH 128U    
 #define AMG8833_PIXELS_LENGTH_HALF 64U
+#define AMG8833_PIXELS_TWIN_LENGTH_HALF 128U
 
 // Absolute value of diff larger than this value is regarded as moving.
 #define PEAK_COUNT_THRESHOLD 4
@@ -40,15 +41,22 @@ typedef struct {
     // The members below are updated by update_* methods defined in this file.
     uint8_t thermistor[2];
     uint8_t pixels[AMG8833_PIXELS_LENGTH];
-    int8_t diff[AMG8833_PIXELS_LENGTH / 2];
-    int8_t motion[AMG8833_PIXELS_LENGTH / 2];
-    int8_t line[8];
-    // The members below are buffers for internal use to calculate diff.
-    int8_t prev_line[8][8];
-    uint8_t pixels_prev[AMG8833_PIXELS_LENGTH / 2];
+    int8_t diff[AMG8833_PIXELS_LENGTH_HALF];
+    int8_t motion[AMG8833_PIXELS_LENGTH_HALF];
+    // The member below are buffers for internal use.
+    uint8_t pixels_prev[AMG8833_PIXELS_LENGTH_HALF];
 } amg8833_instance;
 
+typedef struct {
+    int8_t line[16];
+    int8_t motion[AMG8833_PIXELS_TWIN_LENGTH_HALF];
+    // The members below are buffers for internal use.
+    int8_t prev_line[8][16];    
+} line_instance;
+
 void init_amg8833_instance(amg8833_instance *A, i2c_handle i2c_h);
+
+void init_line_instance(line_instance *L);
 
 void set_moving_average(amg8833_instance *A, bool enable);
 
@@ -60,11 +68,13 @@ bool update_diff(amg8833_instance *A, bool flag);
 
 void update_motion(amg8833_instance *A);
 
-bool update_line(amg8833_instance *A);
+bool update_line(amg8833_instance *A1, amg8833_instance *A2, line_instance *L);
 
 void merge_pixels(amg8833_instance *A1, amg8833_instance *A2, uint8_t *buf);
 
 void merge_diff(amg8833_instance *A1, amg8833_instance *A2, uint8_t *buf);
+
+void merge_motion(amg8833_instance *A1, amg8833_instance *A2, int8_t *buf);
 
 void calibrate_threshold(int v);
 

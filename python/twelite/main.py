@@ -79,14 +79,17 @@ def read_and_print_data(label, dst, master_node, cmd, quality_data=False):
         if len(data) == 64:
             data = data.reshape((8,8))
         elif len(data) == 128:
-            data = data.reshape((16,8))
+            data = data.reshape((8,16))
         for row in data:
             for d in row:           
                 print('{:4.1f} '.format(d), end='')
             print('')
     elif cmd == tw.MOTION_DETECTION:
         print('')
-        data = data.reshape((8,8))
+        if len(data) == 64:
+            data = data.reshape((8,8))
+        elif len(data) == 128:
+            data = data.reshape((8,16))
         for row in data:
             for d in row:           
                 print('{:4d} '.format(d), end='')
@@ -109,7 +112,7 @@ def read_and_print_motion_count(master_node, dst):
 def print_motion_count_notifications(data):
     current = datetime.datetime.now()
     len_ = len(data)
-    if (len(data) == 8):
+    if (len_ == 8 or len_ == 16):
         print ('[{}] src:{:2d} |'.format(current.strftime("%H:%M:%S"), src), end='')
         for d in data:
             if d == 0:
@@ -120,8 +123,8 @@ def print_motion_count_notifications(data):
                 print(' B', end='')
             #print('{:2d} '.format(d), end='')
         print('|')
-    elif (len(data) == 64):
-        data = data.reshape((8,8))
+    elif (len_ == 64 or len_ == 128):
+        data = data.reshape((8,int(len_/8)))
         print ('[{}] src:{:2d}'.format(current.strftime("%H:%M:%S"), src))
         for row in data:
             for d in row:           
