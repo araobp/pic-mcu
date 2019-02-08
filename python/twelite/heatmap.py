@@ -8,7 +8,6 @@ import numpy as np
 import math
 import seaborn as sns; sns.set()
 from scipy.interpolate import griddata
-from scipy.fftpack import dct, idct
 
 import interface
 
@@ -16,15 +15,12 @@ import interface
 
 # Points and grids for interpolation of 2d image
 POINTS = [(math.floor(n / 8), (n % 8)) for n in range(0, 64)]
-GRID_X, GRID_Y = np.mgrid[0:7:32j, 0:7:32j]
+GRID_X, GRID_Y = np.mgrid[0:7:32j, 0:7:64j]
+
+POINTS_TWIN = [(j, i) for j in range(8) for i in range(16)]
+GRID_X_TWIN, GRID_Y_TWIN = np.mgrid[0:7:32j, 0:15:64j]
 
 import sklearn.preprocessing as pp
-
-def dct_2d(image):
-  return dct(dct(image.T, norm='ortho').T, norm='ortho')
-
-def idct_2d(coef):
-  return idct(idct(coef.T, norm='ortho').T, norm='ortho')
 
 ###################
 
@@ -47,9 +43,14 @@ class GUI:
             if cmd == interface.PIXELS or cmd == interface.DIFF or cmd == interface.MOTION_DETECTION:
 
                 if self.grid_data:
-                    data = griddata(POINTS, data, (GRID_X, GRID_Y), method='cubic')
-                    # image format
-                    data_flip = np.flip(np.flip(data.reshape(32,32), axis=0), axis=1)
+                    if len(data) == 64:
+                        data = griddata(POINTS, data, (GRID_X, GRID_Y), method='cubic')
+                        # image format
+                        data_flip = np.flip(np.flip(data.reshape(32,32), axis=0), axis=1)
+                    elif len(data) == 128:
+                        data = griddata(POINTS_TWIN, data, (GRID_X_TWIN, GRID_Y_TWIN), method='cubic')
+                        # image format
+                        data_flip = np.flip(np.flip(data.reshape(32,64), axis=0), axis=1)
                 else:
                     # image format
                     if len(data) == 64:
@@ -66,17 +67,10 @@ class GUI:
                 else:
                     vmin, vmax = None, None
 
-                if self.grid_data:
-                    sns.heatmap(data_flip, cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[0], annot=False, cbar_ax=axes[1])
-                elif cmd == interface.MOTION_DETECTION:                  
+                if cmd == interface.MOTION_DETECTION:                  
                     sns.heatmap(data_flip, cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[0], annot=True, cbar=False)
                 else:
-                    sns.heatmap(data_flip, cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[0], annot=True, cbar=False)              
-                    axes[1].set_title('DCT')
-                    coef = dct_2d(data_flip)
-                    coef[0,0] = 0  # Remove DC
-                    max = np.abs(coef).max()
-                    sns.heatmap(coef, cmap='bwr', vmin=-max, vmax=max, ax=axes[1], annot=True, cbar=False)
+                    sns.heatmap(data_flip, cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[0], annot=False, cbar_ax=axes[1])
 
             elif cmd == interface.MOTION_COUNT:
                 data = data.reshape(1, 8)

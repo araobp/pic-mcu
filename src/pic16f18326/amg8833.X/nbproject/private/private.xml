@@ -5,6 +5,7 @@
         <group>
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/amg8833.X/amg8833.h</file>
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/amg8833.X/twelite.c</file>
+            <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/amg8833.X/i2c_util.h</file>
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/amg8833.X/mcc_generated_files/tmr0.c</file>
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/amg8833.X/main.h</file>
             <file>file:/C:/Users/shiny/Documents/GitHub/pic16f1-mcu/src/pic16f18326/amg8833.X/i2c_util.c</file>
