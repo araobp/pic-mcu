@@ -55,11 +55,11 @@ Note2: Measured temperature on AMS1117(LDO) at 30mA is under 40 degrees Celsius 
 - The infrared array sensor outputs temperature data of each pixel in a range of 0 to 80 degreees Celsius.
 - Room temperature is usually in a range of 10 to 40.
 
-So I just ignore MSB bytes from the sensor, and transfer LSB bytes to TWELITE. I use 0xFF as a delimiter of data.
+So I just ignore MSB bytes from the sensor, and transfer LSB bytes to TWELITE.
 
-Temperature range: 0 - 63.5 degrees Celsius (63.5/0.25 = 0xfe)
+Temperature range: 0 - 63.75 degrees Celsius (LSB: 0x00 - 0xff).
 
-Note: the sensor also outputs temperature data from a thermistor on the chip. I transfer both MSB and LSB in this case.
+Note: the sensor also outputs temperature data from a thermistor on the chip. I transfer both MSB and LSB in that case.
 
 ## Extracting features for motion detection
 
@@ -81,7 +81,7 @@ Diff at each column
                                     time
 ```
 
-Here I assume that objects are moving along the column direction (column-wise: upward or downward).
+Here I assume that objects are moving along the column direction (column-wise: upward or downward) of 8x8 pixels heatmap.
 
 In general, it is possible to detect the motion in that condition by applying a filter, like the wave above, to diff between frames.
 
@@ -180,7 +180,6 @@ Example: detecting animals moving along a corridor
 PIC16F1 controls FET (Fairchild BS170) for saving power.
 
 ![](https://docs.google.com/drawings/d/e/2PACX-1vRKkvEE8Qu8NDzdrnWKfsav20zUiKk-MrW7WBJTkuSbnBnBqELGJ9IAp9Ce6L4VIAO_fR5WHlkIdUWj/pub?w=480&h=360)
-
 
 ## Circuit and its schematic
 
