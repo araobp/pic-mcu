@@ -15,6 +15,7 @@ I assume that the targe object is animals in this project.
 [TWELITE](https://mono-wireless.com/en/) is a low-power wireless communication module based on IEEE802.15.4. Its core is 32bit MCU ["JN5164"](https://www.nxp.com/jp/products/wireless/proprietary-ieee-802.15.4-based/zigbee-and-ieee802.15.4-wireless-microcontroller-with-160-kb-flash-32-kb-ram:JN5164) from NXP.
 
 Note 1: TWELITE is not popular outside of Japan. It may be replaced with Bluetooth Low Energy.
+
 Note 2: I have noticed that TWELITE is succeptible to radio interference.
 
 ### Infrared array sensor (Panasonic AMG8833)
