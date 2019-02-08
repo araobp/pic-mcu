@@ -21,6 +21,8 @@ Note: I have noticed that TWELITE is succeptible to radio interference.
 I use [AMG8833](https://cdn-learn.adafruit.com/assets/assets/000/043/261/original/Grid-EYE_SPECIFICATIONS%28Reference%29.pdf?1498680225
 ) from Panasonic.
 
+<img src="./doc/twin-sensors.jpg" width="400">
+
 ## Why I use PIC16F1 with TWELITE
 
 I need to transfer 64 pixel images (128 bytes data per frame, 10 FPS) over TWELITE.
