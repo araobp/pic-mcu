@@ -205,6 +205,10 @@ Note: "J1" (Jumper 1) is a jumper pin as a power management flag:
 - Jumper pin is on: power management is disabled (= pulled down to GND).
 - Jumper pin is off: power management is enabled (= pulled up to 3.3V).
 
+### 3D printing
+
+- [Scaffold for a pair of infrared array sensors (FreeCAD)](./freecad/AMG8833_twin_scaffold.stl)
+
 ## Code
 
 - [Master(Python) with TWELITE-STICK](./python/twelite)
