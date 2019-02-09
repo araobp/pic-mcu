@@ -181,6 +181,10 @@ PIC16F1 controls FET (Fairchild BS170) for saving power.
 
 ![](https://docs.google.com/drawings/d/e/2PACX-1vRKkvEE8Qu8NDzdrnWKfsav20zUiKk-MrW7WBJTkuSbnBnBqELGJ9IAp9Ce6L4VIAO_fR5WHlkIdUWj/pub?w=480&h=360)
 
+## 3D printing
+
+- [Scaffold for a pair of infrared array sensors (FreeCAD)](./freecad/AMG8833_twin_scaffold.stl)
+
 ## Circuit and its schematic
 
 ### Specification
@@ -204,10 +208,6 @@ The following values are measured with my analog tester.
 Note: "J1" (Jumper 1) is a jumper pin as a power management flag:
 - Jumper pin is on: power management is disabled (= pulled down to GND).
 - Jumper pin is off: power management is enabled (= pulled up to 3.3V).
-
-### 3D printing
-
-- [Scaffold for a pair of infrared array sensors (FreeCAD)](./freecad/AMG8833_twin_scaffold.stl)
 
 ## Code
 
