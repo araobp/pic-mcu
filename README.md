@@ -24,7 +24,7 @@ My hobby is IoT/AI prototyping. When a prototype is expected to be small and sim
 
 ### Door controller
 
-=> **[Demo video on YouTube](https://youtu.be/RFJgpf7kdJA)
+=> **[Project page](DOOR_CONTROLLER.md)
 
 ## Tips
 
