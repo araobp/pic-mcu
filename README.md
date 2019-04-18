@@ -24,7 +24,7 @@ My hobby is IoT/AI prototyping. When a prototype is expected to be small and sim
 
 ### Door controller
 
-=> **[Project page](DOOR_CONTROLLER.md)
+=> **[Project page](DOOR_CONTROLLER.md)**
 
 ## Tips
 
