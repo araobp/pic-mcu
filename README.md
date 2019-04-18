@@ -24,6 +24,8 @@ My hobby is IoT/AI prototyping. When a prototype is expected to be small and sim
 
 ### Door controller
 
+<img src="./doc/door_controller.jpg" width="400">
+
 => **[Project page](DOOR_CONTROLLER.md)**
 
 ## Tips
