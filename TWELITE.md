@@ -181,6 +181,10 @@ PIC16F1 controls FET (Fairchild BS170) for saving power.
 
 ![](https://docs.google.com/drawings/d/e/2PACX-1vRKkvEE8Qu8NDzdrnWKfsav20zUiKk-MrW7WBJTkuSbnBnBqELGJ9IAp9Ce6L4VIAO_fR5WHlkIdUWj/pub?w=480&h=360)
 
+## 3D printing
+
+- [Scaffold for a pair of infrared array sensors (FreeCAD)](./freecad/AMG8833_twin_scaffold.stl)
+
 ## Circuit and its schematic
 
 ### Specification
