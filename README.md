@@ -22,6 +22,10 @@ My hobby is IoT/AI prototyping. When a prototype is expected to be small and sim
 
 => **[Project page](MOTION_LOGGER.md)**
 
+### Door controller
+
+=> **[Demo video on YouTube](https://youtu.be/RFJgpf7kdJA)
+
 ## Tips
 
 #### Microchip XC8 C compiler
