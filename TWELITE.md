@@ -194,7 +194,7 @@ The following values are measured with my analog tester.
 
 ### Schematic
 
-- [I2C adaptor for TWELITE-DIP](./kicad/i2c_adaptor2/i2c_adaptor.pdf)
+- [I2C adaptor for TWELITE-DIP](./kicad/i2c_adaptor/i2c_adaptor.pdf)
 
 Note: "J1" (Jumper 1) is a jumper pin as a power management flag:
 - Jumper pin is on: power management is disabled (= pulled down to GND).

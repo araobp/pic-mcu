@@ -1,4 +1,0 @@
-(fp_lib_table
-  (lib (name mcu)(type KiCad)(uri C:/Users/shiny/Documents/GitHub/pic16f1-mcu/kicad/mcu.pretty)(options "")(descr ""))
-  (lib (name pic16f1)(type KiCad)(uri C:/Users/shiny/Documents/GitHub/pic16f1-mcu/kicad/pic16f1.pretty)(options "")(descr ""))
-)
