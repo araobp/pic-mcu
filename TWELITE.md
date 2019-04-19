@@ -14,16 +14,12 @@ I assume that the targe object is animals in this project.
 
 [TWELITE](https://mono-wireless.com/en/) is a low-power wireless communication module based on IEEE802.15.4. Its core is 32bit MCU ["JN5164"](https://www.nxp.com/jp/products/wireless/proprietary-ieee-802.15.4-based/zigbee-and-ieee802.15.4-wireless-microcontroller-with-160-kb-flash-32-kb-ram:JN5164) from NXP.
 
-Note 1: TWELITE is not popular outside of Japan. It may be replaced with Bluetooth Low Energy.
-
-Note 2: I have noticed that TWELITE is succeptible to radio interference.
+Note: I have noticed that TWELITE is succeptible to radio interference.
 
 ### Infrared array sensor (Panasonic AMG8833)
 
 I use [AMG8833](https://cdn-learn.adafruit.com/assets/assets/000/043/261/original/Grid-EYE_SPECIFICATIONS%28Reference%29.pdf?1498680225
-) from Panasonic. This project supports up to two AMG8833 modules to cover a wider angle of view (120 degrees).
-
-<img src="./doc/twin-sensors.jpg" width="400">
+) from Panasonic.
 
 ## Why I use PIC16F1 with TWELITE
 
@@ -46,7 +42,6 @@ I use 8bit MCU as a co-processor of TWELITE for receiving data from an infrared 
 |I2C Clock | 250kHz                   |
 
 Note1: I tried lower CPU clock frequencies, but UART did not work with TWELITE-DIP.
-
 Note2: Measured temperature on AMS1117(LDO) at 30mA is under 40 degrees Celsius (ambient temeprature: 26 degrees Celsius).
 
 ## 8bit quantization
@@ -55,11 +50,11 @@ Note2: Measured temperature on AMS1117(LDO) at 30mA is under 40 degrees Celsius 
 - The infrared array sensor outputs temperature data of each pixel in a range of 0 to 80 degreees Celsius.
 - Room temperature is usually in a range of 10 to 40.
 
-So I just ignore MSB bytes from the sensor, and transfer LSB bytes to TWELITE.
+So I just ignore MSB bytes from the sensor, and transfer LSB bytes to TWELITE. I use 0xFF as a delimiter of data.
 
-Temperature range: 0 - 63.75 degrees Celsius (LSB: 0x00 - 0xff).
+Temperature range: 0 - 63.5 degrees Celsius (63.5/0.25 = 0xfe)
 
-Note: the sensor also outputs temperature data from a thermistor on the chip. I transfer both MSB and LSB in that case.
+Note: the sensor also outputs temperature data from a thermistor on the chip. I transfer both MSB and LSB in this case.
 
 ## Extracting features for motion detection
 
@@ -81,7 +76,7 @@ Diff at each column
                                     time
 ```
 
-Here I assume that objects are moving along the column direction (column-wise: upward or downward) of 8x8 pixels heatmap.
+Here I assume that objects are moving along the column direction (column-wise: upward or downward).
 
 In general, it is possible to detect the motion in that condition by applying a filter, like the wave above, to diff between frames.
 
@@ -138,11 +133,10 @@ The bottle neck of data transfer is the following:
 | d       | 64 pixels diff between previous frame and current frame | 64 bytes  | int8_t    |
 | m       | column-wise motion detection           | 64 bytes  | int8_t    |
 | M       | motion count on a specific row         | 8 bytes   | int8_t    |
-| n       | enable notifications of motion count (passive mode)    | NA        | NA        |
-| o       | enable notifications of diff (passive mode)            | NA        | NA        |
+| n       | enable notifications (passive mode)    | NA        | NA        |
 | N       | disable notifications (reactive mode)  | NA        | NA        |
 | s       | dump setting paramters                 | 2 bytes   | uint8_t   |
-| 0 - 9   | calibrate motion detection threshold   | NA        | NA        |
+| 0 - 6   | calibrate motion detection threshold   | NA        | NA        |
 
 ### Passive mode
 
@@ -181,9 +175,6 @@ PIC16F1 controls FET (Fairchild BS170) for saving power.
 
 ![](https://docs.google.com/drawings/d/e/2PACX-1vRKkvEE8Qu8NDzdrnWKfsav20zUiKk-MrW7WBJTkuSbnBnBqELGJ9IAp9Ce6L4VIAO_fR5WHlkIdUWj/pub?w=480&h=360)
 
-## 3D printing
-
-- [Scaffold for a pair of infrared array sensors (FreeCAD)](./freecad/AMG8833_twin_scaffold.stl)
 
 ## Circuit and its schematic
 
