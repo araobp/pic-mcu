@@ -41,10 +41,12 @@ if __name__ == '__main__':
     root = Tk.Tk()
     root.wm_title("Thermography")
 
-    if args.motion_detection or args.motion_count:
+    if args.grid_data:
+        fig, axes = plt.subplots(1, 2, figsize=(6, 5), gridspec_kw = {'width_ratios':[20, 1]})
+    elif args.motion_detection or args.motion_count:
         fig, axes = plt.subplots(1, 2, figsize=(6, 6), gridspec_kw = {'width_ratios':[100, 1]})        
     else:
-        fig, axes = plt.subplots(1, 2, figsize=(6, 5), gridspec_kw = {'width_ratios':[20, 1]})
+        fig, axes = plt.subplots(1, 2, figsize=(10, 5))
 
     for ax in axes:
         ax.get_xaxis().set_ticks([])

@@ -1,0 +1,1 @@
+python thermography.py --motion_count COM9 2

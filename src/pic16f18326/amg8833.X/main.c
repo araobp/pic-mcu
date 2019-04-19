@@ -5,7 +5,6 @@
  */
 
 #include "mcc_generated_files/mcc.h"
-#include "main.h"
 #include "amg8833.h"
 #include "twelite.h"
 #include <stdbool.h>
@@ -63,12 +62,8 @@ uint8_t buf[AMG8833_PIXELS_LENGTH];
 uint8_t buf_prev[AMG8833_PIXELS_LENGTH / 2];
 int8_t diff[AMG8833_PIXELS_LENGTH / 2];
 */
-uint8_t twin_buf[AMG8833_PIXELS_LENGTH];
-int8_t twin_motion[AMG8833_PIXELS_LENGTH];
 
-amg8833_instance A1;
-amg8833_instance A2;
-line_instance L;
+amg8833_instance A;
 
 // Operation mode
 operation_mode mode = REACTIVE;
@@ -120,7 +115,7 @@ void power_mgmt(state_machine_command command) {
             if (timeout_cnt >= t3) {
                 FET1_GATE = HIGH;
                 __delay_ms(AMG8833_STARTUP_TIME);
-                set_moving_average(&A1, true);
+                set_moving_average(&A, true);
                 timeout_cnt = 0;
                 state = CONNECTING;
             }
@@ -141,8 +136,6 @@ void main(void) {
     int8_t *pdiff;
     int8_t *prow;
 
-    bool r1, r2;
-    
     state = JUST_STARTED;
     
     FET1_GATE = LOW;
@@ -169,14 +162,9 @@ void main(void) {
     FET1_GATE = HIGH;
     FET2_GATE = HIGH;
     __delay_ms(AMG8833_STARTUP_TIME);  // AMG8833 takes time to start up
-    init_amg8833_instance(&A1, I2C1);
-    init_amg8833_instance(&A2, I2C2);
-    init_line_instance(&L);
-    set_moving_average(&A1, true);
-#ifdef TWIN
-    set_moving_average(&A2, true);    
-#endif
-    
+    init_amg8833_instance(&A, I2C1);
+    set_moving_average(&A, true);
+
     while (1) {
 
         // Periodic task
@@ -188,11 +176,7 @@ void main(void) {
             case PASSIVE_MOTION:
                 if (TMR0_HasOverflowOccured()) { // every 125msec
                     TMR0IF = 0;
-#ifdef TWIN
-                    if (update_line(&A1, &A2, &L)) {                    
-#else
-                    if (update_line(&A1, NULL, &L)) {
-#endif
+                    if (update_line(&A)) {
                         if (POWER_MGMT_FLAG) {
                             FET1_GATE = HIGH;
                             __delay_ms(TWELITE_STARTUP_TIME);
@@ -200,11 +184,7 @@ void main(void) {
                         if (state == JUST_STARTED) {
                             state = NORMAL;
                         } else {
-#ifdef TWIN
-                            twelite_uart_tx((uint8_t *) L.line, seq++, 16);                            
-#else
-                            twelite_uart_tx((uint8_t *) L.line, seq++, 8);
-#endif
+                            twelite_uart_tx((uint8_t *) A.line, seq++, 8);
                         }
                         __delay_ms(TWELITE_TRANSMISSION_TIME);
                     }
@@ -222,14 +202,7 @@ void main(void) {
                             FET2_GATE = HIGH;
                             __delay_ms(AMG8833_STARTUP_TIME);  // AMG8833 is slow to start up
                         }
-#ifdef TWIN
-                        r1 = update_diff(&A1, true);
-                        r2 = update_diff(&A2, true);
-                        if (r1 || r2) {
-                            merge_diff(&A1, &A2, twin_buf);
-#else
-                        if (update_diff(&A1, true)) {
-#endif
+                        if (update_diff(&A, true)) {
                             if (POWER_MGMT_FLAG) {
                                 FET1_GATE = HIGH;
                                 __delay_ms(TWELITE_STARTUP_TIME);
@@ -237,11 +210,7 @@ void main(void) {
                             if (state == JUST_STARTED) {
                                 state = NORMAL;
                             } else {
-#ifdef TWIN
-                                twelite_uart_tx((uint8_t *) twin_buf, seq++, AMG8833_PIXELS_TWIN_LENGTH_HALF);                       
-#else
-                                twelite_uart_tx((uint8_t *) A1.diff, seq++, AMG8833_PIXELS_LENGTH_HALF);
-#endif
+                                twelite_uart_tx((uint8_t *) A.diff, seq++, AMG8833_PIXELS_LENGTH_HALF);
                             }
                             __delay_ms(TWELITE_TRANSMISSION_TIME);
                         }
@@ -264,47 +233,24 @@ void main(void) {
                 switch (cmd) {
                     /*** Reactive mode */
                     case 't': // Thermistor
-                        update_thermistor(&A1);
-                        twelite_uart_tx(A1.thermistor, seq, AMG8833_THERMISTOR_LENGTH);
+                        update_thermistor(&A);
+                        twelite_uart_tx(A.thermistor, seq, AMG8833_THERMISTOR_LENGTH);
                         break;
                     case 'p': // 64 pixels
-                        update_pixels(&A1);
-#ifdef TWIN
-                        update_pixels(&A2);
-                        merge_pixels(&A1, &A2, twin_buf);
-                        twelite_uart_tx(twin_buf, seq, AMG8833_PIXELS_TWIN_LENGTH_HALF);                       
-#else
-                        twelite_uart_tx(A1.pixels, seq, AMG8833_PIXELS_LENGTH_HALF);
-#endif
+                        update_pixels(&A);
+                        twelite_uart_tx(A.pixels, seq, AMG8833_PIXELS_LENGTH_HALF);
                         break;
                     case 'd': // 64 pixels diff
-                        update_diff(&A1, false);
-#ifdef TWIN
-                        update_diff(&A2, false);
-                        merge_diff(&A1, &A2, twin_buf);
-                        twelite_uart_tx(twin_buf, seq, AMG8833_PIXELS_TWIN_LENGTH_HALF);                       
-#else
-                        twelite_uart_tx((uint8_t *) A1.diff, seq, AMG8833_PIXELS_LENGTH_HALF);
-#endif
+                        update_diff(&A, false);
+                        twelite_uart_tx((uint8_t *) A.diff, seq, AMG8833_PIXELS_LENGTH_HALF);
                         break;
                     case 'm': // Column-wise motion detection
-                        update_motion(&A1);
-#ifdef TWIN
-                        update_motion(&A2);
-                        merge_motion(&A1, &A2, twin_motion);
-                        twelite_uart_tx((uint8_t *) twin_motion, seq, AMG8833_PIXELS_TWIN_LENGTH_HALF);
-#else
-                        twelite_uart_tx((uint8_t *) A1.motion, seq, AMG8833_PIXELS_LENGTH_HALF);
-#endif
+                        update_diff_motion(&A);
+                        twelite_uart_tx((uint8_t *) A.diff, seq, AMG8833_PIXELS_LENGTH_HALF);
                         break;
                     case 'M': // Motion count on a specific row
-#ifdef TWIN
-                        update_line(&A1, &A2, &L);
-                        twelite_uart_tx((uint8_t *) L.line, seq, 16);                        
-#else
-                        update_line(&A1, NULL, &L);
-                        twelite_uart_tx((uint8_t *) L.line, seq, 8);
-#endif
+                        update_line(&A);
+                        twelite_uart_tx((uint8_t *) A.line, seq, sizeof (prow));
                         break;
                     /*** Passive mode ***/
                     case 'n': // Notify motion count (passive mode)

@@ -20,7 +20,6 @@
       <itemPath>i2c_util.h</itemPath>
       <itemPath>amg8833.h</itemPath>
       <itemPath>twelite.h</itemPath>
-      <itemPath>main.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"

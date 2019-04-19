@@ -163,7 +163,7 @@ class MasterNode:
             #ck = b2i(d,0)
             #print(data)
         
-        return [data, src, seq, lqi]
+        return (data, src, seq, lqi)
         
     # Write data
     def write(self, dst, cmd):

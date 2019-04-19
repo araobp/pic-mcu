@@ -16,21 +16,12 @@
  *  V |
  */
 #define IDX(i, j) (j * 8 + i)
-#define IDX2(i, j, k) (j * 16 + i + k * 8)
-#define SCAN_ROW_IDX(i, w) (SCAN_ROW * w + i)
+#define SCAN_ROW_IDX(i) (SCAN_ROW * 8 + i)
 
 float peak_count_threshold = PEAK_COUNT_THRESHOLD;
 
 void init_amg8833_instance(amg8833_instance *A, i2c_handle i2c_h) {
     A->i2c_h = i2c_h;
-}
-
-void init_line_instance(line_instance *L) {
-    for (int j=0;j<8;j++) {
-        for (int i=0;i<16;i++) {
-            L->prev_line[j][i] = 0;
-        }
-    }    
 }
 
 /**
@@ -68,6 +59,16 @@ void set_moving_average(amg8833_instance *A, bool enable) {
 }
 
 /**
+ * Transmit data to UART
+ */
+void uart_transmit(uint8_t *pbuf, uint8_t len) {
+    for (int i = 0; i < len; i++) {
+        printf("%d,", pbuf[i]);
+    }
+    printf("%d\n", 0xff);
+}
+
+/**
  * Read the thermistor register on AMG8833
  */
 void update_thermistor(amg8833_instance *A) {
@@ -101,7 +102,7 @@ bool update_diff(amg8833_instance *A, bool flag) {
     for (int i = 0; i < AMG8833_PIXELS_LENGTH_HALF; i++) {
         A->pixels[i] = A->pixels[i * 2]; // Ignore MSB of a pair of [LSB, MSB]
         A->diff[i] = (int8_t) A->pixels[i] - (int8_t) A->pixels_prev[i];
-        if (abs(A->diff[i]) >= peak_count_threshold) {
+        if (abs(A->diff[i]) > peak_count_threshold) {
             detected = true;
         } else if (flag) {
             A->diff[i] = 0;
@@ -124,12 +125,12 @@ void filter(int i, int8_t *pdiff, int8_t *pcolumn, bool downward) {
     while (true) {
         idx = IDX(i, j);
         // Column-wise scan downward
-        if (!filter_on && pdiff[idx] >= peak_count_threshold) {
+        if (!filter_on && pdiff[idx] > peak_count_threshold) {
             filter_on = true;
-        } else if (filter_on && pdiff[idx] <= -peak_count_threshold) {
+        } else if (filter_on && pdiff[idx] < -peak_count_threshold) {
             filter_detecting = true;
             pcolumn[j] = (downward) ? 1 : -1;
-        } else if (filter_on && filter_detecting && pdiff[idx] > -peak_count_threshold) {
+        } else if (filter_on && filter_detecting && pdiff[idx] >= -peak_count_threshold) {
             filter_on = false;
             filter_detecting = false;
         }
@@ -145,7 +146,7 @@ void filter(int i, int8_t *pdiff, int8_t *pcolumn, bool downward) {
  * Column-wise motion detection.
  * 0: still, 1: forward, -1: backward
  */
-void update_motion(amg8833_instance *A) {
+void update_diff_motion(amg8833_instance *A) {
     int8_t column[8] = {0};
     bool filter_on, filter_flip, filter_detecting;
     int idx;
@@ -154,7 +155,7 @@ void update_motion(amg8833_instance *A) {
         filter(i, A->diff, column, true); // column-wise scan downward
         filter(i, A->diff, column, false); // column-wise scan upward
         for (int j = 0; j < 8; j++) { // Copy motion data
-            A->motion[IDX(i, j)] = column[j];
+            A->diff[IDX(i, j)] = column[j];
             column[j] = 0;
         }
     }
@@ -165,91 +166,72 @@ void update_motion(amg8833_instance *A) {
  * 0: still, 1: forward, -1: backward
  * @return true if motion count is not all-zero
  */
-bool update_line(amg8833_instance *A1, amg8833_instance *A2, line_instance *L) {
-    int8_t temp_line[16] = {0};
+bool update_line(amg8833_instance *A) {
+    static int8_t prev_row[8][8] = {
+        { 0 }
+    };
+    int8_t temp_row[8] = {0};
     int idx;
     bool peak_on;
     int peak_on_idx, peak_idx;
     bool detected = false;
-    int8_t *pmotion;
-    int width = 8;
-    int width_m1;
+    int8_t *pdiff;
 
-    if (A2 == NULL) {
-        update_motion(A1);
-        pmotion = A1->motion;
-    } else {
-        update_motion(A1);        
-        update_motion(A2);
-        merge_motion(A1, A2, L->motion);
-        pmotion = L->motion;
-        width = 16;
-    }
+    update_diff_motion(A);
 
     // Find peaks
     peak_on = false;
-    width_m1 = width - 1;
-    for (int i = 0; i < width; i++) {
-        idx = SCAN_ROW_IDX(i, width);
-        if (!peak_on && pmotion[idx] != 0) {
+    for (int i = 0; i < 8; i++) {
+        idx = SCAN_ROW_IDX(i);
+        if (!peak_on && A->diff[idx] != 0) {
             peak_on = true;
             peak_on_idx = i;
-        } else if (peak_on && (pmotion[idx] == 0 || i == width_m1)) {
+        } else if (peak_on && (A->diff[idx] == 0 || i == 7)) {
             if ((i - peak_on_idx) >= OBJECT_RESOLUTION) {
                 peak_idx = (peak_on_idx + i) / 2;
-                temp_line[peak_idx] = pmotion[SCAN_ROW_IDX(peak_idx, width)];
+                temp_row[peak_idx] = A->diff[SCAN_ROW_IDX(peak_idx)];
                 detected = true;
             }
             peak_on = false;
         }
     }
 
-    /*   Check if the peaks were already counted in the previous update..
+    /*   Check if the peaks were already counted in the previous read.
      *
-     *   prev_line[1][ ]: 0  0  0  0  0  0  0  0
-     *   prev_line[0][ ]: 0  0  0  0  0  1  0  0
-     *   current line   : 0  0  0  0  1  0  0  0  => This "1" is removed.
+     *   prev_row[1][ ]: 0  0  0  0  0  0  0  0
+     *   prev_row[0][ ]: 0  0  0  0  0  1  0  0
+     *   current row   : 0  0  0  0  1  0  0  0  => This "1" is removed.
      * 
-     *   prev_line[1][ ]: 0  0  0  0  1  0  0  0
-     *   prev_line[0][ ]: 0  0  0  0  0  0  0  0
-     *   current line   : 0  0  0  0  0  1  0  0  => This "1" is removed.
+     *   prev_row[1][ ]: 0  0  0  0  1  0  0  0
+     *   prev_row[0][ ]: 0  0  0  0  0  0  0  0
+     *   current row   : 0  0  0  0  0  1  0  0  => This "1" is removed.
      */
-    for (int i = 0; i < width; i++) {
-        L->line[i] = temp_line[i];
+    for (int i = 0; i < 8; i++) {
+        A->line[i] = temp_row[i];
     }
-    for (int i = 0; i < width; i++) {
-        if (L->line[i] != 0) {
+    for (int i = 0; i < 8; i++) {
+        if (A->line[i] != 0) {
             switch (i) {
                 case 0:
                     for (int j = 0; j < OBJECT_RESOLUTION; j++) {
-                        if (L->prev_line[j][0] != 0 || L->prev_line[j][1] != 0) {
-                            L->line[0] = 0;
-                            detected = false;
-                        }
-                    }
-                    break;
-                case 15:
-                    for (int j = 0; j < OBJECT_RESOLUTION; j++) {
-                        if (L->prev_line[j][14] != 0 || L->prev_line[j][15] != 0) {
-                            L->line[15] = 0;
+                        if (prev_row[j][0] != 0 || prev_row[j][1] != 0) {
+                            A->line[0] = 0;
                             detected = false;
                         }
                     }
                     break;
                 case 7:
-                    if (A2 == NULL) {
-                        for (int j = 0; j < OBJECT_RESOLUTION; j++) {
-                            if (L->prev_line[j][6] != 0 || L->prev_line[j][7] != 0) {
-                                L->line[7] = 0;
-                                detected = false;
-                            }
+                    for (int j = 0; j < OBJECT_RESOLUTION; j++) {
+                        if (prev_row[j][6] != 0 || prev_row[j][7] != 0) {
+                            A->line[7] = 0;
+                            detected = false;
                         }
-                        break;
                     }
+                    break;
                 default:
                     for (int j = 0; j < OBJECT_RESOLUTION; j++) {
-                        if (L->prev_line[j][i - 1] != 0 || L->prev_line[j][i] != 0 || L->prev_line[j][i + 1] != 0) {
-                            L->line[i] = 0;
+                        if (prev_row[j][i - 1] != 0 || prev_row[j][i] != 0 || prev_row[j][i + 1] != 0) {
+                            A->line[i] = 0;
                             detected = false;
                         }
                     }
@@ -259,14 +241,15 @@ bool update_line(amg8833_instance *A1, amg8833_instance *A2, line_instance *L) {
     }
 
     // Save the current row
-    for (int i = 0; i < width; i++) {
+    for (int i = 0; i < 8; i++) {
         for (int j = 1; j < OBJECT_RESOLUTION; j++) {
-            L->prev_line[j][i] = L->prev_line[j-1][i];
+            prev_row[j][i] = prev_row[j-1][i];
         }
-        L->prev_line[0][i] = temp_line[i];
+        prev_row[0][i] = temp_row[i];
     }
         
     return detected;
+
 }
 
 /**
@@ -280,38 +263,5 @@ void calibrate_threshold(int v) {
         default:
             peak_count_threshold = v;
             break;
-    }
-}
-
-void merge_pixels(amg8833_instance *A1, amg8833_instance *A2, uint8_t *buf) {
-    int idx;
-    for (int j=0; j<8; j++) {
-        for (int i=0;i<8;i++) {
-            idx = IDX(i, j);
-            buf[IDX2(i,j,0)] = A1->pixels[idx];
-            buf[IDX2(i,j,1)] = A2->pixels[idx];        
-        }
-    }
-}
-
-void merge_diff(amg8833_instance *A1, amg8833_instance *A2, uint8_t *buf) {
-    int idx;
-    for (int j=0; j<8; j++) {
-        for (int i=0;i<8;i++) {
-            idx = IDX(i, j);
-            buf[IDX2(i,j,0)] = A1->diff[idx];
-            buf[IDX2(i,j,1)] = A2->diff[idx];        
-        }
-    }
-}
-
-void merge_motion(amg8833_instance *A1, amg8833_instance *A2, int8_t *buf) {
-    int idx;
-    for (int j=0; j<8; j++) {
-        for (int i=0;i<8;i++) {
-            idx = IDX(i, j);
-            buf[IDX2(i,j,0)] = A1->motion[idx];
-            buf[IDX2(i,j,1)] = A2->motion[idx];        
-        }
     }
 }
