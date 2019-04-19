@@ -138,11 +138,10 @@ The bottle neck of data transfer is the following:
 | d       | 64 pixels diff between previous frame and current frame | 64 bytes  | int8_t    |
 | m       | column-wise motion detection           | 64 bytes  | int8_t    |
 | M       | motion count on a specific row         | 8 bytes   | int8_t    |
-| n       | enable notifications of motion count (passive mode)    | NA        | NA        |
-| o       | enable notifications of diff (passive mode)            | NA        | NA        |
+| n       | enable notifications (passive mode)    | NA        | NA        |
 | N       | disable notifications (reactive mode)  | NA        | NA        |
 | s       | dump setting paramters                 | 2 bytes   | uint8_t   |
-| 0 - 9   | calibrate motion detection threshold   | NA        | NA        |
+| 0 - 6   | calibrate motion detection threshold   | NA        | NA        |
 
 ### Passive mode
 
