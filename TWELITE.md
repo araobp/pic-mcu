@@ -1,6 +1,6 @@
 # Wireless network of infrared array sensors with TWELITE
 
-<img src="./doc/motion_detection.jpg" width="500">
+<img src="./doc/people_counter.jpg" width="500">
 
 ## Goal
 
@@ -57,6 +57,8 @@ Temperature range: 0 - 63.5 degrees Celsius (63.5/0.25 = 0xfe)
 Note: the sensor also outputs temperature data from a thermistor on the chip. I transfer both MSB and LSB in this case.
 
 ## Extracting features for motion detection
+
+<img src="./doc/motion_detection.jpg" width="500">
 
 ### Features for example
 
