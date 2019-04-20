@@ -291,6 +291,30 @@ Tranmission error: 0 times
 [07:40:08] src: 2 |   F            |
              :
 ```
+
+## Configuration of TWELITE-DIP
+
+The following is a configuration of TWELITE slave (ID=2):
+```
+--- CONFIG/TWE UART APP V1-02-15/SID=0x810d0823/LID=0x02 -E ---
+ a: set Application ID (0x67720103)
+ i: set Device ID (2=0x02)
+ c: set Channels (11,16,21)
+ x: set RF Conf (3)
+ r: set Role (0x0)
+ l: set Layer (0x1)
+ b: set UART baud (115200)
+ B: set UART option (8N1)
+ m: set UART mode (B)
+ h: set handle name []
+ C: set crypt mode (1)
+ K: set crypt key [h**k*******]
+ o: set option bits (0x00000000)
+---
+ S: save Configuration
+ R: reset to Defaults
+ ```
+ 
 ## Reference
 
 - https://mono-wireless.com/jp/products/TWE-APPS/App_Uart/mode_format.html
