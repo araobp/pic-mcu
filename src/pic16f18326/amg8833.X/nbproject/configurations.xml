@@ -15,7 +15,6 @@
         <itemPath>mcc_generated_files/eusart.h</itemPath>
         <itemPath>mcc_generated_files/tmr0.h</itemPath>
         <itemPath>mcc_generated_files/memory.h</itemPath>
-        <itemPath>mcc_generated_files/i2c2.h</itemPath>
       </logicalFolder>
       <itemPath>i2c_util.h</itemPath>
       <itemPath>amg8833.h</itemPath>
@@ -39,7 +38,6 @@
         <itemPath>mcc_generated_files/i2c1.c</itemPath>
         <itemPath>mcc_generated_files/tmr0.c</itemPath>
         <itemPath>mcc_generated_files/memory.c</itemPath>
-        <itemPath>mcc_generated_files/i2c2.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
       <itemPath>i2c_util.c</itemPath>

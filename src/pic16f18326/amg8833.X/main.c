@@ -162,7 +162,6 @@ void main(void) {
     FET1_GATE = HIGH;
     FET2_GATE = HIGH;
     __delay_ms(AMG8833_STARTUP_TIME);  // AMG8833 takes time to start up
-    init_amg8833_instance(&A, I2C1);
     set_moving_average(&A, true);
 
     while (1) {

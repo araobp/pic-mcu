@@ -35,15 +35,12 @@ extern "C" {
 #define SCAN_ROW 4
     
 typedef struct {
-    i2c_handle i2c_h;
     uint8_t thermistor[2];
     uint8_t pixels[AMG8833_PIXELS_LENGTH];
     uint8_t pixels_prev[AMG8833_PIXELS_LENGTH / 2];
     int8_t diff[AMG8833_PIXELS_LENGTH / 2];
     int8_t line[8];
 } amg8833_instance;
-
-void init_amg8833_instance(amg8833_instance *A, i2c_handle i2c_h);
 
 void set_moving_average(amg8833_instance *A, bool enable);
 

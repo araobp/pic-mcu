@@ -13,12 +13,8 @@ extern "C" {
     
 #include <stdint.h>
 
-typedef enum {
-    NONE, I2C1, I2C2
-} i2c_handle;
-
-uint8_t i2c_write(i2c_handle i2c_h, uint16_t dev_addr, uint8_t *pbuf, uint8_t len);
-uint8_t i2c_read(i2c_handle i2c_h, uint16_t dev_addr, uint8_t reg_addr, uint8_t *pbuf, uint8_t len);
+uint8_t i2c_write(uint16_t dev_addr, uint8_t *pbuf, uint8_t len);
+uint8_t i2c_read(uint16_t dev_addr, uint8_t reg_addr, uint8_t *pbuf, uint8_t len);
 
 #ifdef	__cplusplus
 }

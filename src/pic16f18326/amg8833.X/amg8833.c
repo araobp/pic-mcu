@@ -20,10 +20,6 @@
 
 float peak_count_threshold = PEAK_COUNT_THRESHOLD;
 
-void init_amg8833_instance(amg8833_instance *A, i2c_handle i2c_h) {
-    A->i2c_h = i2c_h;
-}
-
 /**
  * Enable/disable moving average
  */
@@ -49,11 +45,11 @@ void set_moving_average(amg8833_instance *A, bool enable) {
 
     if (enable) {
         for (int i = 0; i < 5; i++) {
-            i2c_write(A->i2c_h, AMG8833_DEV_ADDR, enable_sequence[i], 2);
+            i2c_write(AMG8833_DEV_ADDR, enable_sequence[i], 2);
         }
     } else {
         for (int i = 0; i < 5; i++) {
-            i2c_write(A->i2c_h, AMG8833_DEV_ADDR, disable_sequence[i], 2);
+            i2c_write(AMG8833_DEV_ADDR, disable_sequence[i], 2);
         }
     }
 }
@@ -74,7 +70,7 @@ void uart_transmit(uint8_t *pbuf, uint8_t len) {
 void update_thermistor(amg8833_instance *A) {
     uint8_t err;
     float temp;
-    err = i2c_read(A->i2c_h, AMG8833_DEV_ADDR, AMG8833_TTHL_ADDR, A->thermistor, AMG8833_THERMISTOR_LENGTH);
+    err = i2c_read(AMG8833_DEV_ADDR, AMG8833_TTHL_ADDR, A->thermistor, AMG8833_THERMISTOR_LENGTH);
 }
 
 /**
@@ -83,7 +79,7 @@ void update_thermistor(amg8833_instance *A) {
 void update_pixels(amg8833_instance *A) {
     uint8_t err;
     float temp;
-    err = i2c_read(A->i2c_h, AMG8833_DEV_ADDR, AMG8833_T01L_ADDR, A->pixels, AMG8833_PIXELS_LENGTH);
+    err = i2c_read(AMG8833_DEV_ADDR, AMG8833_T01L_ADDR, A->pixels, AMG8833_PIXELS_LENGTH);
     for (int i = 0; i < AMG8833_PIXELS_LENGTH_HALF; i++) {
         A->pixels[i] = A->pixels[i * 2]; // Ignore MSB of a pair of [LSB, MSB]
     }
@@ -98,7 +94,7 @@ bool update_diff(amg8833_instance *A, bool flag) {
     float temp;
     bool detected = false;
     
-    err = i2c_read(A->i2c_h, AMG8833_DEV_ADDR, AMG8833_T01L_ADDR, A->pixels, AMG8833_PIXELS_LENGTH);
+    err = i2c_read(AMG8833_DEV_ADDR, AMG8833_T01L_ADDR, A->pixels, AMG8833_PIXELS_LENGTH);
     for (int i = 0; i < AMG8833_PIXELS_LENGTH_HALF; i++) {
         A->pixels[i] = A->pixels[i * 2]; // Ignore MSB of a pair of [LSB, MSB]
         A->diff[i] = (int8_t) A->pixels[i] - (int8_t) A->pixels_prev[i];
