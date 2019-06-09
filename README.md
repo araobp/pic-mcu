@@ -4,7 +4,14 @@
 
 ## Background and motivation
 
-In the past three years, PIC16F1 has been the most useful MCU in my IoT projects at work.
+In the past three years, PIC16F1 has been the most useful MCU in my IoT projects at work. The reason is the MCU works as a hub or a protocol converter between some modules and board PCs such as RasPi very well at a reasonable cost with a very small footprint even as a DIP package.
+
+I have used a lot of the following MCUs in my successful IoT projects at work:
+- PIC1825
+- PIC1829
+- PIC18326
+
+I have been using 14-pin PIC18326 these days, because it supports two MSSPs (two SPI/I2C buses).
 
 ## Application components
 
