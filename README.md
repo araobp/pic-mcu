@@ -30,7 +30,7 @@ My hobby is IoT prototyping. When a prototype is expected to be small and simple
 
 ### Blikers
 
-=> **[Project page](BINKERS.md)**
+=> **[Project page](BLINKERS.md)**
 
 ## Tips
 
