@@ -20,7 +20,7 @@ In some project, I need a simple device like this: one of LEDs in an array blink
      +--------------+---------------+
      |                              |   
    [LED 0]                        [LED 1]
-  [QR code]                      [QR code]
+  [QR code or NFC tag]           [QR code or NFC tag]
   [touch sensor]                 [touch sensor]
   
 ```
@@ -29,5 +29,5 @@ Note 1: QR codes may be replaced with dynamic NFC tags such as ST25DV-I2C.
 
 Note 2: ST25DV-I2C can detect that a smart phone is in its proximity, and report the event to a host MCU via GPO.
 
-Although dynamic NFC tags is interesting, I would use QR codes rather than dynamic NFC tags for some reasons in this use case.
+Although dynamic NFC tags are interesting, I would rather use QR codes or static NFC tags than dynamic NFC tags for some reasons in this project.
 
