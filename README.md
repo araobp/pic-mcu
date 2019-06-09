@@ -30,6 +30,10 @@ My hobby is IoT prototyping. When a prototype is expected to be small and simple
 
 ## Tips
 
+### Blikers
+
+=> **[Project page](BINKERS.md)**
+
 #### Microchip XC8 C compiler
 
 C standard "C99" does not allow some of MCC-generated code. Change the setting to "C90".
