@@ -4,9 +4,7 @@
 
 ## Background and motivation
 
-My hobby is IoT prototyping. When a prototype is expected to be small and simple, I use Microchip PIC16F18326 MCU rather than a NUCLEO board (STM32).
-
-=> [A companion project (STM32) of this project](https://github.com/araobp/stm32-mcu).
+In the past three years, PIC16F1 has been the most useful MCU in my IoT projects at work.
 
 ## Application components
 
