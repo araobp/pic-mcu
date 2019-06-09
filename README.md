@@ -28,11 +28,11 @@ My hobby is IoT prototyping. When a prototype is expected to be small and simple
 
 => **[Project page](DOOR_CONTROLLER.md)**
 
-## Tips
-
 ### Blikers
 
 => **[Project page](BINKERS.md)**
+
+## Tips
 
 #### Microchip XC8 C compiler
 
