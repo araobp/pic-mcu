@@ -1,5 +1,7 @@
 # Blinkers
 
+This is a remake of [another project that have used ST25DV04K with STM32](https://github.com/araobp/stm32-mcu/tree/master/NUCLEO-F401RE/NFC).
+
 ## Background
 
 In some project, I need a simple device like this: one of LEDs in an array blinks as an indicator of some current action ongoing on another device. 
