@@ -15,6 +15,12 @@ I have been using 14-pin PIC18326 these days, because it supports two MSSPs (two
 
 ## Application components
 
+### Blikers
+
+(Work in progress)
+
+=> **[Project page](BLINKERS.md)**
+
 ### Wireless network of infrared array sensors with TWELITE 
 
 <img src="./doc/twelite-dip.jpg" width="500">
@@ -32,10 +38,6 @@ I have been using 14-pin PIC18326 these days, because it supports two MSSPs (two
 <img src="./doc/door_controller.jpg" width="400">
 
 => **[Project page](DOOR_CONTROLLER.md)**
-
-### Blikers
-
-=> **[Project page](BLINKERS.md)**
 
 ## Tips
 
