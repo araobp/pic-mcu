@@ -28,3 +28,23 @@ MPLAB-X IDE from Microchip has been very stable and reliable in my IoT projects 
    [LED 0]        [LED 1]         [LED2]          [LED2]       [ST25DV-I2C]
 [touch sensor] [touch sensor]  [touch sensor]  [touch sensor]
 ```
+
+## Test code
+
+Since my PC is broken, I cannot use MPLAB-X.
+
+I have made a test code on Arduino to dump data on registers of ST25DV-I2C.
+
+[Test code](./arduino/)
+
+```
+88 3 1 0 C 7 0 E C F 0 0 0 0 7 0 0 0 0 0 7F 0 3 24 AF F 62 2 0 24 2 E0 
+0 0 0 0 0 0 0 0 
+88 FF 8 0 1 0 0 0 
+E1 40 40 0 
+3 47 D1 1 43 55 
+192.168.2.2/some_service?loc=sec
+tion3&dat=woman,young&sno=800000
+02⸮00⸮
+
+```
