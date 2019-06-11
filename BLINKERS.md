@@ -33,9 +33,9 @@ MPLAB-X IDE from Microchip has been very stable and reliable in my IoT projects 
 
 ## Test code
 
-Since my PC is broken, I cannot use MPLAB-X.
+(Since my PC is broken and going to be repaired, I will not be able to use MPLAB-X for a few weeks.)
 
-I have made a test code on Arduino to dump data on registers of ST25DV-I2C.
+For now, I have made a test code on Arduino to dump data on registers of ST25DV-I2C. This is an IoT prototyping project, and the test code proves that a simple code like this is easier to maintain than those of STMicro's Cube IDE that is for product development.
 
 [Test code](./arduino/)
 
