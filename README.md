@@ -19,6 +19,8 @@ I have been using 14-pin PIC18326 these days, because it supports two MSSPs (two
 
 (Work in progress)
 
+This is a project to prototype a "physical" UI with LEDs, capacitance sensors and a dynamic NFC tag (ST25DV04K) for TV-based signage.
+
 => **[Project page](BLINKERS.md)**
 
 ### Wireless network of infrared array sensors with TWELITE 
