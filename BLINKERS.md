@@ -40,13 +40,16 @@ For now, I have made a test code on Arduino to dump data on registers of ST25DV-
 [Test code](./arduino/)
 
 ```
-88 3 1 0 C 7 0 E C F 0 0 0 0 7 0 0 0 0 0 7F 0 3 24 AF F 62 2 0 24 2 E0 
-0 0 0 0 0 0 0 0 
-88 FF 8 0 1 0 0 0 
-E1 40 40 0 
-3 47 D1 1 43 55 
+ST25 system config: 88 3 1 0 C 7 0 E C F 0 0 0 0 7 0 0 0 0 0 7F 0 3 24 AF F 62 2 0 24 2 E0 
+ST25 password: 0 0 0 0 0 0 0 0 
+ST25 dynamic config: 88 FF 8 0 1 0 0 0 
+NDEF CC file: E1 40 40 0 
+NDEF message type: 3 
+NDEF message length: 47 
+NDEF header: D1 1 43 55 
+NDEF Identifier code: 4 
+NDEF URI field:
 192.168.2.2/some_service?loc=sec
 tion3&dat=woman,young&sno=800000
-02⸮00⸮
-
+02
 ```
