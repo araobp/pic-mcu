@@ -78,9 +78,9 @@ ob/master/BLINKERS.md
 +---------------+
 |Payload length |
 +---------------+
-|    0x55 ('U') | URI
+|    0x55 ('U') | Type: URI
 +---------------+
-|     0x04      | HTTPS
+|     0x04      | Identifier code: HTTPS
 +---------------+
 |     URL       | Payload
 |      :        |
