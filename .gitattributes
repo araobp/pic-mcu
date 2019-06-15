@@ -2,3 +2,4 @@
 * text=auto
 
 *.ipynb linguist-detectable=false
+*.g linguist-detectable=false
