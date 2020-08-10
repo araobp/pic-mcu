@@ -34,10 +34,7 @@ In the past years, I have used a lot of the following MCUs in my successful IoT 
 
 (Work in progress)
 
-```
- [InvenSense MPU-9255]--I2C--[PIC16F1825]--USB serial--[TeraTerm on Win10 PC]
-
-```
+=> **[Project page](I2C_LIB_EVAL.md)**
 
 ## Tips
 
