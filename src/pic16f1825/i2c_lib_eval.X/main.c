@@ -43,6 +43,8 @@
 
 #include "mcc_generated_files/mcc.h"
 #include "mcc_generated_files/examples/i2c_master_example.h"
+#include "mpu9250.h"
+#include <stdint.h>
 
 /*
                          Main application
@@ -67,15 +69,19 @@ void main(void)
     // Disable the Peripheral Interrupts
     //INTERRUPT_PeripheralInterruptDisable();
 
+    sensor_data data;
+    
+    // Low pass filter settings
+    mpu9250_gyro_lpf();
+    mpu9250_accel_lpf();
+    
     while (1)
     {
-        // Add your application code
-        printf("Test\n");
-        LED_SetHigh();
-        __delay_ms(500);
-        LED_SetLow();
-        __delay_ms(500);
-
+        __delay_ms(100);        
+        LED_Toggle();
+        mpu9250_gyro_read(&data);
+        mpu9250_accel_read(&data);
+        mpu9250_output_to_uart(&data);
     }
 }
 /**
