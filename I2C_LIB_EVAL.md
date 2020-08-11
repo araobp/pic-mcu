@@ -24,3 +24,10 @@ The module I purchased from Amazon is MPU-9255. The module includes an accelerom
 I use one I2C bus to access all the sensors in the module.
 
 [code](./src/pic16f1825/i2c_lib_eval.X)
+
+## Sensor data visualization by Android
+
+```
+ [InvenSense MPU-9255 (HiLetgo MPU9250 module)]--I2C--[PIC16F1825]--USB serial--[Android app]
+
+```
