@@ -24,17 +24,17 @@ In the past years, I have used a lot of the following MCUs in my successful IoT 
 
 => **[Project page](MOTION_LOGGER.md)**
 
-### Door controller (PIC1825)
-
-<img src="./doc/door_controller.jpg" width="400">
-
-=> **[Project page](DOOR_CONTROLLER.md)**
-
 ### Evaluation of new Microchip I2C library (PIC16F1825)
 
 (Work in progress)
 
 => **[Project page](I2C_LIB_EVAL.md)**
+
+### Door controller (PIC1825)
+
+<img src="./doc/door_controller.jpg" width="400">
+
+=> **[Project page](DOOR_CONTROLLER.md)**
 
 ## Tips
 
