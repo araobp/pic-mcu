@@ -26,7 +26,7 @@ In the past years, I have used a lot of the following MCUs in my successful IoT 
 
 ### Evaluation of new Microchip I2C library (PIC16F1825)
 
-(Work in progress)
+<img src="./doc/pic16f1825_board.jpg" width="500">
 
 => **[Project page](I2C_LIB_EVAL.md)**
 
