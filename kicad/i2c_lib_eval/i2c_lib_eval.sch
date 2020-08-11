@@ -1,0 +1,311 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "Microchip I2C library evaluation board"
+Date "2020-08-11"
+Rev ""
+Comp "https://github.com/araobp"
+Comment1 "PIC16F1825"
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L pic16f1-mcu:pic16f1825 U1
+U 1 1 5F324826
+P 4650 4950
+F 0 "U1" H 4650 5537 60  0000 C CNN
+F 1 "pic16f1825" H 4650 5431 60  0000 C CNN
+F 2 "" H 4250 5000 60  0001 C CNN
+F 3 "" H 4250 5000 60  0001 C CNN
+	1    4650 4950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3850 4650 3800 4650
+$Comp
+L Device:R R1
+U 1 1 5F325C35
+P 3450 4950
+F 0 "R1" V 3243 4950 50  0000 C CNN
+F 1 "51k" V 3334 4950 50  0000 C CNN
+F 2 "" V 3380 4950 50  0001 C CNN
+F 3 "~" H 3450 4950 50  0001 C CNN
+	1    3450 4950
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2850 4650 2850 4950
+Wire Wire Line
+	2850 4950 3300 4950
+Wire Wire Line
+	3600 4950 3850 4950
+$Comp
+L power:GND #PWR03
+U 1 1 5F326988
+P 6100 6350
+F 0 "#PWR03" H 6100 6100 50  0001 C CNN
+F 1 "GND" H 6105 6177 50  0000 C CNN
+F 2 "" H 6100 6350 50  0001 C CNN
+F 3 "" H 6100 6350 50  0001 C CNN
+	1    6100 6350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6100 4650 6100 6000
+$Comp
+L Device:C_Small C1
+U 1 1 5F326DD0
+P 4650 4200
+F 0 "C1" V 4421 4200 50  0000 C CNN
+F 1 "0.1uF" V 4512 4200 50  0000 C CNN
+F 2 "" H 4650 4200 50  0001 C CNN
+F 3 "~" H 4650 4200 50  0001 C CNN
+	1    4650 4200
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4550 4200 3800 4200
+Wire Wire Line
+	3800 4200 3800 4650
+Connection ~ 3800 4650
+Wire Wire Line
+	3800 4650 2850 4650
+Wire Wire Line
+	5500 4650 6100 4650
+Wire Wire Line
+	5450 4650 5500 4650
+Connection ~ 5500 4650
+Wire Wire Line
+	4750 4200 5500 4200
+Wire Wire Line
+	5500 4200 5500 4650
+$Comp
+L Device:LED D1
+U 1 1 5F3277AB
+P 3450 5550
+F 0 "D1" V 3489 5432 50  0000 R CNN
+F 1 "LED" V 3398 5432 50  0000 R CNN
+F 2 "" H 3450 5550 50  0001 C CNN
+F 3 "~" H 3450 5550 50  0001 C CNN
+	1    3450 5550
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	3850 5250 3450 5250
+Wire Wire Line
+	3450 5250 3450 5400
+$Comp
+L Device:R R2
+U 1 1 5F328950
+P 3450 6000
+F 0 "R2" H 3520 6046 50  0000 L CNN
+F 1 "1k" H 3520 5955 50  0000 L CNN
+F 2 "" V 3380 6000 50  0001 C CNN
+F 3 "~" H 3450 6000 50  0001 C CNN
+	1    3450 6000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3450 5850 3450 5700
+$Comp
+L power:GND #PWR02
+U 1 1 5F3290DE
+P 3450 6450
+F 0 "#PWR02" H 3450 6200 50  0001 C CNN
+F 1 "GND" H 3455 6277 50  0000 C CNN
+F 2 "" H 3450 6450 50  0001 C CNN
+F 3 "" H 3450 6450 50  0001 C CNN
+	1    3450 6450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3450 6150 3450 6450
+$Comp
+L Connector_Generic:Conn_01x04 J1
+U 1 1 5F3298AC
+P 4600 2000
+F 0 "J1" V 4564 1712 50  0000 R CNN
+F 1 "Conn_01x04" V 4473 1712 50  0000 R CNN
+F 2 "" H 4600 2000 50  0001 C CNN
+F 3 "~" H 4600 2000 50  0001 C CNN
+	1    4600 2000
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4500 2200 4500 2300
+Wire Wire Line
+	4500 3650 3800 3650
+Wire Wire Line
+	3800 3650 3800 4200
+Connection ~ 3800 4200
+Wire Wire Line
+	4600 2200 4600 3650
+Wire Wire Line
+	4600 3650 5500 3650
+Wire Wire Line
+	5500 3650 5500 4200
+Connection ~ 5500 4200
+Text GLabel 2650 5050 0    50   Input ~ 0
+RX
+Text GLabel 2650 5200 0    50   Input ~ 0
+TX
+Text GLabel 5300 3350 2    50   Input ~ 0
+RX
+Text GLabel 5300 3200 2    50   Input ~ 0
+TX
+Wire Wire Line
+	4700 2200 4700 3350
+Wire Wire Line
+	4700 3350 5300 3350
+Wire Wire Line
+	4800 2200 4800 3200
+Wire Wire Line
+	4800 3200 5300 3200
+Wire Wire Line
+	2650 5050 3850 5050
+Wire Wire Line
+	3850 5150 2900 5150
+Wire Wire Line
+	2900 5150 2900 5200
+Wire Wire Line
+	2900 5200 2650 5200
+NoConn ~ 3850 4750
+NoConn ~ 3850 4850
+NoConn ~ 5450 5250
+NoConn ~ 5450 4950
+NoConn ~ 5450 4850
+NoConn ~ 5450 4750
+Text Notes 4300 1900 0    50   ~ 0
+USB Serial module
+Text Notes 4350 1200 0    50   ~ 0
+TeraTerm on PC
+Wire Notes Line
+	4650 1750 4650 1250
+Wire Wire Line
+	5450 5050 6850 5050
+Wire Wire Line
+	6850 5050 6850 4800
+Wire Wire Line
+	6850 4800 7650 4800
+Wire Wire Line
+	5450 5150 6950 5150
+Wire Wire Line
+	7650 4600 7300 4600
+$Comp
+L power:GND #PWR05
+U 1 1 5F33DC16
+P 7300 5600
+F 0 "#PWR05" H 7300 5350 50  0001 C CNN
+F 1 "GND" H 7305 5427 50  0000 C CNN
+F 2 "" H 7300 5600 50  0001 C CNN
+F 3 "" H 7300 5600 50  0001 C CNN
+	1    7300 5600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6950 5150 6950 4900
+Wire Wire Line
+	6950 4900 7650 4900
+Wire Wire Line
+	7650 4700 7300 4700
+Wire Wire Line
+	7300 4700 7300 5600
+Text Notes 7950 4850 0    50   ~ 0
+SCL
+Text Notes 7950 4950 0    50   ~ 0
+SDA
+Text Notes 7950 4650 0    50   ~ 0
+VDD
+Text Notes 7950 4750 0    50   ~ 0
+GND
+Text Notes 8250 4800 0    50   ~ 0
+HiLetgo MPU9250 module
+$Comp
+L power:PWR_FLAG #FLG0102
+U 1 1 5F344604
+P 6450 5850
+F 0 "#FLG0102" H 6450 5925 50  0001 C CNN
+F 1 "PWR_FLAG" H 6450 6023 50  0000 C CNN
+F 2 "" H 6450 5850 50  0001 C CNN
+F 3 "~" H 6450 5850 50  0001 C CNN
+	1    6450 5850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6450 5850 6450 6000
+Wire Wire Line
+	6450 6000 6100 6000
+Connection ~ 6100 6000
+Wire Wire Line
+	6100 6000 6100 6350
+NoConn ~ 7650 5000
+NoConn ~ 7650 5200
+$Comp
+L Connector_Generic:Conn_01x10 J2
+U 1 1 5F33B501
+P 7850 5000
+F 0 "J2" H 7930 4992 50  0000 L CNN
+F 1 "Conn_01x10" H 7930 4901 50  0000 L CNN
+F 2 "" H 7850 5000 50  0001 C CNN
+F 3 "~" H 7850 5000 50  0001 C CNN
+	1    7850 5000
+	1    0    0    -1  
+$EndComp
+NoConn ~ 7650 5100
+NoConn ~ 7650 5300
+NoConn ~ 7650 5400
+NoConn ~ 7650 5500
+Wire Wire Line
+	7300 4600 7300 3450
+Wire Wire Line
+	4500 2300 4200 2300
+Connection ~ 4500 2300
+Wire Wire Line
+	4500 2300 4500 3650
+$Comp
+L power:+5V #PWR0102
+U 1 1 5F3574DB
+P 7300 3450
+F 0 "#PWR0102" H 7300 3300 50  0001 C CNN
+F 1 "+5V" H 7315 3623 50  0000 C CNN
+F 2 "" H 7300 3450 50  0001 C CNN
+F 3 "" H 7300 3450 50  0001 C CNN
+	1    7300 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:PWR_FLAG #FLG0101
+U 1 1 5F358211
+P 3950 2100
+F 0 "#FLG0101" H 3950 2175 50  0001 C CNN
+F 1 "PWR_FLAG" H 3950 2273 50  0000 C CNN
+F 2 "" H 3950 2100 50  0001 C CNN
+F 3 "~" H 3950 2100 50  0001 C CNN
+	1    3950 2100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3950 2100 3950 2200
+Wire Wire Line
+	4200 2300 4200 2200
+$Comp
+L power:+5V #PWR0101
+U 1 1 5F34E99D
+P 4200 1700
+F 0 "#PWR0101" H 4200 1550 50  0001 C CNN
+F 1 "+5V" H 4215 1873 50  0000 C CNN
+F 2 "" H 4200 1700 50  0001 C CNN
+F 3 "" H 4200 1700 50  0001 C CNN
+	1    4200 1700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3950 2200 4200 2200
+Connection ~ 4200 2200
+Wire Wire Line
+	4200 2200 4200 1700
+$EndSCHEMATC

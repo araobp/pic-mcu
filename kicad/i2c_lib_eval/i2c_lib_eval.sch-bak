@@ -1,0 +1,196 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "Microchip I2C library evaluation board"
+Date "2020-08-11"
+Rev ""
+Comp "https://github.com/araobp"
+Comment1 "PIC16F1825"
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L pic16f1-mcu:pic16f1825 U?
+U 1 1 5F324826
+P 5200 3550
+F 0 "U?" H 5200 4137 60  0000 C CNN
+F 1 "pic16f1825" H 5200 4031 60  0000 C CNN
+F 2 "" H 4800 3600 60  0001 C CNN
+F 3 "" H 4800 3600 60  0001 C CNN
+	1    5200 3550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5C #PWR?
+U 1 1 5F3251D4
+P 3400 2200
+F 0 "#PWR?" H 3400 2050 50  0001 C CNN
+F 1 "+5C" H 3415 2373 50  0000 C CNN
+F 2 "" H 3400 2200 50  0001 C CNN
+F 3 "" H 3400 2200 50  0001 C CNN
+	1    3400 2200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4400 3250 4350 3250
+Wire Wire Line
+	3400 3250 3400 2200
+$Comp
+L Device:R R?
+U 1 1 5F325C35
+P 4000 3550
+F 0 "R?" V 3793 3550 50  0000 C CNN
+F 1 "51k" V 3884 3550 50  0000 C CNN
+F 2 "" V 3930 3550 50  0001 C CNN
+F 3 "~" H 4000 3550 50  0001 C CNN
+	1    4000 3550
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3400 3250 3400 3550
+Wire Wire Line
+	3400 3550 3850 3550
+Connection ~ 3400 3250
+Wire Wire Line
+	4150 3550 4400 3550
+$Comp
+L power:GND #PWR?
+U 1 1 5F326988
+P 6650 4050
+F 0 "#PWR?" H 6650 3800 50  0001 C CNN
+F 1 "GND" H 6655 3877 50  0000 C CNN
+F 2 "" H 6650 4050 50  0001 C CNN
+F 3 "" H 6650 4050 50  0001 C CNN
+	1    6650 4050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6650 3250 6650 4050
+$Comp
+L Device:C_Small C?
+U 1 1 5F326DD0
+P 5200 2800
+F 0 "C?" V 4971 2800 50  0000 C CNN
+F 1 "0.1uF" V 5062 2800 50  0000 C CNN
+F 2 "" H 5200 2800 50  0001 C CNN
+F 3 "~" H 5200 2800 50  0001 C CNN
+	1    5200 2800
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5100 2800 4350 2800
+Wire Wire Line
+	4350 2800 4350 3250
+Connection ~ 4350 3250
+Wire Wire Line
+	4350 3250 3400 3250
+Wire Wire Line
+	6050 3250 6650 3250
+Wire Wire Line
+	6000 3250 6050 3250
+Connection ~ 6050 3250
+Wire Wire Line
+	5300 2800 6050 2800
+Wire Wire Line
+	6050 2800 6050 3250
+$Comp
+L Device:LED D?
+U 1 1 5F3277AB
+P 4000 4150
+F 0 "D?" V 4039 4032 50  0000 R CNN
+F 1 "LED" V 3948 4032 50  0000 R CNN
+F 2 "" H 4000 4150 50  0001 C CNN
+F 3 "~" H 4000 4150 50  0001 C CNN
+	1    4000 4150
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4400 3850 4000 3850
+Wire Wire Line
+	4000 3850 4000 4000
+$Comp
+L Device:R R?
+U 1 1 5F328950
+P 4000 4600
+F 0 "R?" H 4070 4646 50  0000 L CNN
+F 1 "1k" H 4070 4555 50  0000 L CNN
+F 2 "" V 3930 4600 50  0001 C CNN
+F 3 "~" H 4000 4600 50  0001 C CNN
+	1    4000 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4000 4450 4000 4300
+$Comp
+L power:GND #PWR?
+U 1 1 5F3290DE
+P 4000 5050
+F 0 "#PWR?" H 4000 4800 50  0001 C CNN
+F 1 "GND" H 4005 4877 50  0000 C CNN
+F 2 "" H 4000 5050 50  0001 C CNN
+F 3 "" H 4000 5050 50  0001 C CNN
+	1    4000 5050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4000 4750 4000 5050
+$Comp
+L Connector_Generic:Conn_01x04 J?
+U 1 1 5F3298AC
+P 5150 1350
+F 0 "J?" V 5114 1062 50  0000 R CNN
+F 1 "Conn_01x04" V 5023 1062 50  0000 R CNN
+F 2 "" H 5150 1350 50  0001 C CNN
+F 3 "~" H 5150 1350 50  0001 C CNN
+	1    5150 1350
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	5050 1550 5050 2250
+Wire Wire Line
+	5050 2250 4350 2250
+Wire Wire Line
+	4350 2250 4350 2800
+Connection ~ 4350 2800
+Wire Wire Line
+	5150 1550 5150 2250
+Wire Wire Line
+	5150 2250 6050 2250
+Wire Wire Line
+	6050 2250 6050 2800
+Connection ~ 6050 2800
+Text GLabel 3200 3650 0    50   Input ~ 0
+RX
+Text GLabel 3200 3800 0    50   Input ~ 0
+TX
+Text GLabel 5850 1950 2    50   Input ~ 0
+RX
+Text GLabel 5850 1800 2    50   Input ~ 0
+TX
+Wire Wire Line
+	5250 1550 5250 1950
+Wire Wire Line
+	5250 1950 5850 1950
+Wire Wire Line
+	5350 1550 5350 1800
+Wire Wire Line
+	5350 1800 5850 1800
+Wire Wire Line
+	3200 3650 4400 3650
+Wire Wire Line
+	4400 3750 3450 3750
+Wire Wire Line
+	3450 3750 3450 3800
+Wire Wire Line
+	3450 3800 3200 3800
+NoConn ~ 4400 3350
+NoConn ~ 4400 3450
+NoConn ~ 6000 3850
+NoConn ~ 6000 3550
+NoConn ~ 6000 3450
+NoConn ~ 6000 3350
+$EndSCHEMATC
