@@ -42,9 +42,12 @@
 */
 
 #include "mcc_generated_files/mcc.h"
-#include "mcc_generated_files/examples/i2c_master_example.h"
+#include "mcc_generated_files/tmr0.h"
 #include "mpu9250.h"
 #include <stdint.h>
+
+sensor_data data;
+void tmr0_interrupt_handler();
 
 /*
                          Main application
@@ -58,7 +61,7 @@ void main(void)
     // Use the following macros to:
 
     // Enable the Global Interrupts
-    //INTERRUPT_GlobalInterruptEnable();
+    INTERRUPT_GlobalInterruptEnable();
 
     // Enable the Peripheral Interrupts
     //INTERRUPT_PeripheralInterruptEnable();
@@ -69,21 +72,31 @@ void main(void)
     // Disable the Peripheral Interrupts
     //INTERRUPT_PeripheralInterruptDisable();
 
-    sensor_data data;
-    
-    // Low pass filter settings
+    // MPU9250 initialization
+    mpu9250_i2c_master_disable();
+    mpu9250_pass_through_enable();
+    ak8963_continous_measurement_mode_1_enable();
+
+    // MPU9250 bandwidth (low pass filter) settings
     mpu9250_gyro_lpf();
     mpu9250_accel_lpf();
     
+    TMR0_SetInterruptHandler(tmr0_interrupt_handler);
+    
     while (1)
     {
-        __delay_ms(100);        
-        LED_Toggle();
-        mpu9250_gyro_read(&data);
-        mpu9250_accel_read(&data);
-        mpu9250_output_to_uart(&data);
     }
 }
+
+void tmr0_interrupt_handler() {
+    LED_Toggle();
+    //mpu9250_output_cfg_to_uart();
+    mpu9250_gyro_read(&data);
+    mpu9250_accel_read(&data);
+    ak8963_magneto_read(&data);
+    mpu9250_output_to_uart(&data);
+}
+
 /**
  End of File
 */
