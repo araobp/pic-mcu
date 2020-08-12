@@ -32,4 +32,5 @@ The module I purchased from Amazon is MPU-9255. The module includes an accelerom
 I use one I2C bus to access all the sensors in the module.
 
 ==> [Code for PIC16F1825](./src/pic16f1825/i2c_lib_eval.X)
+
 ==> [Code for Android](./src/android/mpu9250)
