@@ -1,4 +1,4 @@
-# I2C library evaluation
+# I2C library evaluation (PIC1825 with MPU9250)
 
 (Work in progress)
 
@@ -10,6 +10,12 @@ In this project, I evaluate the new library with InvenSense (TDK) MPU9250 9-axis
 
 ```
  [InvenSense MPU-9255 (HiLetgo MPU9250 module)]--I2C--[PIC16F1825]--USB serial--[TeraTerm on Win10 PC]
+
+```
+
+I also develop an Android app to monitor data from MPU9250.
+```
+ [InvenSense MPU-9255 (HiLetgo MPU9250 module)]--I2C--[PIC16F1825]--USB serial--[Android app]
 
 ```
 
@@ -25,11 +31,5 @@ The module I purchased from Amazon is MPU-9255. The module includes an accelerom
 
 I use one I2C bus to access all the sensors in the module.
 
-[code](./src/pic16f1825/i2c_lib_eval.X)
-
-## Sensor data visualization by Android
-
-```
- [InvenSense MPU-9255 (HiLetgo MPU9250 module)]--I2C--[PIC16F1825]--USB serial--[Android app]
-
-```
+- [Code for PIC16F1825](./src/pic16f1825/i2c_lib_eval.X)
+- [Code for Android](./src/android/mpu9250)
