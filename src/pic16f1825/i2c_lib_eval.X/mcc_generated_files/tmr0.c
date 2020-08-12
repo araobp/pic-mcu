@@ -65,8 +65,8 @@ void TMR0_Initialize(void)
 {
     // Set TMR0 to the options selected in the User Interface
 	
-    // PSA assigned; PS 1:256; TMRSE Increment_hi_lo; mask the nWPUEN and INTEDG bits
-    OPTION_REG = (uint8_t)((OPTION_REG & 0xC0) | (0xD7 & 0x3F)); 
+    // PSA assigned; PS 1:64; TMRSE Increment_hi_lo; mask the nWPUEN and INTEDG bits
+    OPTION_REG = (uint8_t)((OPTION_REG & 0xC0) | (0xD5 & 0x3F)); 
 	
     // TMR0 0; 
     TMR0 = 0x00;
@@ -114,7 +114,7 @@ void TMR0_ISR(void)
 
     TMR0 = timer0ReloadVal;
 
-    // callback function - called every 6th pass
+    // callback function - called every 255th pass
     if (++CountCallBack >= TMR0_INTERRUPT_TICKER_FACTOR)
     {
         // ticker function call

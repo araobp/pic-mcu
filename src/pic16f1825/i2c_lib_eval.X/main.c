@@ -94,7 +94,7 @@ void tmr0_interrupt_handler() {
     mpu9250_gyro_read(&data);
     mpu9250_accel_read(&data);
     ak8963_magneto_read(&data);
-    mpu9250_output_to_uart(&data);
+    mpu9250_output_to_uart(&data, false);
 }
 
 /**

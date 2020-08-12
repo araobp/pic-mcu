@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/linerLayoutButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/textViewMessageDump"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#04293A"
+        android:gravity="bottom"
+        android:text="Raw data"
+        android:textColor="#C9F8F4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linerLayoutButtons" />
+
+    <TextView
+        android:id="@+id/textViewRealtime"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#3F4E55"
+        android:gravity="bottom"
+        android:lines="16"
+        android:maxLines="16"
+        android:textColor="#FFEB3B"
+        android:textSize="@dimen/mqttDataDumpSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.74"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMessageDump" />
+
+    <TextView
+        android:id="@+id/textViewChartTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Accelerometer and Gyroscope"
+        android:textSize="@dimen/chartTitleFontSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRealtime" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lineChartRealtime"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintEnd_toStartOf="@+id/textView3"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textViewChartTitle">
+
+    </com.github.mikephil.charting.charts.LineChart>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="50sp"
+        android:layout_height="0dp"
+        android:gravity="right"
+        android:text="m/s^2"
+        android:textSize="@dimen/labelFontSize"
+        app:layout_constraintBottom_toBottomOf="@+id/lineChartRealtime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewChartTitle" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="50sp"
+        android:layout_height="0dp"
+        android:gravity="left"
+        android:text="deg/sec"
+        android:textSize="@dimen/labelFontSize"
+        app:layout_constraintBottom_toBottomOf="@+id/lineChartRealtime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewChartTitle" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Elapsed time (sec)"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/toggleButtonStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/toggleButtonStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

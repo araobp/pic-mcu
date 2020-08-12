@@ -43,6 +43,9 @@ extern "C" {
 #define ACCEL_FCHOICE_B 0U
 #define A_DLPF_CFG 3U
 
+#define HEADER_A0 0xA0
+#define HEADER_A1 0xA1
+    
 typedef struct {
     uint8_t gyro_data[6];
     uint8_t accel_data[6];
@@ -75,7 +78,7 @@ void ak8963_continous_measurement_mode_1_enable(void);
 
 bool ak8963_magneto_read(sensor_data *pdata);
 
-void mpu9250_output_to_uart(sensor_data *pdata);
+void mpu9250_output_to_uart(sensor_data *pdata, bool ascii);
 
 #ifdef	__cplusplus
 }
