@@ -37,9 +37,4 @@ dependencies {
     // FTDI D2XX driver
     implementation files('libs/d2xx.jar')
 
-    // Chart
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
-    // Joda time
-    compile 'joda-time:joda-time:2.10.5'
 }

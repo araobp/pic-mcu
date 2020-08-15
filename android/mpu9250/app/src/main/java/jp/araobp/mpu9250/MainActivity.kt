@@ -1,14 +1,18 @@
 package jp.araobp.mpu9250
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.NumberFormatException
+import java.math.BigInteger
+import java.net.InetAddress
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,11 +23,22 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mProps: Properties
 
+    // [Reference] https://stackoverflow.com/questions/20846120/alternative-for-formatter-formatipaddressint
+    private fun ipAddress(): String {
+        val wifiManager =
+            applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiinfo = wifiManager.connectionInfo
+        val ipAddress = BigInteger.valueOf(wifiinfo.ipAddress.toLong()).toByteArray()
+        return InetAddress.getByAddress(ipAddress.reversedArray()).hostAddress
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         mProps = Properties(this)
+
+        textViewIpAddress.text = "IP address: ${ipAddress()}"
 
         // Settings dialog
         buttonSettings.setOnClickListener {
