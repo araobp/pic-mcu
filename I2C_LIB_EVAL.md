@@ -1,4 +1,4 @@
-# I2C library evaluation (PIC1825 with MPU9250)
+# Motion analyzer for human activity recognition (PIC1825 with MPU9250)
 
 (Work in progress)
 
