@@ -24,9 +24,6 @@ I also develop an Android app to analyze data from MPU9250.
 Although this driver is generated as **an example of I2C driver implementation** by MCC, these APIs are easy to understand and work very well for basic I2C operations.
 
 ```
-#ifndef I2C_MASTER_EXAMPLE_H
-#define I2C_MASTER_EXAMPLE_H
-
 #include <stdint.h>
 #include <stdio.h>
 #include "../i2c_master.h"
