@@ -38,9 +38,6 @@ void I2C_Write2ByteRegister(i2c_address_t address, uint8_t reg, uint16_t data);
 void I2C_WriteNBytes(i2c_address_t address, uint8_t *data, size_t len);
 void I2C_ReadNBytes(i2c_address_t address, uint8_t *data, size_t len);
 void I2C_ReadDataBlock(i2c_address_t address, uint8_t reg, uint8_t *data, size_t len);
-
-#endif /* I2C_MASTER_EXAMPLE_H */
-
 ```
 
 ## InvenSense (TDK) MPU-9250/9255
