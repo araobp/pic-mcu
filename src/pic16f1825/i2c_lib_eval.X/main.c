@@ -46,6 +46,8 @@
 #include "mpu9250.h"
 #include <stdint.h>
 
+#define DEBUG false
+
 sensor_data data;
 void tmr0_interrupt_handler();
 
@@ -95,6 +97,8 @@ void main(void)
     // Disable the Peripheral Interrupts
     //INTERRUPT_PeripheralInterruptDisable();
 
+    __delay_ms(300);
+    
     // MPU9250 initialization
     mpu9250_i2c_master_disable();
     mpu9250_pass_through_enable();
@@ -145,11 +149,15 @@ void main(void)
 
 void tmr0_interrupt_handler() {
     LED_Toggle();
-    //mpu9250_output_cfg_to_uart();
+    if (DEBUG) {
+        mpu9250_accel_set_range(3); 
+        mpu9250_gyro_set_range(3); 
+        mpu9250_output_cfg_to_uart();
+    }
     mpu9250_gyro_read(&data);
     mpu9250_accel_read(&data);
     ak8963_magneto_read(&data);
-    mpu9250_output_to_uart(&data, false);
+    mpu9250_output_to_uart(&data, DEBUG);
 }
 
 /**
