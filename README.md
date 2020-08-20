@@ -24,7 +24,7 @@ In the past years, I have used a lot of the following MCUs in my successful IoT 
 
 => **[Project page](MOTION_LOGGER.md)**
 
-### Evaluation of new Microchip I2C library (PIC16F1825 with MPU9250)
+### Motion analyzer for human body recognition (PIC16F1825 with MPU9250)
 
 <img src="./doc/pic16f1825_board.jpg" width="500">
 
