@@ -3,6 +3,7 @@ package jp.araobp.mpu9250
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.View
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import jp.araobp.analyzer.WaveformMonitor
 import kotlinx.android.synthetic.main.activity_accel_gyro.*
@@ -12,13 +13,30 @@ class AccelGyroActivity : AppCompatActivity() {
     companion object {
         val TAG: String = this::class.java.simpleName
         const val MAX_NUM_ENTRIES = 128
-        const val SCALEDOWN = 1.0F
     }
 
     private var baudrate: Int = 9800
-    private lateinit var dataReceiver: DataReceiver
+    private lateinit var mpu9250Interface: Mpu9250Interface
 
     private var waveformMonitor: WaveformMonitor? = null
+
+    private fun setAccelRangeValue(spinnerItem: String) =
+        when (spinnerItem) {
+            "±2g" -> mpu9250Interface.setAccelRange(Mpu9250Interface.AccelRange.G_2)
+            "±4g" -> mpu9250Interface.setAccelRange(Mpu9250Interface.AccelRange.G_4)
+            "±8g" -> mpu9250Interface.setAccelRange(Mpu9250Interface.AccelRange.G_8)
+            "±16g" -> mpu9250Interface.setAccelRange(Mpu9250Interface.AccelRange.G_16)
+            else -> mpu9250Interface.setAccelRange(Mpu9250Interface.AccelRange.G_2)
+        }
+
+    private fun setGyroRangeValue(spinnerItem: String) =
+        when (spinnerItem) {
+            "250dps" -> mpu9250Interface.setGyroRange(Mpu9250Interface.GyroRange.DPS_250)
+            "500dps" -> mpu9250Interface.setGyroRange(Mpu9250Interface.GyroRange.DPS_500)
+            "1000dps" -> mpu9250Interface.setGyroRange(Mpu9250Interface.GyroRange.DPS_1000)
+            "2000dps" -> mpu9250Interface.setGyroRange(Mpu9250Interface.GyroRange.DPS_2000)
+            else -> mpu9250Interface.setGyroRange(Mpu9250Interface.GyroRange.DPS_250)
+        }
 
     private fun updateWaveform(data: Any) {
 
@@ -59,6 +77,19 @@ class AccelGyroActivity : AppCompatActivity() {
 
         baudrate = intent.getIntExtra(MainActivity.BAUDRATE, 9600)
 
+        spinnerAccelRange.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(p0: AdapterView<*>?) = Unit
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    p2: Int,
+                    p3: Long
+                ) {
+                    setAccelRangeValue(spinnerAccelRange.selectedItem.toString())
+                }
+            }
+
         surfaceViewAnalyzer.post {
             waveformMonitor = WaveformMonitor(
                 surfaceView = surfaceViewAnalyzer, maxNumEntries = MAX_NUM_ENTRIES, scale = 100.0F
@@ -74,7 +105,7 @@ class AccelGyroActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        dataReceiver = DataReceiver(this, baudrate,
+        mpu9250Interface = Mpu9250Interface(this, baudrate,
             object : IDataReceiver {
                 override fun onMpu9250Data(data: Mpu9250Data) {
                     if (toggleButtonStart.isChecked) {
@@ -94,10 +125,13 @@ class AccelGyroActivity : AppCompatActivity() {
                     updateWaveform(data)
                 }
             })
+
+        setAccelRangeValue(spinnerAccelRange.selectedItem.toString())
+        setGyroRangeValue(spinnerGyroRange.selectedItem.toString())
     }
 
     override fun onPause() {
         super.onPause()
-        dataReceiver.destroy()
+        mpu9250Interface.destroy()
     }
 }

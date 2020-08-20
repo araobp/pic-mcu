@@ -6,7 +6,7 @@ import jp.araobp.uart.UsbSerial
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
-class DataReceiver(context: Context, baudrate: Int, val receiver: IDataReceiver): UsbSerial(context, baudrate, 8, 8, 0, 0)
+class Mpu9250Interface(context: Context, baudrate: Int, val receiver: IDataReceiver): UsbSerial(context, baudrate, 8, 8, 0, 0)
 {
 
     /**
@@ -22,18 +22,35 @@ class DataReceiver(context: Context, baudrate: Int, val receiver: IDataReceiver)
     companion object {
         val TAG: String = this::class.java.simpleName
 
-        const val TYPE_A0 = 0xA0.toByte()
-        const val TYPE_A1 = 0xA1.toByte()
+        const val TYPE_MPU9250 = 0xA0.toByte()
+        const val TYPE_AK8963 = 0xA1.toByte()
+
+        const val HEADER_H = 0xA5.toByte()
+        const val HEADER_L = 0x5A.toByte()
 
         val ACCEL_RESOLUTION = 2F / 32768F
         val GYRO_RESOLUTION = 250F / 32768F
         val MAGNETO_RESOLUTION = 0.15F  // micro Tesla
     }
 
+    enum class AccelRange {
+        G_2,
+        G_4,
+        G_8,
+        G_16
+    }
+
+    enum class GyroRange {
+        DPS_250,
+        DPS_500,
+        DPS_1000,
+        DPS_2000
+    }
+
     private enum class State {
         HEADER_DETECTING,
-        TYPE_A0_RECEIVING,
-        TYPE_A1_RECEIVING
+        TYPE_MPU9250_RECEIVING,
+        TYPE_AK8963_RECEIVING
     }
 
     private var mIdx = 0
@@ -49,6 +66,22 @@ class DataReceiver(context: Context, baudrate: Int, val receiver: IDataReceiver)
         return byteBuffer.getShort(0)
     }
 
+    fun setAccelRange(range: AccelRange) = tx(byteArrayOf(
+        HEADER_H,
+        HEADER_L,
+        'r'.toByte(),
+        'a'.toByte(),
+        range.ordinal.toByte()
+    ))
+
+    fun setGyroRange(range: GyroRange) = tx(byteArrayOf(
+        HEADER_H,
+        HEADER_L,
+        'r'.toByte(),
+        'g'.toByte(),
+        range.ordinal.toByte()
+    ))
+
     override fun parse(messageFraction: ByteArray, len: Int) {
 
         for (i in 0 until len) {
@@ -57,20 +90,20 @@ class DataReceiver(context: Context, baudrate: Int, val receiver: IDataReceiver)
             when (state) {
                 State.HEADER_DETECTING -> {
                     when (b) {
-                        TYPE_A0 -> {
-                            state = State.TYPE_A0_RECEIVING
+                        TYPE_MPU9250 -> {
+                            state = State.TYPE_MPU9250_RECEIVING
                             bodyMpu9250Data.clear()
                             mIdx = 0
                         }
-                        TYPE_A1 -> {
-                            state = State.TYPE_A1_RECEIVING
+                        TYPE_AK8963 -> {
+                            state = State.TYPE_AK8963_RECEIVING
                             bodyAk8963Data.clear()
                             mIdx = 0
                         }
                     }
                 }
 
-                State.TYPE_A0_RECEIVING -> {
+                State.TYPE_MPU9250_RECEIVING -> {
                     bodyMpu9250Data.add(b)
                     if (++mIdx == 14) {
                         val seq =  bodyMpu9250Data[0].toUInt().shl(8) + bodyMpu9250Data[1].toUInt()
@@ -87,7 +120,7 @@ class DataReceiver(context: Context, baudrate: Int, val receiver: IDataReceiver)
                     }
                 }
 
-                State.TYPE_A1_RECEIVING -> {
+                State.TYPE_AK8963_RECEIVING -> {
                     bodyAk8963Data.add(b)
                     if (++mIdx == 8) {
                         val seq =  bodyAk8963Data[0].toUInt().shl(8) + bodyAk8963Data[1].toUInt()

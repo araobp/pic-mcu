@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="accel_range">
+        <item>±2g</item>
+        <item>±4g</item>
+        <item>±8g</item>
+        <item>±16g</item>
+    </string-array>
+
+    <string-array name="gyro_range">
+        <item>250dps</item>
+        <item>500dps</item>
+        <item>1000dps</item>
+        <item>2000dps</item>
+    </string-array>
+
+</resources>

@@ -123,7 +123,7 @@ abstract class UsbSerial(val context: Context, baudrate: Int, dataBits: Byte, st
     /**
      * Transmits a message to FTDI device
      */
-    private fun tx(message: ByteArray) {
+    fun tx(message: ByteArray) {
         mFtdiDevice?.let {
             if (it.isOpen) {
                 it.latencyTimer = 16.toByte()

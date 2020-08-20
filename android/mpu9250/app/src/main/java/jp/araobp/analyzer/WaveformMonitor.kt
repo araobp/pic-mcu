@@ -2,32 +2,25 @@ package jp.araobp.analyzer
 
 import android.graphics.Color
 import android.view.SurfaceView
-import java.time.Year
 
 class WaveformMonitor(val surfaceView: SurfaceView, val maxNumEntries: Int, val scale: Float) {
 
     private val mBufRecords = arrayOf(ArrayList<Float>(maxNumEntries),ArrayList(maxNumEntries),ArrayList(maxNumEntries))
-    private val prevVerticals = FloatArray(3)
-
     private val colors = arrayOf(RED_STROKE, GREEN_STROKE, YELLOW_STROKE)
 
     fun update3axis(data: Array<Float>) {
 
-        mBufRecords.forEachIndexed { idx, shorts ->
+        mBufRecords.forEachIndexed { axis, shorts ->
             if (shorts.size >= maxNumEntries) {
                 shorts.removeAt(0)
             }
-            shorts.add(data[idx])
+            shorts.add(data[axis])
         }
 
         val canvas = surfaceView.holder.lockCanvas()
         canvas.drawColor(Color.BLACK)
         val ratioHorizontal = canvas.width.toFloat() / maxNumEntries.toFloat()
         val offsetVertical = surfaceView.height / 2
-
-        data.forEachIndexed { idx, fl ->
-            prevVerticals[idx] = -mBufRecords[idx][0] * scale + offsetVertical
-        }
 
         canvas.drawLine(
             0F,
@@ -37,17 +30,17 @@ class WaveformMonitor(val surfaceView: SurfaceView, val maxNumEntries: Int, val 
             DARK_GRAY_STROKE
         )
 
-        mBufRecords.forEachIndexed { idx, shorts ->
-            for (i in 1 until shorts.size) {
+        mBufRecords.forEachIndexed { axis, shorts ->
+            for (i in shorts.size - 1 downTo 1) {
                 val v = -shorts[i] * scale + offsetVertical
+                val vNext = -shorts[i - 1] * scale + offsetVertical
                 canvas.drawLine(
-                    (i - 1).toFloat() * ratioHorizontal,
-                    prevVerticals[idx],
-                    i.toFloat() * ratioHorizontal,
+                    (shorts.size - i - 1).toFloat() * ratioHorizontal,
                     v,
-                    colors[idx]
+                    (shorts.size - i).toFloat() * ratioHorizontal,
+                    vNext,
+                    colors[axis]
                 )
-                prevVerticals[idx] = v
             }
         }
 

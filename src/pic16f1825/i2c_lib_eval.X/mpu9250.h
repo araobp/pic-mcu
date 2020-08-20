@@ -15,17 +15,21 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
+// I2C slave addresses
 #define MPU9250_I2C_ADDR 0b1101000U
 #define AK8963_I2C_ADDR 0x0C
 
+// Register addresses
 #define WHO_AM_I 0x75  // Its value: MPU9250 0x71, MPU9255 0x73
 #define CONFIG 0x1A
 #define GYRO_CONFIG 0x1B
+#define ACCEL_CONFIG 0x1C
 #define ACCEL_CONFIG2 0x1D
 #define ACCEL_XOUT_H 0x3B
 #define GYRO_XOUT_H 0x43
 #define USER_CTRL 0x6A
 #define INT_PIN_CFG 0x37
+    
     
 // AK8963
 #define WIA 0x00
@@ -36,6 +40,7 @@ extern "C" {
 /* Low-Pass Filter setting
  * datasheet: https://www.invensense.com/wp-content/uploads/2015/02/RM-MPU-9250A-00-v1.6.pdf
  */
+    
 // (P13) Gyroscope: bandwidth 41Hz, delay 5.9 msec
 #define FCHOICE_B 0U
 #define DLPF_CFG 3U
@@ -43,8 +48,10 @@ extern "C" {
 #define ACCEL_FCHOICE_B 0U
 #define A_DLPF_CFG 3U
 
-#define HEADER_A0 0xA0
-#define HEADER_A1 0xA1
+
+// Type definition of data output    
+#define TYPE_MPU9250 0xA0
+#define TYPE_AK8963 0xA1
     
 typedef struct {
     uint8_t gyro_data[6];
@@ -52,6 +59,14 @@ typedef struct {
     uint8_t magneto_data[6];
 } sensor_data;
     
+typedef enum {
+    G_2, G_4, G8, G_16
+} accel_range;
+
+typedef enum {
+    DPS_250, DPS_500, DPS_1000, DPS_2000
+} gyro_range;
+
 uint8_t mpu9250_who_am_i(void);
 
 uint8_t ak8963_wia(void);
@@ -66,13 +81,17 @@ void mpu9250_pass_through_enable(void);
 
 void mpu9250_output_cfg_to_uart(void);
 
+void mpu9250_accel_lpf(void);
+
 void mpu9250_gyro_lpf(void);
 
-void mpu9250_accel_lpf(void);
+void mpu9250_accel_read(sensor_data *pdata);
 
 void mpu9250_gyro_read(sensor_data *pdata);
 
-void mpu9250_accel_read(sensor_data *pdata);
+void mpu9250_accel_set_range(accel_range range);
+
+void mpu9250_gyro_set_range(gyro_range range);
 
 void ak8963_continous_measurement_mode_1_enable(void);
 

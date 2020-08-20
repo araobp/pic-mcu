@@ -98,11 +98,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <Spinner
+            android:id="@+id/spinnerAccelRange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:entries="@array/accel_range" />
+
+        <Spinner
+            android:id="@+id/spinnerGyroRange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:entries="@array/gyro_range" />
+
         <ToggleButton
             android:id="@+id/toggleButtonDump"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="12dp"
             android:checked="false"
             android:textOff="DUMP"
             android:textOn="DUMP" />

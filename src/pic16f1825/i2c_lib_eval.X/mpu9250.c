@@ -60,6 +60,20 @@ void mpu9250_accel_read(sensor_data *pdata) {
     I2C_ReadDataBlock(MPU9250_I2C_ADDR, ACCEL_XOUT_H, pdata->accel_data, 6);
 }
 
+// (P14) ACCEL_FS_SEL
+void mpu9250_accel_set_range(accel_range range) {
+    uint8_t value = I2C_Read1ByteRegister(MPU9250_I2C_ADDR, ACCEL_CONFIG);
+    value |= (range << 3);
+    I2C_Write1ByteRegister(MPU9250_I2C_ADDR, ACCEL_CONFIG, value);    
+}
+
+// (P14) GYRO_FS_SEL
+void mpu9250_gyro_set_range(gyro_range range) {
+    uint8_t value = I2C_Read1ByteRegister(MPU9250_I2C_ADDR, GYRO_CONFIG);
+    value |= (range << 3);
+    I2C_Write1ByteRegister(MPU9250_I2C_ADDR, GYRO_CONFIG, value);        
+}
+
 void ak8963_continous_measurement_mode_1_enable(void) {
     I2C_Write1ByteRegister(AK8963_I2C_ADDR, CNTL1, 0b00010010); // 16bit output
 }
@@ -88,7 +102,7 @@ void mpu9250_output_to_uart(sensor_data *pdata, bool ascii) {
         int16_t mz = (int16_t) ((pdata->magneto_data[5] << 8) | pdata->magneto_data[4]);
         printf("%ld,%d,%d,%d,%d,%d,%d,%d,%d,%d\r\n", cnt++, gx, gy, gz, ax, ay, az, mx, my, mz);
     } else {
-        putch(HEADER_A0);
+        putch(TYPE_MPU9250);
         putch(cnt_mpu9250 >> 8);
         putch(cnt_mpu9250 & 0x00FF);
         cnt_mpu9250++;
@@ -98,7 +112,7 @@ void mpu9250_output_to_uart(sensor_data *pdata, bool ascii) {
         for (int i = 0; i < 6; i++) {
             putch(pdata->gyro_data[i]);
         }
-        putch(HEADER_A1);
+        putch(TYPE_AK8963);
         putch(cnt_ak8963 >> 8);
         putch(cnt_ak8963 & 0x00FF);
         cnt_ak8963++;

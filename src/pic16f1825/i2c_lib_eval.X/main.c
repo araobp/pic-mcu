@@ -49,6 +49,29 @@
 sensor_data data;
 void tmr0_interrupt_handler();
 
+typedef enum {
+    SYNCING_H,
+    SYNCING_L,
+    CMD_H_WAITING,
+    CMD_L_WAITING,
+    VALUE_WAITING
+} cmd_state;
+
+void process_cmd(uint8_t cmd_h, uint8_t cmd_l, uint8_t value) {
+    switch(cmd_h) {
+        case 'r':
+            switch(cmd_l) {
+                case 'a':
+                     mpu9250_accel_set_range(value);              
+                    break;
+                case 'g':
+                     mpu9250_gyro_set_range(value);
+                    break;
+            }
+            break;
+    }
+}
+
 /*
                          Main application
  */
@@ -83,8 +106,40 @@ void main(void)
     
     TMR0_SetInterruptHandler(tmr0_interrupt_handler);
     
+    uint8_t cmd_h;
+    uint8_t cmd_l;
+    uint8_t value;
+
+    cmd_state state;
+    
+    state = SYNCING_H;
+    
     while (1)
     {
+        if (EUSART_DataReady) {
+            uint8_t c = EUSART_Read();
+            switch(state) {
+                case SYNCING_H:
+                    if (c == 0xA5) state = SYNCING_L;  // Header H
+                    break;
+                case SYNCING_L:
+                    if (c == 0x5A) state = CMD_H_WAITING;  // Header L
+                    break;
+                case CMD_H_WAITING:
+                    cmd_h = c;
+                    state = CMD_L_WAITING;
+                    break;
+                case CMD_L_WAITING:
+                    cmd_l = c;
+                    state = VALUE_WAITING;
+                    break;
+                case VALUE_WAITING:
+                    value = c;
+                    process_cmd(cmd_h, cmd_l, value);
+                    state = SYNCING_H;
+                    break;
+            }
+        }
     }
 }
 
