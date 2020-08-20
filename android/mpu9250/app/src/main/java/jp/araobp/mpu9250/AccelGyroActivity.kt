@@ -15,12 +15,14 @@ class AccelGyroActivity : AppCompatActivity() {
         const val MAX_NUM_ENTRIES = 128
     }
 
-    private var baudrate: Int = 9800
+    private var baudrate: Int = 115200
     private lateinit var mpu9250Interface: Mpu9250Interface
 
     private var waveformMonitor: WaveformMonitor? = null
 
-    private fun setAccelRangeValue(spinnerItem: String) =
+    private fun setAccelRangeValue(spinnerItem: String) {
+        mpu9250Interface.pause()
+
         when (spinnerItem) {
             "±2g" -> mpu9250Interface.setAccelRange(Mpu9250Interface.AccelRange.G_2)
             "±4g" -> mpu9250Interface.setAccelRange(Mpu9250Interface.AccelRange.G_4)
@@ -29,7 +31,12 @@ class AccelGyroActivity : AppCompatActivity() {
             else -> mpu9250Interface.setAccelRange(Mpu9250Interface.AccelRange.G_2)
         }
 
-    private fun setGyroRangeValue(spinnerItem: String) =
+        mpu9250Interface.resume()
+    }
+
+    private fun setGyroRangeValue(spinnerItem: String) {
+        mpu9250Interface.pause()
+
         when (spinnerItem) {
             "250dps" -> mpu9250Interface.setGyroRange(Mpu9250Interface.GyroRange.DPS_250)
             "500dps" -> mpu9250Interface.setGyroRange(Mpu9250Interface.GyroRange.DPS_500)
@@ -38,7 +45,10 @@ class AccelGyroActivity : AppCompatActivity() {
             else -> mpu9250Interface.setGyroRange(Mpu9250Interface.GyroRange.DPS_250)
         }
 
-    private fun updateWaveform(data: Any) {
+        mpu9250Interface.resume()
+    }
+
+        private fun updateWaveform(data: Any) {
 
         when(data) {
             is Mpu9250Data -> {
@@ -50,7 +60,7 @@ class AccelGyroActivity : AppCompatActivity() {
         }
     }
 
-    private fun dumpWindow(visible: Boolean) {
+    private fun enableDumpWindow(visible: Boolean) {
         if (visible) {
             textViewDumpTItle.visibility = View.VISIBLE
             textViewDump.visibility = View.VISIBLE
@@ -75,7 +85,7 @@ class AccelGyroActivity : AppCompatActivity() {
 
         textViewDumpTItle.movementMethod = ScrollingMovementMethod()
 
-        baudrate = intent.getIntExtra(MainActivity.BAUDRATE, 9600)
+        baudrate = intent.getIntExtra(MainActivity.BAUDRATE, 115200)
 
         spinnerAccelRange.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -97,10 +107,18 @@ class AccelGyroActivity : AppCompatActivity() {
         }
 
         toggleButtonDump.setOnCheckedChangeListener { _, isChecked ->
-            dumpWindow(isChecked)
+            enableDumpWindow(isChecked)
         }
 
-        dumpWindow(toggleButtonDump.isChecked)
+        toggleButtonCapture.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                mpu9250Interface.resume()
+            } else {
+                mpu9250Interface.pause()
+            }
+        }
+
+        enableDumpWindow(toggleButtonDump.isChecked)
     }
 
     override fun onResume() {
@@ -108,7 +126,7 @@ class AccelGyroActivity : AppCompatActivity() {
         mpu9250Interface = Mpu9250Interface(this, baudrate,
             object : IDataReceiver {
                 override fun onMpu9250Data(data: Mpu9250Data) {
-                    if (toggleButtonStart.isChecked) {
+                    if (toggleButtonCapture.isChecked) {
                         textViewDump.post {
                             textViewDump.append(data.toString() + "\n")
                         }
@@ -117,7 +135,7 @@ class AccelGyroActivity : AppCompatActivity() {
                 }
 
                 override fun onAk8963Data(data: Ak8963Data) {
-                    if (toggleButtonStart.isChecked) {
+                    if (toggleButtonCapture.isChecked) {
                         textViewDumpTItle.post {
                             textViewDump.append(data.toString() + "\n")
                         }
@@ -125,9 +143,6 @@ class AccelGyroActivity : AppCompatActivity() {
                     updateWaveform(data)
                 }
             })
-
-        setAccelRangeValue(spinnerAccelRange.selectedItem.toString())
-        setGyroRangeValue(spinnerGyroRange.selectedItem.toString())
     }
 
     override fun onPause() {

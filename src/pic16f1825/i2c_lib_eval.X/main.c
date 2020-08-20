@@ -16,7 +16,7 @@
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.81.4
         Device            :  PIC16F1825
         Driver Version    :  2.00
-*/
+ */
 
 /*
     (c) 2018 Microchip Technology Inc. and its subsidiaries. 
@@ -39,7 +39,7 @@
     CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT 
     OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
     SOFTWARE.
-*/
+ */
 
 #include "mcc_generated_files/mcc.h"
 #include "mcc_generated_files/tmr0.h"
@@ -52,22 +52,23 @@ sensor_data data;
 void tmr0_interrupt_handler();
 
 typedef enum {
-    SYNCING_H,
-    SYNCING_L,
+    RUNNING,
     CMD_H_WAITING,
     CMD_L_WAITING,
     VALUE_WAITING
 } cmd_state;
 
+cmd_state state;
+
 void process_cmd(uint8_t cmd_h, uint8_t cmd_l, uint8_t value) {
-    switch(cmd_h) {
+    switch (cmd_h) {
         case 'r':
-            switch(cmd_l) {
+            switch (cmd_l) {
                 case 'a':
-                     mpu9250_accel_set_range(value);              
+                    mpu9250_accel_set_range(value);
                     break;
                 case 'g':
-                     mpu9250_gyro_set_range(value);
+                    mpu9250_gyro_set_range(value);
                     break;
             }
             break;
@@ -77,8 +78,7 @@ void process_cmd(uint8_t cmd_h, uint8_t cmd_l, uint8_t value) {
 /*
                          Main application
  */
-void main(void)
-{
+void main(void) {
     // initialize the device
     SYSTEM_Initialize();
 
@@ -98,7 +98,7 @@ void main(void)
     //INTERRUPT_PeripheralInterruptDisable();
 
     __delay_ms(300);
-    
+
     // MPU9250 initialization
     mpu9250_i2c_master_disable();
     mpu9250_pass_through_enable();
@@ -107,31 +107,39 @@ void main(void)
     // MPU9250 bandwidth (low pass filter) settings
     mpu9250_gyro_lpf();
     mpu9250_accel_lpf();
-    
+
+    // Initial range settings
+    mpu9250_accel_set_range(G_2);
+    mpu9250_gyro_set_range(DPS_250);
+
     TMR0_SetInterruptHandler(tmr0_interrupt_handler);
-    
+
     uint8_t cmd_h;
     uint8_t cmd_l;
     uint8_t value;
 
-    cmd_state state;
-    
-    state = SYNCING_H;
-    
-    while (1)
-    {
+    state = RUNNING;
+
+    while (1) {
         if (EUSART_DataReady) {
             uint8_t c = EUSART_Read();
-            switch(state) {
-                case SYNCING_H:
-                    if (c == 0xA5) state = SYNCING_L;  // Header H
-                    break;
-                case SYNCING_L:
-                    if (c == 0x5A) state = CMD_H_WAITING;  // Header L
+            switch (state) {
+                case RUNNING:
+                    if (c == 0xFF) {
+                        state = CMD_H_WAITING; // Header H
+                        LED_SetLow();
+                    }
                     break;
                 case CMD_H_WAITING:
                     cmd_h = c;
-                    state = CMD_L_WAITING;
+                    if (cmd_h == 0xFF) {
+                        state = CMD_H_WAITING;
+                    } else if (cmd_h == 0xFE) {
+                        LED_SetHigh();
+                        state = RUNNING;
+                    } else {
+                        state = CMD_L_WAITING;
+                    }
                     break;
                 case CMD_L_WAITING:
                     cmd_l = c;
@@ -140,7 +148,7 @@ void main(void)
                 case VALUE_WAITING:
                     value = c;
                     process_cmd(cmd_h, cmd_l, value);
-                    state = SYNCING_H;
+                    state = CMD_H_WAITING;
                     break;
             }
         }
@@ -148,18 +156,22 @@ void main(void)
 }
 
 void tmr0_interrupt_handler() {
-    LED_Toggle();
-    if (DEBUG) {
-        mpu9250_accel_set_range(3); 
-        mpu9250_gyro_set_range(3); 
-        mpu9250_output_cfg_to_uart();
+    if (state == RUNNING) {
+        //LED_Toggle();
+
+        if (DEBUG) {
+            mpu9250_accel_set_range(3);
+            mpu9250_gyro_set_range(3);
+            mpu9250_output_cfg_to_uart();
+        }
+
+        mpu9250_gyro_read(&data);
+        mpu9250_accel_read(&data);
+        ak8963_magneto_read(&data);
+        mpu9250_output_to_uart(&data, DEBUG);
     }
-    mpu9250_gyro_read(&data);
-    mpu9250_accel_read(&data);
-    ak8963_magneto_read(&data);
-    mpu9250_output_to_uart(&data, DEBUG);
 }
 
 /**
  End of File
-*/
+ */

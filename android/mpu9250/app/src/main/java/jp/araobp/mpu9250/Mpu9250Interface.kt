@@ -25,9 +25,6 @@ class Mpu9250Interface(context: Context, baudrate: Int, val receiver: IDataRecei
         const val TYPE_MPU9250 = 0xA0.toByte()
         const val TYPE_AK8963 = 0xA1.toByte()
 
-        const val HEADER_H = 0xA5.toByte()
-        const val HEADER_L = 0x5A.toByte()
-
         val ACCEL_RESOLUTION = 2F / 32768F
         val GYRO_RESOLUTION = 250F / 32768F
         val MAGNETO_RESOLUTION = 0.15F  // micro Tesla
@@ -66,17 +63,21 @@ class Mpu9250Interface(context: Context, baudrate: Int, val receiver: IDataRecei
         return byteBuffer.getShort(0)
     }
 
+    fun pause() {
+        tx(byteArrayOf(0xFF.toByte()))
+    }
+
+    fun resume() {
+        tx(byteArrayOf(0xFE.toByte()))
+    }
+
     fun setAccelRange(range: AccelRange) = tx(byteArrayOf(
-        HEADER_H,
-        HEADER_L,
         'r'.toByte(),
         'a'.toByte(),
         range.ordinal.toByte()
     ))
 
     fun setGyroRange(range: GyroRange) = tx(byteArrayOf(
-        HEADER_H,
-        HEADER_L,
         'r'.toByte(),
         'g'.toByte(),
         range.ordinal.toByte()
