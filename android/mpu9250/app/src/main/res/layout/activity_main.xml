@@ -28,13 +28,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/buttonAccelerometer"
+            android:id="@+id/buttonAccelGyro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Accelerometer and Gyroscope" />
 
         <Button
-            android:id="@+id/buttonMagnetometer"
+            android:id="@+id/buttonMagneto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Magnetometer" />

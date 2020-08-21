@@ -38,46 +38,12 @@
         android:id="@+id/surfaceViewAnalyzer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
-        app:layout_constraintEnd_toStartOf="@+id/textView3"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutButtons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewDump">
 
     </SurfaceView>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="50sp"
-        android:layout_height="0dp"
-        android:layout_marginTop="24dp"
-        android:gravity="right"
-        android:text="m/s^2"
-        android:textSize="@dimen/labelFontSize"
-        app:layout_constraintBottom_toBottomOf="@+id/surfaceViewAnalyzer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDump" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="50sp"
-        android:layout_height="0dp"
-        android:layout_marginTop="24dp"
-        android:gravity="left"
-        android:text="deg/sec"
-        android:textSize="@dimen/labelFontSize"
-        app:layout_constraintBottom_toBottomOf="@+id/surfaceViewAnalyzer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDump" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Elapsed time (sec)"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayoutButtons"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayoutButtons"
@@ -89,18 +55,11 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Spinner
-            android:id="@+id/spinnerAccelRange"
+            android:id="@+id/spinnerMagnify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
-            android:entries="@array/accel_range" />
-
-        <Spinner
-            android:id="@+id/spinnerGyroRange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:entries="@array/gyro_range" />
+            android:entries="@array/magneto_magnification" />
 
         <ToggleButton
             android:id="@+id/toggleButtonDump"
@@ -115,9 +74,17 @@
             android:id="@+id/toggleButtonCapture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
             android:checked="true"
             android:textOff="CAPTURE"
             android:textOn="CAPTURE" />
+
+        <Button
+            android:id="@+id/buttonClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="Clear"/>
 
     </LinearLayout>
 

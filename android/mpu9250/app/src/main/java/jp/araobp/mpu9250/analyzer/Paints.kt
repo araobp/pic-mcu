@@ -1,4 +1,4 @@
-package jp.araobp.analyzer
+package jp.araobp.mpu9250.analyzer
 
 import android.graphics.Color
 import android.graphics.Paint
@@ -44,4 +44,19 @@ val CYAN_STROKE = Paint().apply {
     style = Paint.Style.STROKE
     color = Color.CYAN
     strokeWidth = 3F
+}
+
+val RED_POINT = Paint().apply {
+    style = Paint.Style.FILL
+    color = Color.RED
+}
+
+val GREEN_POINT = Paint().apply {
+    style = Paint.Style.FILL
+    color = Color.GREEN
+}
+
+val YELLOW_POINT = Paint().apply {
+    style = Paint.Style.FILL
+    color = Color.YELLOW
 }

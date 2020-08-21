@@ -6,7 +6,11 @@ import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
-import jp.araobp.analyzer.WaveformMonitor
+import jp.araobp.mpu9250.analyzer.Oscilloscope
+import jp.araobp.mpu9250.serial.Ak8963Data
+import jp.araobp.mpu9250.serial.IDataReceiver
+import jp.araobp.mpu9250.serial.Mpu9250Data
+import jp.araobp.mpu9250.serial.Mpu9250Interface
 import kotlinx.android.synthetic.main.activity_accel_gyro.*
 
 
@@ -20,7 +24,7 @@ class AccelGyroActivity : AppCompatActivity() {
     private var baudrate: Int = 115200
     private lateinit var mpu9250Interface: Mpu9250Interface
 
-    private var waveformMonitor: WaveformMonitor? = null
+    private var oscilloscope: Oscilloscope? = null
 
     private fun setAccelRangeValue(spinnerItem: String) {
         mpu9250Interface.pause()
@@ -54,7 +58,7 @@ class AccelGyroActivity : AppCompatActivity() {
 
         when(data) {
             is Mpu9250Data -> {
-                waveformMonitor?.update6axis(arrayOf(data.ax, data.ay, data.az, data.gx, data.gy, data.gz))
+                oscilloscope?.update6axis(arrayOf(data.ax, data.ay, data.az, data.gx, data.gy, data.gz))
             }
             is Ak8963Data -> {
 
@@ -64,11 +68,11 @@ class AccelGyroActivity : AppCompatActivity() {
 
     private fun enableDumpWindow(visible: Boolean) {
         if (visible) {
-            textViewDumpTItle.visibility = View.VISIBLE
+            textViewDumpTitle.visibility = View.VISIBLE
             textViewDump.visibility = View.VISIBLE
         }
         else {
-            textViewDumpTItle.visibility = View.GONE
+            textViewDumpTitle.visibility = View.GONE
             textViewDump.visibility = View.GONE
         }
     }
@@ -90,7 +94,7 @@ class AccelGyroActivity : AppCompatActivity() {
 
         fullscreen()
 
-        textViewDumpTItle.movementMethod = ScrollingMovementMethod()
+        textViewDumpTitle.movementMethod = ScrollingMovementMethod()
 
         baudrate = intent.getIntExtra(MainActivity.BAUDRATE, 115200)
 
@@ -121,7 +125,7 @@ class AccelGyroActivity : AppCompatActivity() {
             }
 
         surfaceViewAnalyzer.post {
-            waveformMonitor = WaveformMonitor(
+            oscilloscope = Oscilloscope(
                 surfaceView = surfaceViewAnalyzer, maxNumEntries = MAX_NUM_ENTRIES)
         }
 
@@ -154,12 +158,7 @@ class AccelGyroActivity : AppCompatActivity() {
                 }
 
                 override fun onAk8963Data(data: Ak8963Data) {
-                    if (toggleButtonCapture.isChecked) {
-                        textViewDumpTItle.post {
-                            textViewDump.append(data.toString() + "\n")
-                        }
-                    }
-                    updateWaveform(data)
+                    // NOP
                 }
             })
     }

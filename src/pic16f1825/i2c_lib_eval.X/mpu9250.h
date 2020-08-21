@@ -87,7 +87,11 @@ void ak8963_continous_measurement_mode_1_enable(void);
 
 bool ak8963_magneto_read(sensor_data *pdata);
 
-void mpu9250_output_to_uart(sensor_data *pdata, bool ascii);
+void mpu9250_ascii_output_to_uart(sensor_data *pdata);
+
+void mpu9250_binary_output_to_uart(sensor_data *pdata);
+
+void ak8963_binary_output_to_uart(sensor_data *pdata);
 
 #ifdef	__cplusplus
 }

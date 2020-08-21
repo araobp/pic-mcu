@@ -1,9 +1,9 @@
-package jp.araobp.analyzer
+package jp.araobp.mpu9250.analyzer
 
 import android.graphics.Color
 import android.view.SurfaceView
 
-class WaveformMonitor(val surfaceView: SurfaceView, val maxNumEntries: Int) {
+class Oscilloscope(val surfaceView: SurfaceView, val maxNumEntries: Int) {
 
     private val mBufRecords = arrayOf(
         ArrayList<Short>(maxNumEntries),
@@ -26,9 +26,13 @@ class WaveformMonitor(val surfaceView: SurfaceView, val maxNumEntries: Int) {
         }
 
         val canvas = surfaceView.holder.lockCanvas()
+
+        val width = canvas.width.toFloat()
+        val height = canvas.height.toFloat()
+
         canvas.drawColor(Color.BLACK)
-        val xRatio = canvas.width.toFloat() / maxNumEntries.toFloat()
-        val yZeroLine = surfaceView.height.toFloat() / 2F
+        val xRatio = width.toFloat() / maxNumEntries.toFloat()
+        val yZeroLine = height.toFloat() / 2F
         val yMax = yZeroLine * 9F / 10F
         val yMaxLine = yZeroLine - yMax
         val yMinLine = yZeroLine + yMax
@@ -38,7 +42,7 @@ class WaveformMonitor(val surfaceView: SurfaceView, val maxNumEntries: Int) {
         canvas.drawLine(
             0F,
             yZeroLine,
-            canvas.width.toFloat(),
+            width,
             yZeroLine,
             DARK_GRAY_STROKE
         )
@@ -47,14 +51,14 @@ class WaveformMonitor(val surfaceView: SurfaceView, val maxNumEntries: Int) {
         canvas.drawLine(
             0F,
             yMaxLine,
-            canvas.width.toFloat(),
+            width,
             yMaxLine,
             DARK_GRAY_STROKE
         )
         canvas.drawLine(
             0F,
             yMinLine,
-            canvas.width.toFloat(),
+            width,
             yMinLine,
             DARK_GRAY_STROKE
         )

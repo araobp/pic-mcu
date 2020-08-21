@@ -1,4 +1,4 @@
-package jp.araobp.mpu9250
+package jp.araobp.mpu9250.serial
 
 data class Mpu9250Data (
     val seq: UInt,

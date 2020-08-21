@@ -1,4 +1,4 @@
-package jp.araobp.mpu9250
+package jp.araobp.mpu9250.serial
 
 import android.content.Context
 import android.util.Log
@@ -51,7 +51,7 @@ class Mpu9250Interface(context: Context, baudrate: Int, val receiver: IDataRecei
     }
 
     private var mIdx = 0
-    private var state:State = State.HEADER_DETECTING
+    private var state: State = State.HEADER_DETECTING
     private var bodyMpu9250Data = ArrayList<Byte>()
     private var bodyAk8963Data = ArrayList<Byte>()
 
@@ -127,9 +127,9 @@ class Mpu9250Interface(context: Context, baudrate: Int, val receiver: IDataRecei
                     bodyAk8963Data.add(b)
                     if (++mIdx == 8) {
                         val seq =  bodyAk8963Data[0].toUInt().shl(8) + bodyAk8963Data[1].toUInt()
-                        val mx = toShort(bodyAk8963Data[2], bodyAk8963Data[3]) * MAGNETO_RESOLUTION
-                        val my = toShort(bodyAk8963Data[4], bodyAk8963Data[5]) * MAGNETO_RESOLUTION
-                        val mz = toShort(bodyAk8963Data[6], bodyAk8963Data[7]) * MAGNETO_RESOLUTION
+                        val mx = toShort(bodyAk8963Data[2], bodyAk8963Data[3])
+                        val my = toShort(bodyAk8963Data[4], bodyAk8963Data[5])
+                        val mz = toShort(bodyAk8963Data[6], bodyAk8963Data[7])
                         val data = Ak8963Data(seq, mx, my, mz)
                         Log.d(TAG, data.toString())
                         receiver.onAk8963Data(data)

@@ -3,7 +3,6 @@ package jp.araobp.mpu9250
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.text.Editable
@@ -74,8 +73,15 @@ class MainActivity : AppCompatActivity() {
             dialog.show()
         }
 
-        buttonAccelerometer.setOnClickListener {
+        buttonAccelGyro.setOnClickListener {
             val intent = Intent(this, AccelGyroActivity::class.java).apply {
+                putExtra(BAUDRATE, mProps.baudrate)
+            }
+            startActivity(intent)
+        }
+
+        buttonMagneto.setOnClickListener {
+            val intent = Intent(this, MagnetoActivity::class.java).apply {
                 putExtra(BAUDRATE, mProps.baudrate)
             }
             startActivity(intent)

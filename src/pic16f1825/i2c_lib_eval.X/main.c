@@ -41,6 +41,11 @@
     SOFTWARE.
  */
 
+/**
+ * Date: 2020/8/21
+ * Author: https://github.com/araopb
+ */
+
 #include "mcc_generated_files/mcc.h"
 #include "mcc_generated_files/tmr0.h"
 #include "mpu9250.h"
@@ -156,6 +161,8 @@ void main(void) {
 }
 
 void tmr0_interrupt_handler() {
+    static uint8_t tmr_cnt = 0U;
+    
     if (state == RUNNING) {
         //LED_Toggle();
 
@@ -163,13 +170,28 @@ void tmr0_interrupt_handler() {
             mpu9250_accel_set_range(3);
             mpu9250_gyro_set_range(3);
             mpu9250_output_cfg_to_uart();
-        }
 
-        mpu9250_gyro_read(&data);
-        mpu9250_accel_read(&data);
-        ak8963_magneto_read(&data);
-        mpu9250_output_to_uart(&data, DEBUG);
+            mpu9250_gyro_read(&data);
+            mpu9250_accel_read(&data);
+            ak8963_magneto_read(&data);
+            mpu9250_ascii_output_to_uart(&data);
+        } else {
+            // Send accelerometer data to the host at 80Hz
+            mpu9250_gyro_read(&data);
+            mpu9250_accel_read(&data);
+            mpu9250_binary_output_to_uart(&data);
+            
+            // Send accelerometer data to the host at 10Hz
+            if (tmr_cnt == 0) {
+                ak8963_magneto_read(&data);
+                ak8963_binary_output_to_uart(&data);                
+            }
+        }
     }
+    
+    // Send magnetometer data to the host at 8Hz
+    if (++tmr_cnt >= 10) tmr_cnt = 0;
+    
 }
 
 /**
