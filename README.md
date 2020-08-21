@@ -24,7 +24,7 @@ In the past years, I have used a lot of the following MCUs in my successful IoT 
 
 => **[Project page](MOTION_LOGGER.md)**
 
-### Motion analyzer for human body recognition (PIC16F1825 with MPU9250)
+### Oscilloscope for nine-axis sensor (PIC16F1825 with MPU9250 and Android)
 
 <img src="./doc/pic16f1825_board.jpg" width="500">
 
