@@ -30,7 +30,7 @@ In the past years, I have used a lot of the following MCUs in my successful IoT 
 
 => **[Project page](I2C_LIB_EVAL.md)**
 
-### Door controller (PIC1825)
+### Door controller (PIC16F1825)
 
 <img src="./doc/door_controller.jpg" width="400">
 
