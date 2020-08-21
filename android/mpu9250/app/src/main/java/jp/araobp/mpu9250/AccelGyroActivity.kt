@@ -1,5 +1,6 @@
 package jp.araobp.mpu9250
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.View
@@ -7,6 +8,7 @@ import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import jp.araobp.analyzer.WaveformMonitor
 import kotlinx.android.synthetic.main.activity_accel_gyro.*
+
 
 class AccelGyroActivity : AppCompatActivity() {
 
@@ -52,7 +54,7 @@ class AccelGyroActivity : AppCompatActivity() {
 
         when(data) {
             is Mpu9250Data -> {
-                waveformMonitor?.update3axis(arrayOf(data.ax, data.ay, data.az))
+                waveformMonitor?.update6axis(arrayOf(data.ax, data.ay, data.az, data.gx, data.gy, data.gz))
             }
             is Ak8963Data -> {
 
@@ -79,7 +81,12 @@ class AccelGyroActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+
         setContentView(R.layout.activity_accel_gyro)
+
+        setTitle("Accelerometer and Gyroscope")
 
         fullscreen()
 
@@ -100,10 +107,22 @@ class AccelGyroActivity : AppCompatActivity() {
                 }
             }
 
+        spinnerGyroRange.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(p0: AdapterView<*>?) = Unit
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    p2: Int,
+                    p3: Long
+                ) {
+                    setGyroRangeValue(spinnerGyroRange.selectedItem.toString())
+                }
+            }
+
         surfaceViewAnalyzer.post {
             waveformMonitor = WaveformMonitor(
-                surfaceView = surfaceViewAnalyzer, maxNumEntries = MAX_NUM_ENTRIES, scale = 100.0F
-            )
+                surfaceView = surfaceViewAnalyzer, maxNumEntries = MAX_NUM_ENTRIES)
         }
 
         toggleButtonDump.setOnCheckedChangeListener { _, isChecked ->

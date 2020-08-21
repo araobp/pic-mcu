@@ -9,12 +9,6 @@ val DARK_GRAY_STROKE = Paint().apply {
     strokeWidth = 2F
 }
 
-val CYAN_STROKE = Paint().apply {
-    style = Paint.Style.STROKE
-    color = Color.CYAN
-    strokeWidth = 3F
-}
-
 val GREEN_STROKE = Paint().apply {
     style = Paint.Style.STROKE
     color = Color.GREEN
@@ -27,14 +21,27 @@ val RED_STROKE = Paint().apply {
     strokeWidth = 3F
 }
 
+val YELLOW_STROKE = Paint().apply {
+    style = Paint.Style.STROKE
+    color = Color.YELLOW
+    strokeWidth = 3F
+}
+
+
 val BLUE_STROKE = Paint().apply {
     style = Paint.Style.STROKE
     color = Color.BLUE
     strokeWidth = 3F
 }
 
-val YELLOW_STROKE = Paint().apply {
+val MAGENTA_STROKE = Paint().apply {
     style = Paint.Style.STROKE
-    color = Color.YELLOW
+    color = Color.MAGENTA
+    strokeWidth = 3F
+}
+
+val CYAN_STROKE = Paint().apply {
+    style = Paint.Style.STROKE
+    color = Color.CYAN
     strokeWidth = 3F
 }

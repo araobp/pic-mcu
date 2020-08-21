@@ -65,6 +65,8 @@ class Mpu9250Interface(context: Context, baudrate: Int, val receiver: IDataRecei
 
     fun pause() {
         tx(byteArrayOf(0xFF.toByte()))
+        Thread.sleep(100)  // Wait for an app on PIC16F1 to retrieve the rx buffer.
+        // Other commands may be sent after here.
     }
 
     fun resume() {
@@ -108,12 +110,12 @@ class Mpu9250Interface(context: Context, baudrate: Int, val receiver: IDataRecei
                     bodyMpu9250Data.add(b)
                     if (++mIdx == 14) {
                         val seq =  bodyMpu9250Data[0].toUInt().shl(8) + bodyMpu9250Data[1].toUInt()
-                        val ax = toShort(bodyMpu9250Data[2], bodyMpu9250Data[3]) * ACCEL_RESOLUTION
-                        val ay = toShort(bodyMpu9250Data[4], bodyMpu9250Data[5]) * ACCEL_RESOLUTION
-                        val az = toShort(bodyMpu9250Data[6], bodyMpu9250Data[7]) * ACCEL_RESOLUTION
-                        val gx = toShort(bodyMpu9250Data[8], bodyMpu9250Data[9]) * GYRO_RESOLUTION
-                        val gy = toShort(bodyMpu9250Data[10], bodyMpu9250Data[11]) * GYRO_RESOLUTION
-                        val gz = toShort(bodyMpu9250Data[12], bodyMpu9250Data[13]) * GYRO_RESOLUTION
+                        val ax = toShort(bodyMpu9250Data[2], bodyMpu9250Data[3])
+                        val ay = toShort(bodyMpu9250Data[4], bodyMpu9250Data[5])
+                        val az = toShort(bodyMpu9250Data[6], bodyMpu9250Data[7])
+                        val gx = toShort(bodyMpu9250Data[8], bodyMpu9250Data[9])
+                        val gy = toShort(bodyMpu9250Data[10], bodyMpu9250Data[11])
+                        val gz = toShort(bodyMpu9250Data[12], bodyMpu9250Data[13])
                         val data = Mpu9250Data(seq, ax, ay, az, gx, gy, gz)
                         Log.d(TAG, data.toString())
                         receiver.onMpu9250Data(data)
