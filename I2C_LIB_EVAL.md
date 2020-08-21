@@ -1,6 +1,4 @@
-# Motion analyzer for human activity recognition (PIC1825 with MPU9250)
-
-(Work in progress)
+# Oscilloscope for 9-axis sensor (PIC1825 with MPU9250 and Android)
 
 ## Background
 
@@ -13,7 +11,7 @@ In this project, I evaluate the new library with InvenSense (TDK) MPU9250 9-axis
 
 ```
 
-I also develop an Android app to analyze data from MPU9250.
+I also develop an Android app to visualize data from MPU9250.
 ```
  [InvenSense MPU-9255 (HiLetgo MPU9250 module)]--I2C--[PIC16F1825]--USB serial--[Android app]
 
@@ -43,12 +41,17 @@ The module I purchased from Amazon is MPU-9255. The module includes an accelerom
 
 ## Schematic
 
+I designed my original PIC16F1 evaluation board four years ago. I use the board this time.
+
 [Schematic](./kicad/i2c_lib_eval/i2c_lib_eval.pdf)
 
 ## Code 
 
-I use one I2C bus to access all the sensors in the module.
+I use I2C bus to access all the sensors in the module.
 
 ==> [Code for PIC16F1825](./src/pic16f1825/i2c_lib_eval.X)
 
 ==> [Code for Android](./android/mpu9250)
+
+## Android app screen shots
+
