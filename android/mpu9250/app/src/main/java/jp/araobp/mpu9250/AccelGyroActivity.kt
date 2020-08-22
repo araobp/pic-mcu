@@ -12,6 +12,13 @@ import jp.araobp.mpu9250.serial.IDataReceiver
 import jp.araobp.mpu9250.serial.Mpu9250Data
 import jp.araobp.mpu9250.serial.Mpu9250Interface
 import kotlinx.android.synthetic.main.activity_accel_gyro.*
+import kotlinx.android.synthetic.main.activity_accel_gyro.buttonExit
+import kotlinx.android.synthetic.main.activity_accel_gyro.surfaceViewAnalyzer
+import kotlinx.android.synthetic.main.activity_accel_gyro.textViewDump
+import kotlinx.android.synthetic.main.activity_accel_gyro.textViewDumpTitle
+import kotlinx.android.synthetic.main.activity_accel_gyro.toggleButtonCapture
+import kotlinx.android.synthetic.main.activity_accel_gyro.toggleButtonDump
+import kotlinx.android.synthetic.main.activity_magneto.*
 
 
 class AccelGyroActivity : AppCompatActivity() {
@@ -139,6 +146,10 @@ class AccelGyroActivity : AppCompatActivity() {
             } else {
                 mpu9250Interface.pause()
             }
+        }
+
+        buttonExit.setOnClickListener {
+            finish()
         }
 
         enableDumpWindow(toggleButtonDump.isChecked)

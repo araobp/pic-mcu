@@ -115,9 +115,18 @@
             android:id="@+id/toggleButtonCapture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
             android:checked="true"
             android:textOff="CAPTURE"
             android:textOn="CAPTURE" />
+
+        <Button
+            android:id="@+id/buttonExit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EXIT"
+            />
+
 
     </LinearLayout>
 

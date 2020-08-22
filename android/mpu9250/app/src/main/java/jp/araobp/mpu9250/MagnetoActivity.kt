@@ -10,7 +10,6 @@ import jp.araobp.mpu9250.serial.Ak8963Data
 import jp.araobp.mpu9250.serial.IDataReceiver
 import jp.araobp.mpu9250.serial.Mpu9250Data
 import jp.araobp.mpu9250.serial.Mpu9250Interface
-import kotlinx.android.synthetic.main.activity_accel_gyro.*
 import kotlinx.android.synthetic.main.activity_accel_gyro.surfaceViewAnalyzer
 import kotlinx.android.synthetic.main.activity_accel_gyro.textViewDump
 import kotlinx.android.synthetic.main.activity_accel_gyro.textViewDumpTitle
@@ -102,6 +101,10 @@ class MagnetoActivity : AppCompatActivity() {
 
         buttonClear.setOnClickListener {
             magnetoViewer?.clear()
+        }
+
+        buttonExit.setOnClickListener {
+            finish()
         }
 
         enableDumpWindow(toggleButtonDump.isChecked)

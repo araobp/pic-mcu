@@ -83,8 +83,16 @@
             android:id="@+id/buttonClear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
             android:checked="false"
             android:text="Clear"/>
+
+        <Button
+            android:id="@+id/buttonExit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EXIT"
+            />
 
     </LinearLayout>
 
