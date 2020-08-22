@@ -14,7 +14,7 @@ In the past years, I have used a lot of the following MCUs in my successful IoT 
 
 ### Oscilloscope for nine-axis sensor (PIC16F1825 with MPU9250 and Android)
 
-<img src="./doc/pic16f1825_board.jpg" width="500">
+<img src="./doc/oscilloscope_for_6_axis_sensor.png" width="500">
 
 => **[Project page](I2C_LIB_EVAL.md)**
 
