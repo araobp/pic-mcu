@@ -12,11 +12,11 @@ In the past years, I have used a lot of the following MCUs in my successful IoT 
 
 ## Application components
 
-### Wireless network of infrared array sensors with TWELITE (PIC16F18326)
+### Oscilloscope for nine-axis sensor (PIC16F1825 with MPU9250 and Android)
 
-<img src="./doc/twelite-dip.jpg" width="500">
+<img src="./doc/pic16f1825_board.jpg" width="500">
 
-=> **[Project page](TWELITE.md)**
+=> **[Project page](I2C_LIB_EVAL.md)**
 
 ### Motion logger for sensing human body movement (PIC16F18326)
 
@@ -24,11 +24,11 @@ In the past years, I have used a lot of the following MCUs in my successful IoT 
 
 => **[Project page](MOTION_LOGGER.md)**
 
-### Oscilloscope for nine-axis sensor (PIC16F1825 with MPU9250 and Android)
+### Wireless network of infrared array sensors with TWELITE (PIC16F18326)
 
-<img src="./doc/pic16f1825_board.jpg" width="500">
+<img src="./doc/twelite-dip.jpg" width="500">
 
-=> **[Project page](I2C_LIB_EVAL.md)**
+=> **[Project page](TWELITE.md)**
 
 ### Door controller (PIC16F1825)
 
