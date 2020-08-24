@@ -1,5 +1,8 @@
 # Wireless network of infrared array sensors with TWELITE
 
+<img src="./doc/twelite-dip.jpg" width="500">
+
+
 <img src="./doc/people_counter.jpg" width="500">
 
 ## Goal
