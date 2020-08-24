@@ -26,7 +26,7 @@ In the past years, I have used a lot of the following MCUs in my successful IoT 
 
 ### Wireless network of infrared array sensors with TWELITE (PIC16F18326)
 
-<img src="./doc/twelite-dip.jpg" width="500">
+<img src="./doc/amg8833_android_gui.png" width="250">
 
 => **[Project page](TWELITE.md)**
 
