@@ -317,7 +317,15 @@ The following is a configuration of TWELITE slave (ID=2):
  S: save Configuration
  R: reset to Defaults
  ```
- 
+
+## Android GUI
+
+This IoT project was very successful, and this device was actually tested in some public housing in Japan for a month.
+
+After one and a half year of the test, I am developing an Android app for visualizing data from AMG8833.
+
+=> [Code](./android/amg8833)
+
 ## Reference
 
 - https://mono-wireless.com/jp/products/TWE-APPS/App_Uart/mode_format.html
