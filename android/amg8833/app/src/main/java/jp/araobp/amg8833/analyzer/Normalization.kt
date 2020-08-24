@@ -1,6 +1,12 @@
 package jp.araobp.amg8833.analyzer
 
+import android.graphics.Color
+import kotlin.math.roundToInt
+
 val MAX_VALUE = UByte.MAX_VALUE.toFloat()
+val TEMP_SCALE = 0.25F
+
+fun tempList(data: UByteArray) = data.map { (it.toFloat() * TEMP_SCALE).roundToInt().toString() }.toList()
 
 fun minMaxNormalize(data: UByteArray): FloatArray {
 

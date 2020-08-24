@@ -31,32 +31,39 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/checkBoxNormalize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Temperature" />
+            android:text="Norm" />
 
         <CheckBox
-            android:id="@+id/checkBox2"
+            android:id="@+id/checkBoxTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Temp" />
+
+        <CheckBox
+            android:id="@+id/checkBoxBlur"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Blur" />
 
         <CheckBox
-            android:id="@+id/checkBox3"
+            android:id="@+id/checkBoxDiff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Diff" />
 
         <CheckBox
-            android:id="@+id/checkBox4"
+            android:id="@+id/checkBoxBinarize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Binalization" />
+            android:text="Binarize" />
 
     </LinearLayout>
 
@@ -76,10 +83,10 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Magnify" />
+            android:text="Interpolate" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/spinnerInterpolate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
@@ -88,12 +95,14 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Interpolate" />
+            android:text="Color theme" />
 
         <Spinner
-            android:id="@+id/spinner2"
+            android:id="@+id/spinnerColorTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:entries="@array/color_theme"
+            />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

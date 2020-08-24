@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
 
         rawImage = RawImage(surfaceView)
 
-
     }
 
     override fun onResume() {
@@ -34,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             dst,
             object : IAmg8833Receiver {
                 override fun onAmg8833Data(amg8833Data: Amg8833Data) {
-                    rawImage.draw(amg8833Data.data)
+                    rawImage.draw(amg8833Data.data, checkBoxNormalize.isChecked, checkBoxTemp.isChecked)
                 }
             }
         )
