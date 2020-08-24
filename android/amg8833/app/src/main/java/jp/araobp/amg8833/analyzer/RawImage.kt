@@ -6,9 +6,13 @@ import kotlin.math.roundToInt
 
 class RawImage(val surfaceView: SurfaceView) {
 
-    fun draw(data: ByteArray, minMaxNormalization: Boolean, showTemperature: Boolean) {
+    enum class Colormap {
+        Grayscale,
+        Okinawa,
+        Heatmap
+    }
 
-        val tempList = tempList(data.toUByteArray()).reversed()
+    fun draw(data: ByteArray, minMaxNormalization: Boolean, showTemperature: Boolean, colorMap: Colormap) {
 
         val pixels: List<Float> = when(minMaxNormalization) {
             true -> minMaxNormalize(data.toUByteArray()).reversed()
@@ -26,6 +30,12 @@ class RawImage(val surfaceView: SurfaceView) {
         val yMargin = (height - width) / 2F
         val textMargin = xStep/5F
 
+        var tempList: List<String>? = null
+
+        if (showTemperature) {
+            tempList = tempList(data.toUByteArray()).reversed()
+        }
+
         for (row in 0 until 8) {
             for (col in 0 until 8) {
                 val idx = row * 8 + col
@@ -34,9 +44,20 @@ class RawImage(val surfaceView: SurfaceView) {
                 val top = yStep * row + yMargin
                 val right = xStep * (col + 1)
                 val bottom = yStep * (row + 1) + yMargin
-                val brightness = paintOkinawa(pixel)
-                canvas.drawRect(left, top, right, bottom, brightness)
-                canvas.drawText(tempList[idx], left + textMargin, top+TEMP_COLOR.textSize+textMargin, TEMP_COLOR)
+                val brightness = when(colorMap) {
+                    Colormap.Grayscale -> paintGrayscale(pixel)
+                    Colormap.Okinawa -> paintOkinawa(pixel)
+                    Colormap.Heatmap -> paintHeatmap(pixel)
+                }
+               canvas.drawRect(left, top, right, bottom, brightness)
+                tempList?.let {
+                    canvas.drawText(
+                        it[idx],
+                        left + textMargin,
+                        top + TEMP_COLOR.textSize + textMargin,
+                        TEMP_COLOR
+                    )
+                }
             }
         }
 

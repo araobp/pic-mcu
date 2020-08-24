@@ -149,6 +149,7 @@ abstract class FtdiDriver(val context: Context, baudrate: Int, dataBits: Byte, s
 
         mFtdiDevice?.let {
             it.close()
+            mFtdiDevice = null
         }
     }
 
