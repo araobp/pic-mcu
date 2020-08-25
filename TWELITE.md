@@ -322,9 +322,34 @@ The following is a configuration of TWELITE slave (ID=2):
 
 This IoT project was very successful, and this device was actually tested in some public housing in Japan for a month.
 
-After one and a half year of the test, I am developing an Android app for visualizing data from AMG8833.
+After one and a half year of the test, I have developed an Android app for visualizing data from AMG8833.
 
 => [Code](./android/amg8833)
+
+The code is dependent on OpenCV Android SDK (opencv-4.4.0-android-sdk.zip): https://sourceforge.net/projects/opencvlibrary/files/4.4.0/
+
+Scissor with my right hand in "Raibow" colormap:
+
+![Scissors.png](./Scissors.png)
+
+Bicubic interpolation applied to the image above:
+
+![BicubicInterpolation.png](./BicubicInterpolation.png)
+
+Diff between frames:
+
+![Diff1.png](./Diff1.png)
+
+![Diff2.png](./Diff2.png)
+
+Binarization:
+
+![Binarization.png](./Binarization.png)
+
+Paper in a different colormap:
+
+![Paper.png](./Paper.png)
+
 
 ## Reference
 
