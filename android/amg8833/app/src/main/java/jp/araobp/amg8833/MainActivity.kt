@@ -7,8 +7,9 @@ import androidx.core.widget.addTextChangedListener
 import jp.araobp.amg8833.`interface`.Amg8833Data
 import jp.araobp.amg8833.`interface`.Amg8833Interface
 import jp.araobp.amg8833.`interface`.IAmg8833Receiver
-import jp.araobp.amg8833.analyzer.RawImage
+import jp.araobp.amg8833.analyzer.Image
 import kotlinx.android.synthetic.main.activity_main.*
+import org.opencv.android.OpenCVLoader
 import java.lang.NumberFormatException
 
 
@@ -16,18 +17,32 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var amg8833Interface: Amg8833Interface
 
-    private lateinit var rawImage: RawImage
+    private lateinit var rawImage: Image
 
     private lateinit var props: Properties
 
+    /**
+     * This is necessary to avoid the following error at runtime:
+     *
+     * "No implementation found for void org.opencv.core.Mat.n_delete(long) (tried Java_org_opencv
+     * _core_Mat_n_1delete and Java_org_opencv_core_Mat_n_1delete__J)"
+     */
+    init {
+        // OpenCV initialization
+        OpenCVLoader.initDebug()
+    }
+
     val amg8833receiver = object : IAmg8833Receiver {
         override fun onAmg8833Data(amg8833Data: Amg8833Data) {
-            rawImage.draw(
-                amg8833Data.data,
-                checkBoxNormalize.isChecked,
-                checkBoxTemp.isChecked,
-                RawImage.Colormap.valueOf(spinnerColormap.selectedItem.toString())
-            )
+            runOnUiThread {
+                rawImage.draw(
+                    amg8833Data.data,
+                    checkBoxNormalize.isChecked,
+                    checkBoxTemp.isChecked,
+                    Image.Colormap.valueOf(spinnerColormap.selectedItem.toString()),
+                    spinnerInterpolate.selectedItem.toString().toInt()
+                )
+            }
         }
     }
 
@@ -38,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        rawImage = RawImage(surfaceView)
+        rawImage = Image(surfaceView)
 
         props = Properties(this)
         props.load()
