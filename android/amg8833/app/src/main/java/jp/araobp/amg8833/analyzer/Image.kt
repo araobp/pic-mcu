@@ -3,7 +3,9 @@ package jp.araobp.amg8833.analyzer
 import android.R.string
 import android.graphics.Color
 import android.view.SurfaceView
+import org.opencv.core.CvType
 import org.opencv.core.Mat
+import org.opencv.imgproc.Imgproc.connectedComponents
 
 
 class Image(val surfaceView: SurfaceView) {
@@ -54,16 +56,15 @@ class Image(val surfaceView: SurfaceView) {
 
         if (binarize) {
             mat = binarize(mat)
-            /*
+            connectedComponents(mat, labels, 8, CvType.CV_16U);
+
             labelsStr.clear()
             for (row in 0 until mat.rows()) {
                 for (col in 0 until mat.cols()) {
-                    labelsStr.add(labels.get(row, col).toString())
+                    labelsStr.add(labels.get(row, col)[0].toInt().toString())
                 }
             }
             tempList = labelsStr.toList()
-            */
-
         }
 
         //Log.d(TAG, "numRows: $numRows, numCols: $numCols, numPixels: ${finalPixels.size}")
