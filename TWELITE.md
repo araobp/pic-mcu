@@ -330,25 +330,25 @@ The code is dependent on OpenCV Android SDK (opencv-4.4.0-android-sdk.zip): http
 
 Scissor with my right hand in "Raibow" colormap:
 
-![Scissors.png](./Scissors.png)
+![Scissors.png](./doc/Scissors.png)
 
 Bicubic interpolation applied to the image above:
 
-![BicubicInterpolation.png](./BicubicInterpolation.png)
+![BicubicInterpolation.png](./doc/BicubicInterpolation.png)
 
 Diff between frames:
 
-![Diff1.png](./Diff1.png)
+![Diff1.png](./doc/Diff1.png)
 
-![Diff2.png](./Diff2.png)
+![Diff2.png](./doc/Diff2.png)
 
 Binarization:
 
-![Binarization.png](./Binarization.png)
+![Binarization.png](./doc/Binarization.png)
 
 Paper in a different colormap:
 
-![Paper.png](./Paper.png)
+![Paper.png](./doc/Paper.png)
 
 
 ## Reference
