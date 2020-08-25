@@ -4,32 +4,38 @@ import android.graphics.Color
 import android.graphics.Paint
 import kotlin.math.floor
 
-fun paintGrayscale(brightness: UByte) = Paint().apply {
+internal val TEMP_COLOR = Paint().apply {
+    color = Color.GREEN
+    style = Paint.Style.FILL_AND_STROKE
+    textSize = 64F
+}
+
+internal fun paintGrayscale(brightness: UByte) = Paint().apply {
     val v = brightness.toInt()
     style = Paint.Style.FILL_AND_STROKE
     color = Color.rgb(v, v, v)
 }
 
-fun paintOkinawa(brightness: UByte) = Paint().apply {
+internal fun paintOkinawa(brightness: UByte) = Paint().apply {
     val v = brightness.toInt()
     style = Paint.Style.FILL_AND_STROKE
     color = Color.argb(0xff, 128 - v / 2, v, 128 + v / 2)
 }
 
-fun paintHeatmap(brightness: UByte) = Paint().apply {
+internal fun paintHeatmap(brightness: UByte) = Paint().apply {
     val v = brightness.toInt()
     style = Paint.Style.FILL_AND_STROKE
     color = Color.argb(0xff, v, 255 - v, 255 - v)
 }
 
-fun paintDevil(brightness: UByte) = Paint().apply {
+internal fun paintDevil(brightness: UByte) = Paint().apply {
     val v = brightness.toInt()
     style = Paint.Style.FILL_AND_STROKE
     color = Color.argb(0xff, v, v / 2, v / 2)
 }
 
 // Reference: https://www.particleincell.com/2014/colormap/
-fun paintRainbow(brightness: UByte) = Paint().apply {
+internal fun paintRainbow(brightness: UByte) = Paint().apply {
 
     val v = brightness
 
@@ -73,8 +79,3 @@ fun paintRainbow(brightness: UByte) = Paint().apply {
     color = Color.argb(0xff, r, g, b)
 }
 
-val TEMP_COLOR = Paint().apply {
-    color = Color.GREEN
-    style = Paint.Style.FILL_AND_STROKE
-    textSize = 64F
-}

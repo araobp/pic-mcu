@@ -76,13 +76,6 @@
             android:text="Temp" />
 
         <CheckBox
-            android:id="@+id/checkBoxBlur"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Blur" />
-
-        <CheckBox
             android:id="@+id/checkBoxDiff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

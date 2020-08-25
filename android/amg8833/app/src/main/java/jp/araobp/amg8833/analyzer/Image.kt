@@ -1,9 +1,10 @@
 package jp.araobp.amg8833.analyzer
 
+import android.R.string
 import android.graphics.Color
-import android.util.Log
 import android.view.SurfaceView
-import kotlin.math.roundToInt
+import org.opencv.core.Mat
+
 
 class Image(val surfaceView: SurfaceView) {
 
@@ -24,7 +25,8 @@ class Image(val surfaceView: SurfaceView) {
         minMaxNormalization: Boolean,
         showTemperature: Boolean,
         colorMap: Colormap,
-        interpolationRepeat: Int = 0
+        interpolationRepeat: Int = 0,
+        binarize: Boolean = false
     ) {
 
         val src = data.toUByteArray().reversed().toUByteArray()
@@ -34,41 +36,56 @@ class Image(val surfaceView: SurfaceView) {
             false -> src
         }
 
-        val canvas = surfaceView.holder.lockCanvas()
-        canvas.drawColor(Color.DKGRAY)
-
-        val width = canvas.width.toFloat()
-        val height = canvas.height.toFloat()
-
         var tempList: List<String>? = null
 
         if (showTemperature) {
             tempList = tempList(src)
         }
 
-        var numRows = 8
-        var numCols = 8
+        var mat = pixels.toMat(8, 8)
 
-        val finalPixels = if (interpolationRepeat > 0) {
-            val srcMat = pixels.toMat()
-            val dstMat = interpolate(srcMat, interpolationRepeat)
-            numRows = dstMat.rows()
-            numCols = dstMat.cols()
-            convertToUByteArray(dstMat)
-        } else {
-            pixels
+        if (interpolationRepeat > 0) {
+            mat = interpolate(mat, interpolationRepeat)
+        }
+
+        val labels = Mat()
+        val labelsStr = ArrayList<String>()
+
+        if (binarize) {
+            mat = binarize(mat)
+            /*
+            labelsStr.clear()
+            for (row in 0 until mat.rows()) {
+                for (col in 0 until mat.cols()) {
+                    labelsStr.add(labels.get(row, col).toString())
+                }
+            }
+            tempList = labelsStr.toList()
+            */
+             
         }
 
         //Log.d(TAG, "numRows: $numRows, numCols: $numCols, numPixels: ${finalPixels.size}")
 
-        val xStep = width / numCols
+        val finalPixels = convertToUByteArray(mat)
+
+        val canvas = surfaceView.holder.lockCanvas()
+        canvas.drawColor(Color.DKGRAY)
+
+        val width = canvas.width.toFloat()
+        val height = canvas.height.toFloat()
+
+        val rows = mat.rows()
+        val cols = mat.cols()
+
+        val xStep = width / cols
         val yStep = xStep
         val yMargin = (height - width) / 2F
         val textMargin = xStep / 5F
 
-        for (row in 0 until numRows) {
-            for (col in 0 until numCols) {
-                val idx = row * numCols + col
+        for (row in 0 until rows) {
+            for (col in 0 until cols) {
+                val idx = row * cols + col
                 val pixel = finalPixels[idx]
                 val left = xStep * col
                 val top = yStep * row + yMargin

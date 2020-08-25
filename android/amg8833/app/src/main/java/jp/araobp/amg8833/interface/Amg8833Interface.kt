@@ -1,6 +1,8 @@
 package jp.araobp.amg8833.`interface`
 
 import android.content.Context
+import android.os.Handler
+import android.os.HandlerThread
 import android.util.Log
 import jp.araobp.twelite.ITweiliteReceiver
 import jp.araobp.twelite.TweliteMessage
@@ -17,13 +19,18 @@ class Amg8833Interface(context: Context, dst: Byte, val receiver: IAmg8833Receiv
     private var mTimer: Timer = Timer()
     private var mTweliteReceiver: TweliteDriver
 
+    private val mHandlerThread: HandlerThread = HandlerThread("amg8833Interface").apply { start() }
+    private val mHandler: Handler = Handler(mHandlerThread.looper)
+
     init {
 
         mTweliteReceiver = TweliteDriver(context,
             object : ITweiliteReceiver {
                 override fun onMessage(message: TweliteMessage) {
                     Log.d(TAG, message.toString())
-                    receiver.onAmg8833Data(Amg8833Data(message.data))
+                    mHandler.post {
+                        receiver.onAmg8833Data(Amg8833Data(message.data))
+                    }
                 }
             }
         )
@@ -42,6 +49,10 @@ class Amg8833Interface(context: Context, dst: Byte, val receiver: IAmg8833Receiv
     fun destroy() {
         mTimer.cancel()
         mTweliteReceiver.destroy()
+        mHandlerThread.apply {
+            quitSafely()
+            join()
+        }
     }
 
 }
