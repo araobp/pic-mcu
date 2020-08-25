@@ -45,18 +45,17 @@ class MainActivity : AppCompatActivity() {
 
             var data: ByteArray = amg8833Data.data
 
-            prevAmg8833Data?.let {
-                if (checkBoxDiff.isChecked) {
-                    val diff = ByteArray(64)
+            if (checkBoxDiff.isChecked) {
+                val diff = ByteArray(64)
+                prevAmg8833Data?.let {
                     amg8833Data.data.forEachIndexed { idx, byte ->
                         // add 0x80(128) so that negative values can be seen.
                         diff[idx] =
                             ((byte.toInt() - it.data[idx].toInt()) * DIFF_MAGNIFICATION + 128).toByte()
                     }
-                    prevAmg8833Data = amg8833Data.clone()
                     data = diff
                 }
-
+                prevAmg8833Data = amg8833Data.clone()
             }
 
             rawImage.draw(

@@ -34,12 +34,16 @@ internal fun paintDevil(brightness: UByte) = Paint().apply {
     color = Color.argb(0xff, v, v / 2, v / 2)
 }
 
+internal fun paintRainbow2(brightness: UByte): Paint {
+    return paintRainbow(brightness, 64)
+}
+
 // Reference: https://www.particleincell.com/2014/colormap/
-internal fun paintRainbow(brightness: UByte) = Paint().apply {
+internal fun paintRainbow(brightness: UByte, adjust: Int = 80) = Paint().apply {
 
     val v = brightness
 
-    val a = (UByte.MAX_VALUE - v).toDouble() / 80
+    val a = (UByte.MAX_VALUE - v).toDouble() / adjust
     val X = floor(a).toInt()
     val Y = floor(255 * (a - X)).toInt()
 

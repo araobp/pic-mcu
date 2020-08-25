@@ -17,7 +17,8 @@ class Image(val surfaceView: SurfaceView) {
         Okinawa,
         Heatmap,
         Devil,
-        Rainbow
+        Rainbow,
+        Rainbow2
     }
 
     fun draw(
@@ -62,7 +63,7 @@ class Image(val surfaceView: SurfaceView) {
             }
             tempList = labelsStr.toList()
             */
-             
+
         }
 
         //Log.d(TAG, "numRows: $numRows, numCols: $numCols, numPixels: ${finalPixels.size}")
@@ -97,6 +98,7 @@ class Image(val surfaceView: SurfaceView) {
                     Colormap.Heatmap -> paintHeatmap(pixel)
                     Colormap.Devil -> paintDevil(pixel)
                     Colormap.Rainbow -> paintRainbow(pixel)
+                    Colormap.Rainbow2 -> paintRainbow2(pixel)
                 }
                 canvas.drawRect(left, top, right, bottom, brightness)
 
