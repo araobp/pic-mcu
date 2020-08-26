@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name i2c_adaptor-rescue)(type Legacy)(uri ${KIPRJMOD}/i2c_adaptor-rescue.lib)(options "")(descr ""))
+  (lib (name pic16f1-mcu)(type Legacy)(uri C:/Users/shiny/Documents/pic-mcu/kicad/pic16f1-mcu.lib)(options "")(descr ""))
+)
