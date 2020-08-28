@@ -9,7 +9,7 @@
 
 I develop an algorithm on PIC16F1 to infer motion of moving objects. The inference result is transferred to PC over TWELITE wireless sensor network.
 
-I assume that the targe object is animals in this project.
+I assume that the targe objects are animals (incl. people) in this project.
 
 ## Hardware components
 

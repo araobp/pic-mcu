@@ -18,17 +18,17 @@ In the past years, I have used a lot of the following MCUs in my successful IoT 
 
 => **[Project page](I2C_LIB_EVAL.md)**
 
-### Motion logger for sensing human body movement (PIC16F18326)
-
-<img src="./doc/motion_measurement_system.jpg" width="500">
-
-=> **[Project page](MOTION_LOGGER.md)**
-
 ### Wireless network of infrared array sensors with TWELITE (PIC16F18326)
 
 <img src="./doc/BicubicInterpolation.png" width="250">
 
 => **[Project page](TWELITE.md)**
+
+### Motion logger for sensing human body movement (PIC16F18326)
+
+<img src="./doc/motion_measurement_system.jpg" width="500">
+
+=> **[Project page](MOTION_LOGGER.md)**
 
 ### Door controller (PIC16F1825)
 
