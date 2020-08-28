@@ -529,7 +529,7 @@ Wire Notes Line
 Wire Notes Line
 	8700 850  7950 850 
 Text GLabel 6150 1950 1    60   Input ~ 0
-FET2
+FET
 Text GLabel 6150 3050 3    60   Input ~ 0
 GND
 Wire Wire Line
