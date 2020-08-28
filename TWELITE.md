@@ -9,7 +9,7 @@
 
 I develop an algorithm on PIC16F1 to infer motion of moving objects. The inference result is transferred to PC over TWELITE wireless sensor network.
 
-I assume that the targe objects are animals (incl. people) in this project.
+I assume that the targe objects are people or animals in this project.
 
 ## Hardware components
 
@@ -23,6 +23,13 @@ Note: I have noticed that TWELITE is succeptible to radio interference.
 
 I use [AMG8833](https://cdn-learn.adafruit.com/assets/assets/000/043/261/original/Grid-EYE_SPECIFICATIONS%28Reference%29.pdf?1498680225
 ) from Panasonic.
+
+The reasons why I do not use an active sensor such as VL53L0X (STMicro) are:
+
+- AMG8833 can count the number of walking people.
+- AMG8833 consumes less power.
+- AMG8833 can measure temperature of a person.
+- AMG8833 can detect directions of walking people.
 
 ## Why I use PIC16F1 with TWELITE
 
@@ -157,18 +164,18 @@ The bottle neck of data transfer is the following:
 
 #### Notifications
 
-8 bytes (int8_t) data is sent from a slave node to a master node to notify that animals are moving across a line.
+8 bytes (int8_t) data is sent from a slave node to a master node to notify that people are moving across a line.
 
-Example: detecting animals moving along a corridor
+Example: detecting people moving along a corridor
 
 ```
 
       Corrider
    |             |
    |             |
-   |  Animal ^   |
+   |  Person ^   |
    | - | - - | - | Line
-   |   V  Animal |
+   |   V  Person |
    |             |
    |             |
 
