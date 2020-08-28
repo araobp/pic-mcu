@@ -5,7 +5,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "AMG8833 with TWELITE-DIP"
-Date "2020-08-27"
+Date "2020-08-29"
 Rev "ver 2.0"
 Comp "https://github.com/araobp"
 Comment1 ""
@@ -278,9 +278,9 @@ AI4
 Text GLabel 9500 3300 2    60   Input ~ 0
 GND
 Text GLabel 3650 3200 3    60   Input ~ 0
-FET2
+FET
 Text GLabel 7800 4950 3    60   Input ~ 0
-FET1
+FET
 NoConn ~ 2250 5250
 $Comp
 L i2c_adaptor-rescue:Conn_01x02 J1
