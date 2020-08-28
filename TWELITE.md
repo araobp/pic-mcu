@@ -7,9 +7,7 @@
 
 ## Goal
 
-I develop an algorithm on PIC16F1 to infer motion of moving objects. The inference result is transferred to PC over TWELITE wireless sensor network.
-
-I assume that the targe objects are people or animals in this project.
+I develop an algorithm on PIC16F1 to infer the number of people walking down a corridor. The inference result is transferred to PC over TWELITE wireless sensor network.
 
 ## Hardware components
 
@@ -166,7 +164,7 @@ The bottle neck of data transfer is the following:
 
 8 bytes (int8_t) data is sent from a slave node to a master node to notify that people are moving across a line.
 
-Example: detecting people moving along a corridor
+Example: detecting people walking along a corridor
 
 ```
 
