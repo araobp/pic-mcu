@@ -68,7 +68,7 @@ Note: the sensor also outputs temperature data from a thermistor on the chip. I 
 
 ```
   -------------------------------------------------------------------------------------------------------------------
-       [Device on the ceiling] - - - IEE802.14.3 TWELITE - - - - - - - - -> [TWELITE MONOSTICK]--USB--[RaspberryPi]
+       [Device on the ceiling] - - - IEE802.14.3 TWELITE - - - - - - - - -> [TWELITE MONOSTICK]--USB--[PC or RaspberryPi]
                  | AMG8333 facing downwards
                  V
                  
