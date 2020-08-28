@@ -7,7 +7,7 @@
 
 ## Goal
 
-I develop an algorithm on PIC16F1 to infer the number of people walking down a corridor. The inference result is transferred to PC over TWELITE wireless sensor network.
+I develop an algorithm on PIC16F1 to infer the number of people (or animals) walking down a corridor. The inference result is transferred to PC over TWELITE wireless sensor network.
 
 ## Hardware components
 
