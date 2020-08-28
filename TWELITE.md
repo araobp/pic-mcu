@@ -64,6 +64,23 @@ Temperature range: 0 - 63.5 degrees Celsius (63.5/0.25 = 0xfe)
 
 Note: the sensor also outputs temperature data from a thermistor on the chip. I transfer both MSB and LSB in this case.
 
+## Installation
+
+```
+  -------------------------------------------------------------------------------------------------------------------
+       [Device on the ceiling] - - - IEE802.14.3 TWELITE - - - - - - - - -> [TWELITE MONOSTICK]--USB--[RaspberryPi]
+                 | AMG8333 facing downwards
+                 V
+                 
+              Person
+                ()
+            --- || --> Walking down the corridor
+                /\
+  --------------------------------------------------------------------------------------------------------------------
+
+```
+
+
 ## Extracting features for motion detection
 
 <img src="./doc/motion_detection.jpg" width="500">
