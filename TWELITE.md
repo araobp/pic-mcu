@@ -185,7 +185,7 @@ Example: detecting people walking along a corridor
 
 ```
 
-      Corrider
+      Corridor
    |             |
    |             |
    |  Person ^   |
