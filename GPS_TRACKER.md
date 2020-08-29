@@ -57,7 +57,7 @@ One small MOSFETs is added to the circuit for power saving. PIC MCU controls the
 
 ![universal_board3](./doc/universal_board3.png)
 
-==> [Code](./pic18f25k22/gps_logger.X)
+==> [Code](../src/pic18f25k22/gps_logger.X)
 
 Since all the components are connected via UART, it is easy to replace those parts with other parts from other makers, such as a LoRa module for example.
 
