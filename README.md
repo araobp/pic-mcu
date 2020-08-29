@@ -24,11 +24,17 @@ In the past years, I have used a lot of the following MCUs in my successful IoT 
 
 => **[Project page](TWELITE.md)**
 
+### GPS tracker (PIC18F25K22 with GPS module and Android)
+
+<img src="./doc/universal_board3.png" width="500">
+
+=> **[Project page](I2C_LIB_EVAL.md)**
+
 ### Motion logger for sensing human body movement (PIC16F18326)
 
 <img src="./doc/motion_measurement_system.jpg" width="500">
 
-=> **[Project page](MOTION_LOGGER.md)**
+=> **[Project page](GPS_TRACKER.md)**
 
 ### Door controller (PIC16F1825)
 
