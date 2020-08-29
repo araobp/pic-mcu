@@ -5,8 +5,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "Microchip I2C library evaluation board"
-Date "2020-08-26"
-Rev "rev 0.3"
+Date "2020-08-29"
+Rev "rev 0.4"
 Comp "https://github.com/araobp"
 Comment1 "PIC16F1825"
 Comment2 ""
@@ -86,7 +86,7 @@ F 1 "LED" V 2498 5482 50  0000 R CNN
 F 2 "pic16f1:LED" H 2550 5600 50  0001 C CNN
 F 3 "~" H 2550 5600 50  0001 C CNN
 	1    2550 5600
-	0    -1   -1   0   
+	0    1    1    0   
 $EndComp
 Wire Wire Line
 	3850 5250 2550 5250
@@ -105,17 +105,6 @@ F 3 "~" H 2550 6050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	2550 5900 2550 5750
-$Comp
-L power:GND #PWR02
-U 1 1 5F3290DE
-P 2550 6500
-F 0 "#PWR02" H 2550 6250 50  0001 C CNN
-F 1 "GND" H 2555 6327 50  0000 C CNN
-F 2 "" H 2550 6500 50  0001 C CNN
-F 3 "" H 2550 6500 50  0001 C CNN
-	1    2550 6500
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	2550 6200 2550 6500
 $Comp
@@ -375,4 +364,21 @@ Wire Wire Line
 	4600 6450 4050 6450
 Wire Wire Line
 	4050 6450 4050 6950
+$Comp
+L power:+5V #PWR0103
+U 1 1 5F49DB75
+P 1950 5700
+F 0 "#PWR0103" H 1950 5550 50  0001 C CNN
+F 1 "+5V" H 1965 5873 50  0000 C CNN
+F 2 "" H 1950 5700 50  0001 C CNN
+F 3 "" H 1950 5700 50  0001 C CNN
+	1    1950 5700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2550 6500 1950 6500
+Wire Wire Line
+	1950 6500 1950 5700
+Text Notes 2650 5650 0    50   ~ 0
+Status indicator
 $EndSCHEMATC
