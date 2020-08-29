@@ -7,9 +7,7 @@
 
 ## Goal
 
-I develop an algorithm on PIC16F1 to infer motion of moving objects. The inference result is transferred to PC over TWELITE wireless sensor network.
-
-I assume that the targe objects are animals (incl. people) in this project.
+I develop an algorithm on PIC16F1 to infer the number of people (or animals) walking down a corridor. The inference result is transferred to PC over TWELITE wireless sensor network.
 
 ## Hardware components
 
@@ -23,6 +21,13 @@ Note: I have noticed that TWELITE is succeptible to radio interference.
 
 I use [AMG8833](https://cdn-learn.adafruit.com/assets/assets/000/043/261/original/Grid-EYE_SPECIFICATIONS%28Reference%29.pdf?1498680225
 ) from Panasonic.
+
+The reasons why I do not use an active sensor such as VL53L0X (STMicro) are:
+
+- AMG8833 can count the number of walking people.
+- AMG8833 consumes less power.
+- AMG8833 can measure temperature of a person.
+- AMG8833 can detect directions of walking people.
 
 ## Why I use PIC16F1 with TWELITE
 
@@ -58,6 +63,23 @@ So I just ignore MSB bytes from the sensor, and transfer LSB bytes to TWELITE. I
 Temperature range: 0 - 63.5 degrees Celsius (63.5/0.25 = 0xfe)
 
 Note: the sensor also outputs temperature data from a thermistor on the chip. I transfer both MSB and LSB in this case.
+
+## Installation
+
+```
+  -------------------------------------------------------------------------------------------------------------------
+       [Device on the ceiling] - - - IEE802.14.3 TWELITE - - - - - - - - -> [TWELITE MONOSTICK]--USB--[PC or RaspberryPi]
+                 | AMG8333 facing downwards
+                 V
+                 
+              Person
+                ()
+            --- || --> Walking down the corridor
+                /\
+  --------------------------------------------------------------------------------------------------------------------
+
+```
+
 
 ## Extracting features for motion detection
 
@@ -157,18 +179,18 @@ The bottle neck of data transfer is the following:
 
 #### Notifications
 
-8 bytes (int8_t) data is sent from a slave node to a master node to notify that animals are moving across a line.
+8 bytes (int8_t) data is sent from a slave node to a master node to notify that people are moving across a line.
 
-Example: detecting animals moving along a corridor
+Example: detecting people walking along a corridor
 
 ```
 
-      Corrider
+      Corridor
    |             |
    |             |
-   |  Animal ^   |
+   |  Person ^   |
    | - | - - | - | Line
-   |   V  Animal |
+   |   V  Person |
    |             |
    |             |
 
@@ -191,7 +213,7 @@ The following values are measured with my analog tester.
 |------------------|------------------------------------|
 |Power supply      | 1.5V battery x 4 = 6V              |
 |Current           | 30mA (active) or 5mA (sleep)       |
-|Power consumption | 6V x 30mA = 180mA                  |
+|Power consumption | 6V x 30mA = 180mW                  |
 |Internal current (TWELITE and AMG8833) | 25mA between headers adjacent to FET|
 |VDD-GND voltage at PIC16F18326  | 3.4V                 |
 |VCC-GND voltage at TWELITE-DIP or AMG8833 | 3.3V       |
