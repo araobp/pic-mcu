@@ -28,13 +28,13 @@ In the past years, I have used a lot of the following MCUs in my successful IoT 
 
 <img src="./doc/universal_board3.png" width="500">
 
-=> **[Project page](I2C_LIB_EVAL.md)**
+=> **[Project page](GPS_TRACKER.md)**
 
 ### Motion logger for sensing human body movement (PIC16F18326)
 
 <img src="./doc/motion_measurement_system.jpg" width="500">
 
-=> **[Project page](GPS_TRACKER.md)**
+=> **[Project page](MOTION_LOGGER.md)**
 
 ### Door controller (PIC16F1825)
 
