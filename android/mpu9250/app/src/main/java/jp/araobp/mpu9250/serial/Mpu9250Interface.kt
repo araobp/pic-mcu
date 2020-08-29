@@ -51,7 +51,7 @@ class Mpu9250Interface(context: Context, baudrate: Int, val receiver: IDataRecei
     }
 
     private var mIdx = 0
-    private var state: State = State.HEADER_DETECTING
+    private var mState: State = State.HEADER_DETECTING
     private var bodyMpu9250Data = ArrayList<Byte>()
     private var bodyAk8963Data = ArrayList<Byte>()
 
@@ -90,16 +90,16 @@ class Mpu9250Interface(context: Context, baudrate: Int, val receiver: IDataRecei
         for (i in 0 until len) {
             val b = messageFraction[i]
 
-            when (state) {
+            when (mState) {
                 State.HEADER_DETECTING -> {
                     when (b) {
                         TYPE_MPU9250 -> {
-                            state = State.TYPE_MPU9250_RECEIVING
+                            mState = State.TYPE_MPU9250_RECEIVING
                             bodyMpu9250Data.clear()
                             mIdx = 0
                         }
                         TYPE_AK8963 -> {
-                            state = State.TYPE_AK8963_RECEIVING
+                            mState = State.TYPE_AK8963_RECEIVING
                             bodyAk8963Data.clear()
                             mIdx = 0
                         }
@@ -119,7 +119,7 @@ class Mpu9250Interface(context: Context, baudrate: Int, val receiver: IDataRecei
                         val data = Mpu9250Data(seq, ax, ay, az, gx, gy, gz)
                         Log.d(TAG, data.toString())
                         receiver.onMpu9250Data(data)
-                        state = State.HEADER_DETECTING
+                        mState = State.HEADER_DETECTING
                     }
                 }
 
@@ -133,7 +133,7 @@ class Mpu9250Interface(context: Context, baudrate: Int, val receiver: IDataRecei
                         val data = Ak8963Data(seq, mx, my, mz)
                         Log.d(TAG, data.toString())
                         receiver.onAk8963Data(data)
-                        state = State.HEADER_DETECTING
+                        mState = State.HEADER_DETECTING
                     }
                 }
             }

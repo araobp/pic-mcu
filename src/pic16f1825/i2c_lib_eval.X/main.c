@@ -124,7 +124,8 @@ void main(void) {
     uint8_t value;
 
     state = RUNNING;
-
+    LED_SetHigh();
+    
     while (1) {
         if (EUSART_DataReady) {
             uint8_t c = EUSART_Read();
@@ -132,7 +133,7 @@ void main(void) {
                 case RUNNING:
                     if (c == 0xFF) {
                         state = CMD_H_WAITING; // Header H
-                        LED_SetLow();
+                        //LED_SetLow();
                     }
                     break;
                 case CMD_H_WAITING:
@@ -140,7 +141,7 @@ void main(void) {
                     if (cmd_h == 0xFF) {
                         state = CMD_H_WAITING;
                     } else if (cmd_h == 0xFE) {
-                        LED_SetHigh();
+                        //LED_SetHigh();
                         state = RUNNING;
                     } else {
                         state = CMD_L_WAITING;
@@ -164,7 +165,6 @@ void tmr0_interrupt_handler() {
     static uint8_t tmr_cnt = 0U;
     
     if (state == RUNNING) {
-        //LED_Toggle();
 
         if (DEBUG) {
             mpu9250_accel_set_range(3);
@@ -184,7 +184,8 @@ void tmr0_interrupt_handler() {
             // Send accelerometer data to the host at 10Hz
             if (tmr_cnt == 0) {
                 ak8963_magneto_read(&data);
-                ak8963_binary_output_to_uart(&data);                
+                ak8963_binary_output_to_uart(&data);
+                LED_Toggle();
             }
         }
     }

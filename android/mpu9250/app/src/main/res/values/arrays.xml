@@ -2,17 +2,17 @@
 <resources>
 
     <string-array name="accel_range">
-        <item>±2g</item>
-        <item>±4g</item>
-        <item>±8g</item>
-        <item>±16g</item>
+        <item>G_2</item>
+        <item>G_4</item>
+        <item>G_8</item>
+        <item>G_16</item>
     </string-array>
 
     <string-array name="gyro_range">
-        <item>250dps</item>
-        <item>500dps</item>
-        <item>1000dps</item>
-        <item>2000dps</item>
+        <item>DPS_250</item>
+        <item>DPS_500</item>
+        <item>DPS_1000</item>
+        <item>DPS_2000</item>
     </string-array>
 
     <string-array name="magneto_magnification">

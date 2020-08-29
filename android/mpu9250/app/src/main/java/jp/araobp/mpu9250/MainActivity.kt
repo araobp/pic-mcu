@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
             val TAG: String = this::class.java.simpleName
-            const val BAUDRATE = "baudrate"
         }
 
     private lateinit var mProps: Properties
@@ -46,9 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         // Settings dialog
         buttonSettings.setOnClickListener {
-
-            mProps.load()
-
+            
             val dialog = Dialog(this)
             dialog.setContentView(R.layout.settings)
 
@@ -76,18 +73,10 @@ class MainActivity : AppCompatActivity() {
             dialog.show()
         }
 
-        buttonAccelGyro.setOnClickListener {
-            val intent = Intent(this, AccelGyroActivity::class.java).apply {
-                putExtra(BAUDRATE, mProps.baudrate)
-            }
+        buttonAnalyzer.setOnClickListener {
+            val intent = Intent(this, AnalyzerActivity::class.java)
             startActivity(intent)
         }
 
-        buttonMagneto.setOnClickListener {
-            val intent = Intent(this, MagnetoActivity::class.java).apply {
-                putExtra(BAUDRATE, mProps.baudrate)
-            }
-            startActivity(intent)
-        }
     }
 }
