@@ -57,7 +57,7 @@ One small MOSFETs is added to the circuit for power saving. PIC MCU controls the
 
 ![universal_board3](./doc/universal_board3.png)
 
-==> [Code](./pic18f25k22/gps_logger.X)
+==> [Code](./src/pic18f25k22/gps_logger.X)
 
 Since all the components are connected via UART, it is easy to replace those parts with other parts from other makers, such as a LoRa module for example.
 
@@ -107,13 +107,13 @@ Protocol stack of the driver part of the Android app:
 
 Android works as USB host in this case:
 
-=> [Code](./android/nema_dump)
+=> [Code](./android/gps/nema_dump)
 
 ### Etc
 
 I have also developed a TWELITE message dump app for android:
 
-=> [Code](./android/twelite_dump)
+=> [Code](./android/gps/twelite_dump)
 
 ### Field test
 
