@@ -107,13 +107,13 @@ Protocol stack of the driver part of the Android app:
 
 Android works as USB host in this case:
 
-=> [Code](./android/nema_dump)
+=> [Code](./android/gps/nema_dump)
 
 ### Etc
 
 I have also developed a TWELITE message dump app for android:
 
-=> [Code](./android/twelite_dump)
+=> [Code](./android/gps/twelite_dump)
 
 ### Field test
 
