@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name pic)(type KiCad)(uri ${KIPRJMOD}/pic.pretty)(options "")(descr ""))
+  (lib (name gnss_logger)(type KiCad)(uri ${KIPRJMOD}/gnss_logger.pretty/gnss_logger.pretty)(options "")(descr ""))
+)

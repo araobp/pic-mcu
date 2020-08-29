@@ -1,0 +1,5 @@
+(sym_lib_table
+  (lib (name gnss_logger)(type Legacy)(uri ${KIPRJMOD}/gnss_logger.lib)(options "")(descr ""))
+  (lib (name i2c_adaptor)(type Legacy)(uri ${KIPRJMOD}/i2c_adaptor.lib)(options "")(descr ""))
+  (lib (name i2c_adaptor2)(type Legacy)(uri ${KIPRJMOD}/i2c_adaptor2.lib)(options "")(descr ""))
+)

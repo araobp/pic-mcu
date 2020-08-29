@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">NEMA DUMP</string>
+    <string name="buttonAverage">AVG</string>
+    <string name="buttonMap">MAP</string>
+</resources>
