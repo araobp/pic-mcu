@@ -117,7 +117,7 @@ class Mpu9250Interface(context: Context, baudrate: Int, val receiver: IDataRecei
                         val gy = toShort(bodyMpu9250Data[10], bodyMpu9250Data[11])
                         val gz = toShort(bodyMpu9250Data[12], bodyMpu9250Data[13])
                         val data = Mpu9250Data(seq, ax, ay, az, gx, gy, gz)
-                        Log.d(TAG, data.toString())
+                        // Log.d(TAG, data.toString())
                         receiver.onMpu9250Data(data)
                         mState = State.HEADER_DETECTING
                     }
@@ -131,7 +131,7 @@ class Mpu9250Interface(context: Context, baudrate: Int, val receiver: IDataRecei
                         val my = toShort(bodyAk8963Data[4], bodyAk8963Data[5])
                         val mz = toShort(bodyAk8963Data[6], bodyAk8963Data[7])
                         val data = Ak8963Data(seq, mx, my, mz)
-                        Log.d(TAG, data.toString())
+                        // Log.d(TAG, data.toString())
                         receiver.onAk8963Data(data)
                         mState = State.HEADER_DETECTING
                     }

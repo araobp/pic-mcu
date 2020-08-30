@@ -2,14 +2,15 @@ package jp.araobp.mpu9250.analyzer
 
 import android.graphics.Color
 import android.view.SurfaceView
+import jp.araobp.mpu9250.Properties
+import jp.araobp.mpu9250.serial.Ak8963Data
+import kotlin.collections.ArrayList
 
-class MagnetoViewer(val surfaceView: SurfaceView, val maxNumEntries: Int) {
+class MagnetoViewer(val surfaceView: SurfaceView, val maxNumEntries: Int, val props: Properties) {
 
     companion object {
         const val POINT_RADIUS = 3F
     }
-
-    var magnify = 1F
 
     private val mBufRecords = arrayOf(
         ArrayList<Short>(maxNumEntries),
@@ -19,14 +20,20 @@ class MagnetoViewer(val surfaceView: SurfaceView, val maxNumEntries: Int) {
 
     fun clear() = mBufRecords.forEach { it.clear() }
 
-    fun update3axis(data: Array<Short>) {
+    fun update(data: Ak8963Data) {
+
+        val array = arrayOf(
+            data.mx,
+            data.my,
+            data.mz
+        )
 
         mBufRecords.forEachIndexed { axis, shorts ->
             // Bounded array list
             if (shorts.size >= maxNumEntries) {
                 shorts.removeAt(0)
             }
-            shorts.add(data[axis])
+            shorts.add(array[axis])
         }
 
         val canvas = surfaceView.holder.lockCanvas()
@@ -60,9 +67,9 @@ class MagnetoViewer(val surfaceView: SurfaceView, val maxNumEntries: Int) {
         )
 
         for (i in 0 until mBufRecords[0].size) {
-            val mx = mBufRecords[0][i] * scale * magnify
-            val my = mBufRecords[1][i] * scale * magnify
-            val mz = mBufRecords[2][i] * scale * magnify
+            val mx = mBufRecords[0][i] * scale * props.magnetoMagnify
+            val my = mBufRecords[1][i] * scale * props.magnetoMagnify
+            val mz = mBufRecords[2][i] * scale * props.magnetoMagnify
 
             // XY plane
             val xy_X = -mx + xCenter
@@ -79,6 +86,13 @@ class MagnetoViewer(val surfaceView: SurfaceView, val maxNumEntries: Int) {
             val zx_Y = mx + yCenter
             canvas.drawCircle(zx_X, zx_Y, POINT_RADIUS, YELLOW_POINT)
         }
+
+        val textStartX = width - 100
+        val textStartY = height - 100
+
+        canvas.drawText("xy", textStartX, height - 150, RED_POINT)
+        canvas.drawText("yz", textStartX, height - 100, GREEN_POINT)
+        canvas.drawText("zx", textStartX, height - 50, YELLOW_POINT)
 
         surfaceView.holder.unlockCanvasAndPost(canvas)
     }

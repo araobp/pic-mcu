@@ -2,6 +2,8 @@ package jp.araobp.mpu9250.analyzer
 
 import android.graphics.Color
 import android.view.SurfaceView
+import jp.araobp.mpu9250.Properties
+import jp.araobp.mpu9250.serial.Mpu9250Data
 
 class Oscilloscope(val surfaceView: SurfaceView, val maxNumEntries: Int) {
 
@@ -15,14 +17,23 @@ class Oscilloscope(val surfaceView: SurfaceView, val maxNumEntries: Int) {
     )
     private val colors = arrayOf(RED_STROKE, GREEN_STROKE, YELLOW_STROKE, BLUE_STROKE, MAGENTA_STROKE, CYAN_STROKE)
 
-    fun update6axis(data: Array<Short>) {
+    fun update(data: Mpu9250Data) {
+
+        val array = arrayOf(
+            data.ax,
+            data.ay,
+            data.az,
+            data.gx,
+            data.gy,
+            data.gz
+        )
 
         mBufRecords.forEachIndexed { axis, shorts ->
             // Bounded array list
             if (shorts.size >= maxNumEntries) {
                 shorts.removeAt(0)
             }
-            shorts.add(data[axis])
+            shorts.add(array[axis])
         }
 
         val canvas = surfaceView.holder.lockCanvas()
@@ -31,8 +42,8 @@ class Oscilloscope(val surfaceView: SurfaceView, val maxNumEntries: Int) {
         val height = canvas.height.toFloat()
 
         canvas.drawColor(Color.BLACK)
-        val xRatio = width.toFloat() / maxNumEntries.toFloat()
-        val yZeroLine = height.toFloat() / 2F
+        val xRatio = width / maxNumEntries.toFloat()
+        val yZeroLine = height / 2F
         val yMax = yZeroLine * 9F / 10F
         val yMaxLine = yZeroLine - yMax
         val yMinLine = yZeroLine + yMax

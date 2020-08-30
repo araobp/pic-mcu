@@ -49,14 +49,17 @@ val CYAN_STROKE = Paint().apply {
 val RED_POINT = Paint().apply {
     style = Paint.Style.FILL
     color = Color.RED
+    textSize = 38F
 }
 
 val GREEN_POINT = Paint().apply {
     style = Paint.Style.FILL
     color = Color.GREEN
+    textSize = 38F
 }
 
 val YELLOW_POINT = Paint().apply {
     style = Paint.Style.FILL
     color = Color.YELLOW
+    textSize = 38F
 }

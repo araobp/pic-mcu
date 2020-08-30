@@ -18,38 +18,9 @@ import kotlinx.android.synthetic.main.activity_analyzer.*
 class AnalyzerActivity : AppCompatActivity() {
 
     companion object {
-        const val MAX_NUM_ENTRIES = 128
-    }
+        const val MAX_NUM_ENTRIES_6AXES = 256
+        const val MAX_NUM_ENTRIES_3AXES = 128
 
-    private fun updateWaveform(data: Any) {
-
-        when (data) {
-            is Mpu9250Data -> {
-                oscilloscope?.update6axis(
-                    arrayOf(
-                        data.ax,
-                        data.ay,
-                        data.az,
-                        data.gx,
-                        data.gy,
-                        data.gz
-                    )
-                )
-            }
-            is Ak8963Data -> {
-
-            }
-        }
-    }
-
-    private fun updateViewer(data: Ak8963Data) {
-        magnetoViewer?.update3axis(
-            arrayOf(
-                data.mx,
-                data.my,
-                data.mz
-            )
-        )
     }
 
     private lateinit var mpu9250Interface: Mpu9250Interface
@@ -93,7 +64,7 @@ class AnalyzerActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_analyzer)
 
-        setTitle("AI")
+        setTitle("Analyzer")
 
         fullscreen(window)
 
@@ -103,40 +74,60 @@ class AnalyzerActivity : AppCompatActivity() {
 
         surfaceView6axis.post {
             oscilloscope = Oscilloscope(
-                surfaceView = surfaceView6axis, maxNumEntries = MAX_NUM_ENTRIES
+                surfaceView = surfaceView6axis, maxNumEntries = MAX_NUM_ENTRIES_6AXES
             )
         }
 
         surfaceView3axis.post {
             magnetoViewer = MagnetoViewer(
-                surfaceView = surfaceView3axis, maxNumEntries = MAX_NUM_ENTRIES
+                surfaceView = surfaceView3axis,
+                maxNumEntries = MAX_NUM_ENTRIES_3AXES,
+                props = mProps
             )
         }
 
         buttonEdit.setOnClickListener {
-                val dialog = Dialog(this)
-                dialog.setContentView(R.layout.class_edit)
-                val listViewLabels = dialog.findViewById<ListView>(R.id.listViewLabels)
-                val buttonAdd = dialog.findViewById<Button>(R.id.buttonAdd)
-                val buttonDelete = dialog.findViewById<Button>(R.id.buttonDelete)
-                val editTextClassLabel = dialog.findViewById<EditText>(R.id.editTextClassLabel)
+            val dialog = Dialog(this)
+            dialog.setContentView(R.layout.class_edit)
+            val listViewLabels = dialog.findViewById<ListView>(R.id.listViewLabels)
+            val buttonAdd = dialog.findViewById<Button>(R.id.buttonAdd)
+            val buttonDelete = dialog.findViewById<Button>(R.id.buttonDelete)
+            val editTextClassLabel = dialog.findViewById<EditText>(R.id.editTextClassLabel)
 
-                var adapterClasses = ArrayAdapter(
-                    this,
-                    android.R.layout.simple_list_item_1,
-                    mProps.classLabels.toList()
-                )
-                listViewLabels.adapter = adapterClasses
+            var adapterClasses = ArrayAdapter(
+                this,
+                android.R.layout.simple_list_item_1,
+                mProps.classLabels.toList()
+            )
+            listViewLabels.adapter = adapterClasses
 
-                var posListViewLabels: Int? = null
+            var posListViewLabels: Int? = null
 
-                listViewLabels.setOnItemClickListener { _, _, position, _ ->
-                    posListViewLabels = position
+            listViewLabels.setOnItemClickListener { _, _, position, _ ->
+                posListViewLabels = position
+            }
+
+            buttonDelete.setOnClickListener {
+                posListViewLabels?.let {
+                    mProps.classLabels.removeAt(it)
+                    adapterClasses = ArrayAdapter(
+                        this,
+                        android.R.layout.simple_list_item_1,
+                        mProps.classLabels.toList()
+                    )
+                    listViewLabels.adapter = adapterClasses
+                    mProps.save()
                 }
+            }
 
-                buttonDelete.setOnClickListener {
-                    posListViewLabels?.let {
-                        mProps.classLabels.removeAt(it)
+            buttonAdd.setOnClickListener {
+                var classLabel = editTextClassLabel.text.toString()
+                if (classLabel.matches(Regex("[A-Za-z0-9_]+"))) {
+                    classLabel = classLabel.toCharArray()
+                        .filter { it in 'a'..'z' || it in 'A'..'Z' || it in '0'..'9' || it == '_' }
+                        .joinToString(separator = "") // Remove non-alphanumeric chars
+                    if (!mProps.classLabels.contains(classLabel)) {
+                        mProps.classLabels.add(classLabel)
                         adapterClasses = ArrayAdapter(
                             this,
                             android.R.layout.simple_list_item_1,
@@ -146,34 +137,25 @@ class AnalyzerActivity : AppCompatActivity() {
                         mProps.save()
                     }
                 }
-
-                buttonAdd.setOnClickListener {
-                    var classLabel = editTextClassLabel.text.toString()
-                    if (classLabel.matches(Regex("[A-Za-z0-9_]+"))) {
-                        classLabel = classLabel.toCharArray()
-                            .filter { it in 'a'..'z' || it in 'A'..'Z' || it in '0'..'9' || it == '_' }
-                            .joinToString(separator = "") // Remove non-alphanumeric chars
-                        if (!mProps.classLabels.contains(classLabel)) {
-                            mProps.classLabels.add(classLabel)
-                            adapterClasses = ArrayAdapter(
-                                this,
-                                android.R.layout.simple_list_item_1,
-                                mProps.classLabels.toList()
-                            )
-                            listViewLabels.adapter = adapterClasses
-                            mProps.save()
-                        }
-                    }
-                }
-
-                dialog.setOnDismissListener {
-                    spinnerLabel.adapter = adapterClasses
-                    fullscreen(window)
-                }
-
-                dialog.show()
             }
 
+            dialog.setOnDismissListener {
+                spinnerLabel.adapter = adapterClasses
+                fullscreen(window)
+            }
+
+            dialog.show()
+        }
+
+        toggleButtonCapture.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) magnetoViewer?.clear()
+        }
+
+        spinnerAccelRange.setSelection(mProps.accelRange.ordinal)
+        spinnerGyroRange.setSelection(mProps.gyroRange.ordinal)
+
+        val pos = resources.getStringArray(R.array.magneto_magnification).toList().indexOf(mProps.magnetoMagnify.toString())
+        spinnerMagnify.setSelection(pos)
 
         spinnerAccelRange.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -212,7 +194,6 @@ class AnalyzerActivity : AppCompatActivity() {
                 ) {
                     var magnetoMagnify = spinnerMagnify.selectedItem.toString()
                     mProps.magnetoMagnify = magnetoMagnify.toInt()
-                    magnetoViewer?.magnify = magnetoMagnify.toFloat()
                     mProps.save()
                 }
             }
@@ -230,6 +211,7 @@ class AnalyzerActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
         mpu9250Interface = Mpu9250Interface(this, mProps.baudrate,
             object : IDataReceiver {
                 override fun onMpu9250Data(data: Mpu9250Data) {
@@ -237,7 +219,7 @@ class AnalyzerActivity : AppCompatActivity() {
                         textViewDump.post {
                             textViewDump.append(data.toString() + "\n")
                         }
-                        updateWaveform(data)
+                        oscilloscope?.update(data)
                     }
                 }
 
@@ -246,10 +228,13 @@ class AnalyzerActivity : AppCompatActivity() {
                         textViewDump.post {
                             textViewDump.append(data.toString() + "\n")
                         }
-                        updateViewer(data)
+                        magnetoViewer?.update(data)
                     }
                 }
             })
+
+        setAccelRangeValue(spinnerAccelRange.selectedItem.toString())
+        setGyroRangeValue(spinnerGyroRange.selectedItem.toString())
     }
 
     override fun onPause() {
