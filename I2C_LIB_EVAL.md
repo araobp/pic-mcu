@@ -65,6 +65,6 @@ I use I2C bus to access all the sensors in the module.
 
 ## References
 
-- ![Magnetometer calibration](https://github.com/kriswiner/MPU6050/wiki/Simple-and-Effective-Magnetometer-Calibration)
+- [Magnetometer calibration](https://github.com/kriswiner/MPU6050/wiki/Simple-and-Effective-Magnetometer-Calibration)
 
 
