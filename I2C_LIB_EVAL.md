@@ -1,6 +1,6 @@
 # Oscilloscope for 9-axis sensor (PIC1825 with MPU9250 and Android)
 
-<img src="./doc/pic16f1825_board.jpg" width="500">
+<img src="./doc/imu_board.png" width="500">
 
 ## Background
 
