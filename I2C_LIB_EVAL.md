@@ -43,9 +43,9 @@ The module I purchased from Amazon is MPU-9255. The module includes an accelerom
 
 ## Schematic
 
-I designed my original PIC16F1 evaluation board four years ago. I use the board this time.
-
 [Schematic](./kicad/i2c_lib_eval/i2c_lib_eval.pdf)
+
+The universal board has 14 holes x 17 holes.
 
 ## Code 
 
