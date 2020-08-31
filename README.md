@@ -12,9 +12,9 @@ In the past years, I have used a lot of the following MCUs in my successful IoT 
 
 ## Application components
 
-### Oscilloscope for nine-axis sensor (PIC16F1825 with MPU9250 and Android)
+### Human motion recognition by IMU and Android (PIC16F1825 with MPU9250 and Android)
 
-<img src="./doc/imu_gui.png" width="250">
+<img src="./doc/imu_board.png" width="400">
 
 => **[Project page](I2C_LIB_EVAL.md)**
 
@@ -26,7 +26,7 @@ In the past years, I have used a lot of the following MCUs in my successful IoT 
 
 ### GPS tracker (PIC18F25K22 with GPS module and Android)
 
-<img src="./doc/universal_board3.png" width="500">
+<img src="./doc/universal_board3.png" width="350">
 
 => **[Project page](GPS_TRACKER.md)**
 
