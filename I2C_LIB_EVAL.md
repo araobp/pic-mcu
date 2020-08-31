@@ -1,4 +1,4 @@
-# Oscilloscope for 9-axis sensor (PIC1825 with MPU9250 and Android)
+# Human motion recognition by IMU and Android (PIC1825 with MPU9250 and Android)
 
 <img src="./doc/imu_board.png" width="500">
 
