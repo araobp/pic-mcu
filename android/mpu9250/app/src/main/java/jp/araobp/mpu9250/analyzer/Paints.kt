@@ -27,7 +27,6 @@ val YELLOW_STROKE = Paint().apply {
     strokeWidth = 3F
 }
 
-
 val BLUE_STROKE = Paint().apply {
     style = Paint.Style.STROKE
     color = Color.BLUE
@@ -63,3 +62,47 @@ val YELLOW_POINT = Paint().apply {
     color = Color.YELLOW
     textSize = 38F
 }
+
+val DARK_GRAY_TEXT = Paint().apply {
+    style = Paint.Style.FILL_AND_STROKE
+    color = Color.DKGRAY
+    textSize = 38F
+}
+
+val GREEN_TEXT = Paint().apply {
+    style = Paint.Style.FILL_AND_STROKE
+    color = Color.GREEN
+    textSize = 38F
+}
+
+val RED_TEXT = Paint().apply {
+    style = Paint.Style.FILL_AND_STROKE
+    color = Color.RED
+    textSize = 38F
+}
+
+val YELLOW_TEXT = Paint().apply {
+    style = Paint.Style.FILL_AND_STROKE
+    color = Color.YELLOW
+    textSize = 38F
+}
+
+
+val BLUE_TEXT = Paint().apply {
+    style = Paint.Style.FILL_AND_STROKE
+    color = Color.BLUE
+    textSize = 38F
+}
+
+val MAGENTA_TEXT = Paint().apply {
+    style = Paint.Style.FILL_AND_STROKE
+    color = Color.MAGENTA
+    textSize = 38F
+}
+
+val CYAN_TEXT = Paint().apply {
+    style = Paint.Style.FILL_AND_STROKE
+    color = Color.CYAN
+    textSize = 38F
+}
+

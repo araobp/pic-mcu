@@ -5,6 +5,7 @@ import android.view.SurfaceView
 import jp.araobp.mpu9250.Properties
 import jp.araobp.mpu9250.serial.Ak8963Data
 import kotlin.collections.ArrayList
+import kotlin.concurrent.thread
 
 class MagnetoViewer(val surfaceView: SurfaceView, val maxNumEntries: Int, val props: Properties) {
 
@@ -19,6 +20,20 @@ class MagnetoViewer(val surfaceView: SurfaceView, val maxNumEntries: Int, val pr
     )
 
     fun clear() = mBufRecords.forEach { it.clear() }
+
+    var mListener: IMagnetoEventListener? = null
+    var mCalibrate = false
+    var mCalibNumSamples = 0
+
+    private var mOffsets = arrayOf(0F, 0F, 0F)
+    private var mScales = arrayOf(1F, 1F, 1F)
+
+    fun startCalibration(listener: IMagnetoEventListener) {
+        clear()
+        mListener = listener
+        mCalibrate = true
+    }
+
 
     fun update(data: Ak8963Data) {
 
@@ -46,7 +61,7 @@ class MagnetoViewer(val surfaceView: SurfaceView, val maxNumEntries: Int, val pr
         val xCenter = width / 2F
         val yCenter = height / 2F
 
-        val scale = height / 2F / Short.MAX_VALUE
+        val range = height / 2F / Short.MAX_VALUE
 
         // X zero line
         canvas.drawLine(
@@ -67,9 +82,9 @@ class MagnetoViewer(val surfaceView: SurfaceView, val maxNumEntries: Int, val pr
         )
 
         for (i in 0 until mBufRecords[0].size) {
-            val mx = mBufRecords[0][i] * scale * props.magnetoMagnify
-            val my = mBufRecords[1][i] * scale * props.magnetoMagnify
-            val mz = mBufRecords[2][i] * scale * props.magnetoMagnify
+            val mx = (mBufRecords[0][i] - mOffsets[0]) * mScales[0] * range * props.magnetoMagnify
+            val my = (mBufRecords[1][i] - mOffsets[1]) * mScales[1] * range * props.magnetoMagnify
+            val mz = (mBufRecords[2][i] - mOffsets[2]) * mScales[2] * range * props.magnetoMagnify
 
             // XY plane
             val xy_X = -mx + xCenter
@@ -87,13 +102,41 @@ class MagnetoViewer(val surfaceView: SurfaceView, val maxNumEntries: Int, val pr
             canvas.drawCircle(zx_X, zx_Y, POINT_RADIUS, YELLOW_POINT)
         }
 
+        // Graph legends
         val textStartX = width - 100
-        val textStartY = height - 100
-
-        canvas.drawText("xy", textStartX, height - 150, RED_POINT)
-        canvas.drawText("yz", textStartX, height - 100, GREEN_POINT)
-        canvas.drawText("zx", textStartX, height - 50, YELLOW_POINT)
+        canvas.drawText("xy", textStartX, height - 150, RED_TEXT)
+        canvas.drawText("yz", textStartX, height - 100, GREEN_TEXT)
+        canvas.drawText("zx", textStartX, height - 50, YELLOW_TEXT)
 
         surfaceView.holder.unlockCanvasAndPost(canvas)
+
+        if (mCalibrate) {
+            if (++mCalibNumSamples >= maxNumEntries) {
+                mCalibrate = false
+                mCalibNumSamples = 0
+                performCalibration()
+            }
+        }
     }
+
+    private fun performCalibration() {
+        thread {
+            val minMaxHalves = arrayOf(0F, 0F, 0F)
+
+            mBufRecords.forEachIndexed { idx, arrayList ->
+                val magMin = arrayList.min()!!
+                val magMax = arrayList.max()!!
+                mOffsets[idx] = (magMax + magMin) / 2F
+                minMaxHalves[idx] = (magMax - magMin) / 2F
+            }
+
+            val average = minMaxHalves.sum() / 3F
+            minMaxHalves.forEachIndexed { idx, scale ->
+                mScales[idx] = average / scale
+            }
+
+            mListener?.onCalibrationFinished()
+        }
+    }
+
 }

@@ -7,6 +7,7 @@ import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import jp.araobp.mpu9250.analyzer.IMagnetoEventListener
 import jp.araobp.mpu9250.analyzer.MagnetoViewer
 import jp.araobp.mpu9250.analyzer.Oscilloscope
 import jp.araobp.mpu9250.serial.Ak8963Data
@@ -60,7 +61,7 @@ class AnalyzerActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         setContentView(R.layout.activity_analyzer)
 
@@ -154,7 +155,8 @@ class AnalyzerActivity : AppCompatActivity() {
         spinnerAccelRange.setSelection(mProps.accelRange.ordinal)
         spinnerGyroRange.setSelection(mProps.gyroRange.ordinal)
 
-        val pos = resources.getStringArray(R.array.magneto_magnification).toList().indexOf(mProps.magnetoMagnify.toString())
+        val pos = resources.getStringArray(R.array.magneto_magnification).toList()
+            .indexOf(mProps.magnetoMagnify.toString())
         spinnerMagnify.setSelection(pos)
 
         spinnerAccelRange.onItemSelectedListener =
@@ -197,6 +199,20 @@ class AnalyzerActivity : AppCompatActivity() {
                     mProps.save()
                 }
             }
+
+        buttonCalibrate.setOnClickListener {
+            buttonCalibrate.isEnabled = false
+
+            magnetoViewer?.startCalibration(
+                object : IMagnetoEventListener {
+                    override fun onCalibrationFinished() {
+                        buttonCalibrate.post {
+                            buttonCalibrate.isEnabled = true
+                        }
+                    }
+                }
+            )
+        }
 
         toggleButtonDump.setOnCheckedChangeListener { _, isChecked ->
             enableDumpWindow(isChecked)

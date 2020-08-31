@@ -2,12 +2,11 @@ package jp.araobp.mpu9250.analyzer
 
 import android.graphics.Color
 import android.view.SurfaceView
-import jp.araobp.mpu9250.Properties
 import jp.araobp.mpu9250.serial.Mpu9250Data
 
 class Oscilloscope(val surfaceView: SurfaceView, val maxNumEntries: Int) {
 
-    private val mBufRecords = arrayOf(
+    private val bufRecords = arrayOf(
         ArrayList<Short>(maxNumEntries),
         ArrayList(maxNumEntries),
         ArrayList(maxNumEntries),
@@ -15,7 +14,9 @@ class Oscilloscope(val surfaceView: SurfaceView, val maxNumEntries: Int) {
         ArrayList(maxNumEntries),
         ArrayList(maxNumEntries)
     )
-    private val colors = arrayOf(RED_STROKE, GREEN_STROKE, YELLOW_STROKE, BLUE_STROKE, MAGENTA_STROKE, CYAN_STROKE)
+
+    private val colorsLine = arrayOf(RED_STROKE, GREEN_STROKE, YELLOW_STROKE, BLUE_STROKE, MAGENTA_STROKE, CYAN_STROKE)
+    private val colorsText = arrayOf(RED_TEXT, GREEN_TEXT, YELLOW_TEXT, BLUE_TEXT, MAGENTA_TEXT, CYAN_TEXT)
 
     fun update(data: Mpu9250Data) {
 
@@ -28,7 +29,7 @@ class Oscilloscope(val surfaceView: SurfaceView, val maxNumEntries: Int) {
             data.gz
         )
 
-        mBufRecords.forEachIndexed { axis, shorts ->
+        bufRecords.forEachIndexed { axis, shorts ->
             // Bounded array list
             if (shorts.size >= maxNumEntries) {
                 shorts.removeAt(0)
@@ -74,7 +75,7 @@ class Oscilloscope(val surfaceView: SurfaceView, val maxNumEntries: Int) {
             DARK_GRAY_STROKE
         )
 
-        mBufRecords.forEachIndexed { axis, shorts ->
+        bufRecords.forEachIndexed { axis, shorts ->
             for (i in shorts.size - 1 downTo 1) {
                 val v = -shorts[i] * scale + yZeroLine
                 val vNext = -shorts[i - 1] * scale + yZeroLine
@@ -83,10 +84,20 @@ class Oscilloscope(val surfaceView: SurfaceView, val maxNumEntries: Int) {
                     v,
                     (shorts.size - i).toFloat() * xRatio,
                     vNext,
-                    colors[axis]
+                    colorsLine[axis]
                 )
             }
         }
+
+        // Graph legends
+        // Graph legends
+        val textStartX = width - 100
+        canvas.drawText("ax", textStartX, height - 300, colorsText[0])
+        canvas.drawText("ay", textStartX, height - 250, colorsText[1])
+        canvas.drawText("az", textStartX, height - 200, colorsText[2])
+        canvas.drawText("gx", textStartX, height - 150, colorsText[3])
+        canvas.drawText("gy", textStartX, height - 100, colorsText[4])
+        canvas.drawText("gz", textStartX, height - 50, colorsText[5])
 
         surfaceView.holder.unlockCanvasAndPost(canvas)
     }

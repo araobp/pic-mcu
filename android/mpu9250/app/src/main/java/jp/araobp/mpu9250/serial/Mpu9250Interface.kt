@@ -137,7 +137,6 @@ class Mpu9250Interface(context: Context, baudrate: Int, val receiver: IDataRecei
                     }
                 }
             }
-
         }
     }
 }

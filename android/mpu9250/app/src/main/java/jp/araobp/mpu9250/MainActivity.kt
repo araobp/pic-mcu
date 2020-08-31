@@ -8,6 +8,7 @@ import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,13 +36,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         setContentView(R.layout.activity_main)
 
         mProps = Properties(this)
 
-        textViewIpAddress.text = "IP address: ${ipAddress()}"
+        try {
+            textViewIpAddress.text = "IP address: ${ipAddress()}"
+        } catch (e: Exception) {
+            Log.d(TAG, e.toString())
+        }
 
         // Settings dialog
         buttonSettings.setOnClickListener {
