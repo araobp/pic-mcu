@@ -57,11 +57,7 @@ I use I2C bus to access all the sensors in the module.
 
 ## Android app screen shots
 
-![oscilloscope](./doc/oscilloscope_for_6_axis_sensor.png)
-
-![magneto_z_axis](./doc/magnetometer_z_axis_rotation.png)
-
-![magneto_figure_eight](./doc/magnetometer_figure_eight_flight.png)
+![gui](./doc/imu_gui.png)
 
 ## References
 
