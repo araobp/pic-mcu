@@ -26,19 +26,19 @@ In the past years, I have used a lot of the following MCUs in my successful IoT 
 
 ### GPS tracker (PIC18F25K22 with GPS module and Android)
 
-<img src="./doc/universal_board3.png" width="500">
+<img src="./doc/universal_board3.png" width="350">
 
 => **[Project page](GPS_TRACKER.md)**
 
 ### Motion logger for sensing human body movement (PIC16F18326)
 
-<img src="./doc/motion_measurement_system.jpg" width="500">
+<img src="./doc/motion_measurement_system.jpg" width="400">
 
 => **[Project page](MOTION_LOGGER.md)**
 
 ### Door controller (PIC16F1825)
 
-<img src="./doc/door_controller.jpg" width="400">
+<img src="./doc/door_controller.jpg" width="300">
 
 => **[Project page](DOOR_CONTROLLER.md)**
 
