@@ -36,7 +36,7 @@ class Properties(val context: Context) {
         }
         magnetoMagnify = prefs.getInt("magnetoMagnify", 1)
 
-        classLabels = prefs.getString("classLabel", defaultClassLabels)!!.split(",").toMutableList()
+        classLabels = prefs.getString("classLabels", defaultClassLabels)!!.split(",").toMutableList()
     }
 
     fun save() {

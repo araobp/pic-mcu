@@ -4,9 +4,11 @@ import android.app.Dialog
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.view.KeyEvent
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import jp.araobp.mpu9250.analyzer.DataCollector
 import jp.araobp.mpu9250.analyzer.IMagnetoEventListener
 import jp.araobp.mpu9250.analyzer.MagnetoViewer
 import jp.araobp.mpu9250.analyzer.Oscilloscope
@@ -19,17 +21,22 @@ import kotlinx.android.synthetic.main.activity_analyzer.*
 class AnalyzerActivity : AppCompatActivity() {
 
     companion object {
+        const val Fs = 80  // 80 Hz
         const val MAX_NUM_ENTRIES_6AXES = 256
         const val MAX_NUM_ENTRIES_3AXES = 128
-
+        const val DATA_COLLECTION_DURATION = 3  // 3 sec
+        const val DATA_COLLECTION_ENTRIES = Fs * 3
     }
 
     private lateinit var mpu9250Interface: Mpu9250Interface
 
     private lateinit var mProps: Properties
 
-    private var oscilloscope: Oscilloscope? = null
-    private var magnetoViewer: MagnetoViewer? = null
+    private var mOscilloscope: Oscilloscope? = null
+    private var mMagnetoViewer: MagnetoViewer? = null
+    private val dataCollector: DataCollector = DataCollector()
+
+    private var mSave = false
 
     private fun enableDumpWindow(visible: Boolean) {
         if (visible) {
@@ -74,18 +81,23 @@ class AnalyzerActivity : AppCompatActivity() {
         mProps = Properties(this)
 
         surfaceView6axis.post {
-            oscilloscope = Oscilloscope(
+            mOscilloscope = Oscilloscope(
                 surfaceView = surfaceView6axis, maxNumEntries = MAX_NUM_ENTRIES_6AXES
             )
         }
 
         surfaceView3axis.post {
-            magnetoViewer = MagnetoViewer(
+            mMagnetoViewer = MagnetoViewer(
                 surfaceView = surfaceView3axis,
                 maxNumEntries = MAX_NUM_ENTRIES_3AXES,
                 props = mProps
             )
         }
+
+        val adapterClasses =
+            ArrayAdapter(this, android.R.layout.simple_spinner_item, mProps.classLabels)
+        adapterClasses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerClassLabels.adapter = adapterClasses
 
         buttonEdit.setOnClickListener {
             val dialog = Dialog(this)
@@ -141,7 +153,7 @@ class AnalyzerActivity : AppCompatActivity() {
             }
 
             dialog.setOnDismissListener {
-                spinnerLabel.adapter = adapterClasses
+                spinnerClassLabels.adapter = adapterClasses
                 fullscreen(window)
             }
 
@@ -149,7 +161,7 @@ class AnalyzerActivity : AppCompatActivity() {
         }
 
         toggleButtonCapture.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) magnetoViewer?.clear()
+            if (isChecked) mMagnetoViewer?.clear()
         }
 
         spinnerAccelRange.setSelection(mProps.accelRange.ordinal)
@@ -203,7 +215,7 @@ class AnalyzerActivity : AppCompatActivity() {
         buttonCalibrate.setOnClickListener {
             buttonCalibrate.isEnabled = false
 
-            magnetoViewer?.startCalibration(
+            mMagnetoViewer?.startCalibration(
                 object : IMagnetoEventListener {
                     override fun onCalibrationFinished() {
                         buttonCalibrate.post {
@@ -222,6 +234,12 @@ class AnalyzerActivity : AppCompatActivity() {
             finish()
         }
 
+        radioButtonSave.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                getReady()
+            }
+        }
+
         enableDumpWindow(toggleButtonDump.isChecked)
     }
 
@@ -235,7 +253,14 @@ class AnalyzerActivity : AppCompatActivity() {
                         textViewDump.post {
                             textViewDump.append(data.toString() + "\n")
                         }
-                        oscilloscope?.update(data)
+                        mOscilloscope?.update(data)
+                    }
+                    if (mSave) {
+                        if (dataCollector.add(data)) {
+                            mSave = false
+                            radioButtonSave.isChecked = false
+                            radioButtonSave.isEnabled = true
+                        }
                     }
                 }
 
@@ -244,7 +269,7 @@ class AnalyzerActivity : AppCompatActivity() {
                         textViewDump.post {
                             textViewDump.append(data.toString() + "\n")
                         }
-                        magnetoViewer?.update(data)
+                        mMagnetoViewer?.update(data)
                     }
                 }
             })
@@ -258,4 +283,16 @@ class AnalyzerActivity : AppCompatActivity() {
         mpu9250Interface.destroy()
     }
 
+    private fun getReady() {
+        mSave = true
+        radioButtonSave.isEnabled = false
+        dataCollector.getReady(spinnerClassLabels.selectedItem.toString(), DATA_COLLECTION_ENTRIES)
+    }
+
+    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+        if (event.keyCode == KeyEvent.KEYCODE_VOLUME_UP && event.action == KeyEvent.ACTION_DOWN) {
+            getReady()
+        }
+        return true
+    }
 }

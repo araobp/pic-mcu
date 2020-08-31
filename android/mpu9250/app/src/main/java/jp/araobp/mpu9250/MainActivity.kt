@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -82,6 +83,5 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, AnalyzerActivity::class.java)
             startActivity(intent)
         }
-
     }
 }

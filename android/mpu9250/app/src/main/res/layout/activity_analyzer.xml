@@ -99,7 +99,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Spinner
-            android:id="@+id/spinnerLabel"
+            android:id="@+id/spinnerClassLabels"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"/>
