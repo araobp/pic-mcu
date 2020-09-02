@@ -68,7 +68,10 @@ class AnalyzerActivity : AppCompatActivity() {
 
     private fun updateFeatureFileCnt() {
         val classLabel = classLabel()
-        textViewCnt.text = "${featureCollector.fileCntPerLabel(classLabel)}/${featureCollector.fileCnt()}"
+        textViewCnt.post {
+            textViewCnt.text =
+                "${featureCollector.fileCntPerLabel(classLabel)}/${featureCollector.fileCnt()}"
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -243,12 +246,6 @@ class AnalyzerActivity : AppCompatActivity() {
             finish()
         }
 
-        radioButtonSave.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                startSaving()
-            }
-        }
-
         enableDumpWindow(toggleButtonDump.isChecked)
     }
 
@@ -265,13 +262,12 @@ class AnalyzerActivity : AppCompatActivity() {
                         mOscilloscope?.update(data)
                     }
                     if (mSave) {
-                        runOnUiThread {
-                            if (featureCollector.add(data)) {
-                                mSave = false
-                                radioButtonSave.isChecked = false
-                                radioButtonSave.isEnabled = true
-                                updateFeatureFileCnt()
+                        if (featureCollector.add(data)) {
+                            mSave = false
+                            textViewSave.post {
+                                textViewSave.isEnabled = false
                             }
+                            updateFeatureFileCnt()
                         }
                     }
                 }
@@ -296,8 +292,13 @@ class AnalyzerActivity : AppCompatActivity() {
     }
 
     private fun startSaving() {
-        radioButtonSave.isEnabled = false
-        featureCollector.getReady(classLabel(), FEATURE_COLLECTOR_ENTRIES, mProps.accelRange, mProps.gyroRange)
+        textViewSave.isEnabled = true
+        featureCollector.getReady(
+            classLabel(),
+            FEATURE_COLLECTOR_ENTRIES,
+            mProps.accelRange,
+            mProps.gyroRange
+        )
         mSave = true
     }
 

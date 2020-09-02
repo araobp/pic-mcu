@@ -8,6 +8,10 @@ import java.io.FileWriter
 
 class FeatureCollector(val context: Context) {
 
+    companion object {
+        const val header = "sno,ax,ay,az,gx,gy,gz\r\n"
+    }
+
     private var mMpu9250DataArray =  ArrayList<Mpu9250Data>()
 
     private var mClassLabel = "Unknown"
@@ -35,13 +39,13 @@ class FeatureCollector(val context: Context) {
 
     private fun save(): Int {
         var cnt = fileCntPerLabel(mClassLabel)
-        val fileName = "${mClassLabel}-${mAccelRange}-${mGyroRange}-$cnt.csv"
+        val fileName = "${mClassLabel}:${mAccelRange}:${mGyroRange}:$cnt.csv"
         val file = File(context.filesDir, fileName)
         val fileWriter = FileWriter(file)
+        fileWriter.append(header)
         mMpu9250DataArray.forEach {
             fileWriter.append(it.toCsv())
         }
-        fileWriter.flush()
         fileWriter.close()
         return ++cnt
     }
