@@ -8,7 +8,7 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import jp.araobp.mpu9250.analyzer.DataCollector
+import jp.araobp.mpu9250.analyzer.FeatureCollector
 import jp.araobp.mpu9250.analyzer.IMagnetoEventListener
 import jp.araobp.mpu9250.analyzer.MagnetoViewer
 import jp.araobp.mpu9250.analyzer.Oscilloscope
@@ -25,7 +25,7 @@ class AnalyzerActivity : AppCompatActivity() {
         const val MAX_NUM_ENTRIES_6AXES = 256
         const val MAX_NUM_ENTRIES_3AXES = 128
         const val DATA_COLLECTION_DURATION = 3  // 3 sec
-        const val DATA_COLLECTION_ENTRIES = Fs * 3
+        const val FEATURE_COLLECTOR_ENTRIES = Fs * DATA_COLLECTION_DURATION
     }
 
     private lateinit var mpu9250Interface: Mpu9250Interface
@@ -34,17 +34,17 @@ class AnalyzerActivity : AppCompatActivity() {
 
     private var mOscilloscope: Oscilloscope? = null
     private var mMagnetoViewer: MagnetoViewer? = null
-    private val dataCollector: DataCollector = DataCollector()
+    private lateinit var featureCollector: FeatureCollector
 
     private var mSave = false
 
     private fun enableDumpWindow(visible: Boolean) {
         if (visible) {
-            textViewDumpTitle.visibility = View.VISIBLE
-            textViewDump.visibility = View.VISIBLE
+            textViewOutputTitle.visibility = View.VISIBLE
+            textViewOutput.visibility = View.VISIBLE
         } else {
-            textViewDumpTitle.visibility = View.GONE
-            textViewDump.visibility = View.GONE
+            textViewOutputTitle.visibility = View.GONE
+            textViewOutput.visibility = View.GONE
         }
     }
 
@@ -64,6 +64,13 @@ class AnalyzerActivity : AppCompatActivity() {
         mpu9250Interface.resume()
     }
 
+    private fun classLabel() = spinnerClassLabels.selectedItem.toString()
+
+    private fun updateFeatureFileCnt() {
+        val classLabel = classLabel()
+        textViewCnt.text = "${featureCollector.fileCntPerLabel(classLabel)}/${featureCollector.fileCnt()}"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -76,9 +83,11 @@ class AnalyzerActivity : AppCompatActivity() {
 
         fullscreen(window)
 
-        textViewDump.movementMethod = ScrollingMovementMethod()
+        textViewOutput.movementMethod = ScrollingMovementMethod()
 
         mProps = Properties(this)
+
+        featureCollector = FeatureCollector(this)
 
         surfaceView6axis.post {
             mOscilloscope = Oscilloscope(
@@ -236,7 +245,7 @@ class AnalyzerActivity : AppCompatActivity() {
 
         radioButtonSave.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                getReady()
+                startSaving()
             }
         }
 
@@ -250,24 +259,27 @@ class AnalyzerActivity : AppCompatActivity() {
             object : IDataReceiver {
                 override fun onMpu9250Data(data: Mpu9250Data) {
                     if (toggleButtonCapture.isChecked) {
-                        textViewDump.post {
-                            textViewDump.append(data.toString() + "\n")
+                        textViewOutput.post {
+                            textViewOutput.append(data.toString() + "\n")
                         }
                         mOscilloscope?.update(data)
                     }
                     if (mSave) {
-                        if (dataCollector.add(data)) {
-                            mSave = false
-                            radioButtonSave.isChecked = false
-                            radioButtonSave.isEnabled = true
+                        runOnUiThread {
+                            if (featureCollector.add(data)) {
+                                mSave = false
+                                radioButtonSave.isChecked = false
+                                radioButtonSave.isEnabled = true
+                                updateFeatureFileCnt()
+                            }
                         }
                     }
                 }
 
                 override fun onAk8963Data(data: Ak8963Data) {
                     if (toggleButtonCapture.isChecked) {
-                        textViewDump.post {
-                            textViewDump.append(data.toString() + "\n")
+                        textViewOutput.post {
+                            textViewOutput.append(data.toString())
                         }
                         mMagnetoViewer?.update(data)
                     }
@@ -283,16 +295,17 @@ class AnalyzerActivity : AppCompatActivity() {
         mpu9250Interface.destroy()
     }
 
-    private fun getReady() {
-        mSave = true
+    private fun startSaving() {
         radioButtonSave.isEnabled = false
-        dataCollector.getReady(spinnerClassLabels.selectedItem.toString(), DATA_COLLECTION_ENTRIES)
+        featureCollector.getReady(classLabel(), FEATURE_COLLECTOR_ENTRIES, mProps.accelRange, mProps.gyroRange)
+        mSave = true
     }
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         if (event.keyCode == KeyEvent.KEYCODE_VOLUME_UP && event.action == KeyEvent.ACTION_DOWN) {
-            getReady()
+            startSaving()
         }
         return true
     }
+
 }

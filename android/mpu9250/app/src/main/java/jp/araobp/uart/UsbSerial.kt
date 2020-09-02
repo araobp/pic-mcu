@@ -45,7 +45,7 @@ abstract class UsbSerial(val context: Context, baudrate: Int, dataBits: Byte, st
         mD2xxManager = D2xxManager.getInstance(context)
 
         var devCount = mD2xxManager!!.createDeviceInfoList(context)
-        Log.d(TAG, "Device number : " + Integer.toString(devCount))
+        // Log.d(TAG, "Device number : " + Integer.toString(devCount))
 
         val deviceList = arrayOfNulls<D2xxManager.FtDeviceInfoListNode>(devCount)
         mD2xxManager!!.getDeviceInfoList(devCount, deviceList)
@@ -67,7 +67,7 @@ abstract class UsbSerial(val context: Context, baudrate: Int, dataBits: Byte, st
                                     len = READBUF_SIZE
                                 }
                                 it.read(mReadBuf, len)
-                                Log.d("FTDI", mReadBuf.toString())
+                                // Log.d("FTDI", mReadBuf.toString())
                                 _rx(mReadBuf, len)
                             }
                         }

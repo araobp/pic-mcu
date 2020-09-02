@@ -8,4 +8,6 @@ data class Mpu9250Data (
     val gx: Short,
     val gy: Short,
     val gz: Short
-)
+) {
+    fun toCsv() = "$seq,$ax,$ay,$az,$gx,$gy,$gz\r\n"
+}

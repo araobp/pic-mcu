@@ -185,8 +185,7 @@ void tmr0_interrupt_handler() {
             if (tmr_cnt == 0) {
                 ak8963_magneto_read(&data);
                 ak8963_binary_output_to_uart(&data);
-                // 
-                LED_Toggle();
+                // LED_Toggle();
             }
         }
     }

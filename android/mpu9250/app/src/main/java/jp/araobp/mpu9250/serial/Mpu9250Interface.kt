@@ -109,7 +109,7 @@ class Mpu9250Interface(context: Context, baudrate: Int, val receiver: IDataRecei
                 State.TYPE_MPU9250_RECEIVING -> {
                     bodyMpu9250Data.add(b)
                     if (++mIdx == 14) {
-                        val seq =  bodyMpu9250Data[0].toUInt().shl(8) + bodyMpu9250Data[1].toUInt()
+                        val seq =  bodyMpu9250Data[0].toUByte().toUInt().shl(8) + bodyMpu9250Data[1].toUByte().toUInt()
                         val ax = toShort(bodyMpu9250Data[2], bodyMpu9250Data[3])
                         val ay = toShort(bodyMpu9250Data[4], bodyMpu9250Data[5])
                         val az = toShort(bodyMpu9250Data[6], bodyMpu9250Data[7])
@@ -126,7 +126,7 @@ class Mpu9250Interface(context: Context, baudrate: Int, val receiver: IDataRecei
                 State.TYPE_AK8963_RECEIVING -> {
                     bodyAk8963Data.add(b)
                     if (++mIdx == 8) {
-                        val seq =  bodyAk8963Data[0].toUInt().shl(8) + bodyAk8963Data[1].toUInt()
+                        val seq =  bodyAk8963Data[0].toUByte().toUInt().shl(8) + bodyAk8963Data[1].toUByte().toUInt()
                         val mx = toShort(bodyAk8963Data[2], bodyAk8963Data[3])
                         val my = toShort(bodyAk8963Data[4], bodyAk8963Data[5])
                         val mz = toShort(bodyAk8963Data[6], bodyAk8963Data[7])

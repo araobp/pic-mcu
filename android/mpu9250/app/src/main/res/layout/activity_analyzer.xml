@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/textViewDumpTitle"
+        app:layout_constraintBottom_toTopOf="@+id/textViewOutputTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -34,36 +34,37 @@
 
 
     <TextView
-        android:id="@+id/textViewDumpTitle"
+        android:id="@+id/textViewOutputTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/background"
         android:gravity="bottom"
-        android:text="Data"
+        android:text="Output"
         android:textColor="#C9F8F4"
-        app:layout_constraintBottom_toTopOf="@+id/textViewDump" />
+        android:layout_marginStart="4sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewOutput" />
 
 
     <TextView
-        android:id="@+id/textViewDump"
+        android:id="@+id/textViewOutput"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#3F4E55"
+        android:background="@color/textBackground"
         android:gravity="bottom"
         android:lines="12"
         android:maxLines="12"
-        android:textColor="#FFEB3B"
+        android:textColor="@color/textColor"
         android:textSize="@dimen/dataDumpSize"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutOptions"
         tools:layout_editor_absoluteX="0dp" />
 
     <LinearLayout
         android:id="@+id/linearLayoutOptions"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayoutAi"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutRecord"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -72,6 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
+            android:layout_weight="1"
             android:entries="@array/accel_range" />
 
         <Spinner
@@ -79,22 +81,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
+            android:layout_weight="1"
             android:entries="@array/gyro_range" />
 
         <Spinner
             android:id="@+id/spinnerMagnify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:entries="@array/magneto_magnification" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayoutAi"
-        android:layout_width="wrap_content"
+        android:id="@+id/linearLayoutRecord"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayoutButtons"
+        app:layout_constraintBottom_toTopOf="@id/linerLayoutInfer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -102,7 +108,8 @@
             android:id="@+id/spinnerClassLabels"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/buttonEdit"
@@ -110,20 +117,46 @@
             android:layout_height="wrap_content"
             android:text="Edit" />
 
-        <ToggleButton
-            android:id="@+id/toggleButtonInference"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:textOn="INF"
-            android:textOff="INF"
-            android:text="Inference " />
-
         <RadioButton
             android:id="@+id/radioButtonSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"/>
+            android:text="Save" />
+
+        <TextView
+            android:id="@+id/textViewCnt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4sp"
+            android:text="0/0" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linerLayoutInfer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toTopOf="@id/linearLayoutButtons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/textViewInfer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:background="@color/textBackground"
+            android:textColor="@color/textColor" />
+
+        <ToggleButton
+            android:id="@+id/toggleButtonInfer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="Infer"
+            android:textOn="Infer" />
 
     </LinearLayout>
 

@@ -5,4 +5,6 @@ data class Ak8963Data (
     val mx: Short,
     val my: Short,
     val mz: Short
-)
+) {
+    fun toCsv() = "$seq,$mx,$my,$mz\r\n"
+}

@@ -64,6 +64,14 @@ typedef enum {
     DPS_250, DPS_500, DPS_1000, DPS_2000
 } gyro_range;
 
+typedef union {
+    // Little endian
+    struct {
+        uint8_t seq_l;
+        uint8_t seq_h;
+    };
+    uint16_t seq_hl;
+} seq;
 
 void mpu9250_i2c_master_disable(void);
 

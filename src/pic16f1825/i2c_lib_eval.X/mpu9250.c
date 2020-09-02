@@ -108,15 +108,16 @@ void mpu9250_ascii_output_to_uart(sensor_data *pdata) {
     int16_t mx = (int16_t) ((pdata->magneto_data[1] << 8) | pdata->magneto_data[0]);
     int16_t my = (int16_t) ((pdata->magneto_data[3] << 8) | pdata->magneto_data[2]);
     int16_t mz = (int16_t) ((pdata->magneto_data[5] << 8) | pdata->magneto_data[4]);
-    printf("%ld,%d,%d,%d,%d,%d,%d,%d,%d,%d\r\n", cnt++, gx, gy, gz, ax, ay, az, mx, my, mz);
+    printf("%u,%d,%d,%d,%d,%d,%d,%d,%d,%d\r\n", cnt++, gx, gy, gz, ax, ay, az, mx, my, mz);
 }
 
 void mpu9250_binary_output_to_uart(sensor_data *pdata) {
     static uint16_t cnt = 0U;
+    seq sno;
+    sno.seq_hl = cnt++;
     putch(TYPE_MPU9250);
-    putch(cnt >> 8);
-    putch(cnt & 0x00FF);
-    cnt++;
+    putch(sno.seq_h);
+    putch(sno.seq_l);
     for (int i = 0; i < 6; i++) {
         putch(pdata->accel_data[i]);
     }
@@ -127,10 +128,11 @@ void mpu9250_binary_output_to_uart(sensor_data *pdata) {
 
 void ak8963_binary_output_to_uart(sensor_data *pdata) {
     static uint16_t cnt = 0U;
+    seq sno;
+    sno.seq_hl = cnt++;
     putch(TYPE_AK8963);
-    putch(cnt >> 8);
-    putch(cnt & 0x00FF);
-    cnt++;
+    putch(sno.seq_h);
+    putch(sno.seq_l);
     putch(pdata->magneto_data[1]);
     putch(pdata->magneto_data[0]);
     putch(pdata->magneto_data[3]);
