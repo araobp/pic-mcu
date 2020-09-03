@@ -38,6 +38,10 @@ I use I2C bus to access all the sensors in the module.
 
 ==> [Code for Android](./android/mpu9250)
 
+## Case (3D model in STL format)
+
+==> [Case](./blender/mpu9250_case_apply.stl]
+
 ## Android app screen shots
 
 ![gui](./doc/imu_gui.png)
