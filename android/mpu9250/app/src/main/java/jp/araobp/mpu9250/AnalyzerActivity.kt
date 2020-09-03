@@ -74,6 +74,24 @@ class AnalyzerActivity : AppCompatActivity() {
         }
     }
 
+    private fun startSaving() {
+        textViewSave.isEnabled = true
+        featureCollector.getReady(
+            classLabel(),
+            FEATURE_COLLECTOR_ENTRIES,
+            mProps.accelRange,
+            mProps.gyroRange
+        )
+        mSave = true
+    }
+
+    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+        if (event.keyCode == KeyEvent.KEYCODE_VOLUME_UP && event.action == KeyEvent.ACTION_DOWN) {
+            startSaving()
+        }
+        return true
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -290,23 +308,4 @@ class AnalyzerActivity : AppCompatActivity() {
         super.onPause()
         mpu9250Interface.destroy()
     }
-
-    private fun startSaving() {
-        textViewSave.isEnabled = true
-        featureCollector.getReady(
-            classLabel(),
-            FEATURE_COLLECTOR_ENTRIES,
-            mProps.accelRange,
-            mProps.gyroRange
-        )
-        mSave = true
-    }
-
-    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        if (event.keyCode == KeyEvent.KEYCODE_VOLUME_UP && event.action == KeyEvent.ACTION_DOWN) {
-            startSaving()
-        }
-        return true
-    }
-
 }

@@ -5,6 +5,8 @@ import jp.araobp.mpu9250.serial.Mpu9250Data
 import jp.araobp.mpu9250.serial.Mpu9250Interface
 import java.io.File
 import java.io.FileWriter
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class FeatureCollector(val context: Context) {
 
@@ -37,9 +39,15 @@ class FeatureCollector(val context: Context) {
         return cnt
     }
 
+    private fun dateString(): String {
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
+        return current.format(formatter)
+    }
+
     private fun save(): Int {
         var cnt = fileCntPerLabel(mClassLabel)
-        val fileName = "${mClassLabel}:${mAccelRange}:${mGyroRange}:$cnt.csv"
+        val fileName = "${dateString()}:${mClassLabel}:${mAccelRange}:${mGyroRange}:$cnt.csv"
         val file = File(context.filesDir, fileName)
         val fileWriter = FileWriter(file)
         fileWriter.append(header)
