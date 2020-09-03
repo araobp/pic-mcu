@@ -34,13 +34,13 @@ The universal board has 14 holes x 17 holes.
 
 I use I2C bus to access all the sensors in the module.
 
-==> [Code for PIC16F1825](./src/pic16f1825/i2c_lib_eval.X)
+=> [Code for PIC16F1825](./src/pic16f1825/i2c_lib_eval.X)
 
-==> [Code for Android](./android/mpu9250)
+=> [Code for Android](./android/mpu9250)
 
 ## Case (3D model in STL format)
 
-==> [Case](./blender/mpu9250_case_apply.stl)
+=> [Case](./blender/mpu9250_case_apply.stl)
 
 ## Android app screen shots
 
