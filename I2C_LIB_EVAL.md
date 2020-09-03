@@ -40,7 +40,7 @@ I use I2C bus to access all the sensors in the module.
 
 ## Case (3D model in STL format)
 
-==> [Case](./blender/mpu9250_case_apply.stl]
+==> [Case](./blender/mpu9250_case_apply.stl)
 
 ## Android app screen shots
 
