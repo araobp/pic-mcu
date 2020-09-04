@@ -2,6 +2,7 @@ package jp.araobp.uart
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import com.ftdi.j2xx.D2xxManager
 import com.ftdi.j2xx.FT_Device
 import kotlin.concurrent.thread
@@ -24,12 +25,14 @@ abstract class UsbSerial(val context: Context, baudrate: Int, dataBits: Byte, st
     var mReaderThreadRunning = false
 
     init {
-        while (true) {
-            if(open(baudrate)) {
-                setConfig(baudrate, dataBits, stopBits, parity, flowControl)
-                break
-            } else {
-                Thread.sleep(1000)
+        thread {
+            while (true) {
+                if (open(baudrate)) {
+                    setConfig(baudrate, dataBits, stopBits, parity, flowControl)
+                    break
+                } else {
+                    Thread.sleep(1000)
+                }
             }
         }
     }

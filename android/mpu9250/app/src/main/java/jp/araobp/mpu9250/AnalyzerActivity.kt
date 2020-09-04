@@ -25,7 +25,7 @@ class AnalyzerActivity : AppCompatActivity() {
         const val MAX_NUM_ENTRIES_6AXES = 256
         const val MAX_NUM_ENTRIES_3AXES = 128
         const val DATA_COLLECTION_DURATION = 3  // 3 sec
-        const val FEATURE_COLLECTOR_ENTRIES = Fs * DATA_COLLECTION_DURATION
+        const val FEATURE_COLLECTOR_ENTRIES = 260
     }
 
     private lateinit var mpu9250Interface: Mpu9250Interface
@@ -101,6 +101,10 @@ class AnalyzerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_analyzer)
 
         setTitle("Analyzer")
+
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true) //show back button
+        }
 
         fullscreen(window)
 
@@ -260,10 +264,6 @@ class AnalyzerActivity : AppCompatActivity() {
             enableDumpWindow(isChecked)
         }
 
-        buttonExit.setOnClickListener {
-            finish()
-        }
-
         enableDumpWindow(toggleButtonDump.isChecked)
     }
 
@@ -307,5 +307,10 @@ class AnalyzerActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         mpu9250Interface.destroy()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }

@@ -12,6 +12,8 @@ import android.util.Log
 import android.view.KeyEvent
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
 import java.net.InetAddress
@@ -25,15 +27,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mProps: Properties
 
-    // [Reference] https://stackoverflow.com/questions/20846120/alternative-for-formatter-formatipaddressint
-    private fun ipAddress(): String {
-        val wifiManager =
-            applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        val wifiinfo = wifiManager.connectionInfo
-        val ipAddress = BigInteger.valueOf(wifiinfo.ipAddress.toLong()).toByteArray()
-        return InetAddress.getByAddress(ipAddress.reversedArray()).hostAddress
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         mProps = Properties(this)
 
         try {
-            textViewIpAddress.text = "IP address: ${ipAddress()}"
+            textViewIpAddress.text = "IP address: ${ipAddress(this)}"
         } catch (e: Exception) {
             Log.d(TAG, e.toString())
         }

@@ -22,8 +22,9 @@ class FeatureCollector(val context: Context) {
     private var mAccelRange = Mpu9250Interface.AccelRange.G_2.toString()
     private var mGyroRange = Mpu9250Interface.GyroRange.DPS_250.toString()
 
-    private val regex = Regex("[a-zA-Z0-9_\\-]+.csv")
-    private fun regexFeature(classLabel: String) = Regex("${classLabel}-[a-zA-Z0-9_\\-]+.csv")
+    private val pattern = "[a-zA-Z0-9:_\\-]+.csv"
+    private val regex = Regex(pattern)
+    private fun regexFeature(classLabel: String) = Regex("${classLabel}-$pattern")
 
     fun fileCnt(): Int {
         var cnt = 0
@@ -47,7 +48,7 @@ class FeatureCollector(val context: Context) {
 
     private fun save(): Int {
         var cnt = fileCntPerLabel(mClassLabel)
-        val fileName = "${dateString()}:${mClassLabel}:${mAccelRange}:${mGyroRange}:$cnt.csv"
+        val fileName = "${mClassLabel}-${dateString()}:${mAccelRange}:${mGyroRange}:$cnt.csv"
         val file = File(context.filesDir, fileName)
         val fileWriter = FileWriter(file)
         fileWriter.append(header)

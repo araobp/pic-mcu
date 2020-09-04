@@ -27,7 +27,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@color/textBackground"
         android:lines="4"
         android:maxLines="4"
         android:minLines="4"

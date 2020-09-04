@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -37,23 +36,20 @@
         android:id="@+id/textViewOutputTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background"
         android:gravity="bottom"
         android:text="Output"
-        android:textColor="#C9F8F4"
-        android:layout_marginStart="4sp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewOutput" />
+        app:layout_constraintBottom_toTopOf="@+id/textViewOutput"
+        tools:layout_editor_absoluteX="4dp" />
 
 
     <TextView
         android:id="@+id/textViewOutput"
+        android:background="?android:colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/textBackground"
         android:gravity="bottom"
         android:lines="12"
         android:maxLines="12"
-        android:textColor="@color/textColor"
         android:textSize="@dimen/dataDumpSize"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutOptions"
         tools:layout_editor_absoluteX="0dp" />
@@ -117,6 +113,12 @@
             android:layout_height="wrap_content"
             android:text="Edit" />
 
+        <Button
+            android:id="@+id/buttonRevoke"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Revoke" />
+
         <TextView
             android:id="@+id/textViewSave"
             android:layout_width="wrap_content"
@@ -145,12 +147,11 @@
 
         <TextView
             android:id="@+id/textViewInfer"
+            android:background="?android:colorSecondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:background="@color/textBackground"
-            android:textColor="@color/textColor" />
+            android:layout_weight="1" />
 
         <ToggleButton
             android:id="@+id/toggleButtonInfer"
@@ -192,13 +193,6 @@
             android:checked="true"
             android:textOff="CAPTURE"
             android:textOn="CAPTURE" />
-
-        <Button
-            android:id="@+id/buttonExit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="EXIT" />
-
 
     </LinearLayout>
 

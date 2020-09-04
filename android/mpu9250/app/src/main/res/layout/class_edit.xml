@@ -6,10 +6,10 @@
 
     <ListView
         android:id="@+id/listViewLabels"
+        android:background="?android:colorSecondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@color/background"
         android:choiceMode="singleChoice"
         android:listSelector="@android:color/darker_gray" />
 
